@@ -1,0 +1,173 @@
+---
+---
+
+<section class="min-h-screen px-8 py-24">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <div class="space-y-12" id="hello-text">
+      <!-- Greeting -->
+      <div class="space-y-4">
+        <h2>
+          <span class="block text-[#E5E5E5]" style="font-size: clamp(2rem, 4vw, 3.953rem); font-weight: 300; line-height: 1.1; letter-spacing: 0.02em;">
+            Hi, ich bin
+          </span>
+          <div class="h-[clamp(50px,8vw,80px)] overflow-hidden relative" id="role-container">
+            <div class="absolute w-full" id="roles">
+              <span class="block text-[#E5E5E5] italic" style="font-size: clamp(2rem, 4vw, 3.953rem); font-weight: 500; line-height: 1.25; height: clamp(50px,8vw,80px); display: flex; align-items: center;">Fabian</span>
+              <span class="block text-[#E5E5E5] italic" style="font-size: clamp(2rem, 4vw, 3.953rem); font-weight: 500; line-height: 1.25; height: clamp(50px,8vw,80px); display: flex; align-items: center;">Designer</span>
+              <span class="block text-[#E5E5E5] italic" style="font-size: clamp(2rem, 4vw, 3.953rem); font-weight: 500; line-height: 1.25; height: clamp(50px,8vw,80px); display: flex; align-items: center;">Creative Developer</span>
+            </div>
+          </div>
+        </h2>
+      </div>
+
+      <!-- Description -->
+      <p class="text-[#E5E5E5]" style="font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 300; line-height: 1.75; letter-spacing: 0.02em;">
+        Ich gestalte <span class="font-medium italic">digitale Erlebnisse</span> und <span class="font-medium italic">Branding</span>, die wirken. Mein Ziel? <span class="font-medium italic">Dein Unternehmen ins Spotlight rücken</span>, Kunden begeistern und nachhaltig Eindruck hinterlassen. Ob Website oder Branding – <span class="font-medium italic">lass uns deinen Unternehmensauftritt aufs nächste Level bringen</span>.
+      </p>
+      
+      <!-- Buttons -->
+      <div class="flex flex-wrap gap-[30px]" id="hello-buttons">
+        <a 
+          href="#contact" 
+          class="flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-[35.833px] bg-[#0F0] text-[#1D1D1B] hover:scale-105 transition-all hover:shadow-[0_0_20px_rgba(0,255,0,0.3)]"
+          style="font-size: clamp(1rem, 1.5vw, 1.194rem); font-weight: 500; line-height: 1;"
+        >
+          Erstgespräch vereinbaren
+        </a>
+        <a 
+          href="#about" 
+          class="flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-[35.833px] border border-[#0F0] text-[#0F0] hover:scale-105 transition-all hover:shadow-[0_0_20px_rgba(0,255,0,0.3)]"
+          style="font-size: clamp(1rem, 1.5vw, 1.194rem); font-weight: 500; line-height: 1;"
+        >
+          Mehr zu mir
+        </a>
+      </div>
+    </div>
+
+    <!-- Image -->
+    <div id="hello-image" class="relative w-full h-full flex items-center justify-center">
+      <img 
+        src="/images/fabian_paul.jpg" 
+        alt="Fabian Paul" 
+        class="rounded-lg w-full max-w-[600px] h-auto object-cover shadow-lg"
+        width="600"
+        height="800"
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  const initHelloSection = () => {
+    // Wait for GSAP to be available
+    window.addEventListener('load', () => {
+      if (typeof gsap === 'undefined') return;
+
+      // Role switching animation
+      const roles = document.getElementById('roles');
+      const roleHeight = document.querySelector('#role-container').clientHeight;
+      let currentRole = 0;
+      const totalRoles = 3;
+
+      // Initial animation timeline
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#hello-text",
+          start: "top center",
+          once: true
+        }
+      });
+
+      // Animate text elements
+      timeline
+        .from("#hello-text h2 span", {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out"
+        })
+        .from("#roles", {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out"
+        }, "-=0.4")
+        .from("#hello-text p", {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out"
+        }, "-=0.4")
+        .from("#hello-buttons", {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out"
+        }, "-=0.4");
+
+      // Image animation
+      gsap.from("#hello-image img", {
+        scrollTrigger: {
+          trigger: "#hello-image",
+          start: "top center",
+          once: true
+        },
+        x: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out"
+      });
+
+      // Role switching loop
+      const switchRole = () => {
+        gsap.to(roles, {
+          y: -roleHeight * currentRole,
+          duration: 0.5,
+          ease: "power2.inOut"
+        });
+        
+        currentRole = (currentRole + 1) % totalRoles;
+      };
+
+      // Start role switching after initial animation
+      timeline.call(() => {
+        setInterval(switchRole, 2000);
+      });
+    });
+  };
+
+  // Initialize animations
+  initHelloSection();
+</script>
+
+<style>
+  /* Ensure smooth animations */
+  #roles {
+    will-change: transform;
+  }
+
+  #roles span {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Ensure image is visible */
+  #hello-image img {
+    display: block;
+  }
+
+  /* Ensure buttons are visible initially */
+  #hello-buttons {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .space-y-12 {
+      --space: clamp(2rem, 6vw, 3rem);
+      margin-top: var(--space);
+      margin-bottom: var(--space);
+    }
+  }
+</style>

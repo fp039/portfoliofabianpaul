@@ -1,0 +1,29 @@
+---
+import ProjectCard from '../ProjectCard.vue';
+---
+
+<section class="px-8 py-24" id="projects">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">Projekte</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <ProjectCard
+        client:visible
+        title="Wontec"
+        description="Moderne Webpräsenz für Technologieunternehmen"
+        image="/images/wontec.jpg"
+      />
+      <ProjectCard
+        client:visible
+        title="Steillagen Genuss"
+        description="E-Commerce Platform für Weinliebhaber"
+        image="/images/steillagen.jpg"
+      />
+      <ProjectCard
+        client:visible
+        title="Brennerei Fischer"
+        description="Brand Design & Website für traditionelle Brennerei"
+        image="/images/fischer.jpg"
+      />
+    </div>
+  </div>
+</section>

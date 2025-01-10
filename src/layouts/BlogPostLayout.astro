@@ -1,0 +1,92 @@
+---
+import BlogLayout from './BlogLayout.astro';
+import type { MarkdownLayoutProps } from 'astro';
+
+type Props = MarkdownLayoutProps<{
+  title: string;
+  date: string;
+  author: string;
+  image: string;
+  tags: string[];
+}>;
+
+const { frontmatter } = Astro.props;
+
+const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+---
+
+<BlogLayout title={frontmatter.title}>
+  <article class="px-8 py-16">
+    <div class="max-w-3xl mx-auto">
+      <!-- Header -->
+      <header class="mb-16">
+        <div class="mb-8">
+          <img
+            src={frontmatter.image}
+            alt={frontmatter.title}
+            class="w-full aspect-video object-cover rounded-lg"
+          />
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex items-center gap-4 text-text-secondary">
+            <time datetime={frontmatter.date} class="text-sm">
+              {formatDate(frontmatter.date)}
+            </time>
+            <span class="w-1 h-1 rounded-full bg-accent"></span>
+            <span class="text-sm">{frontmatter.author}</span>
+          </div>
+          
+          <h1 class="text-4xl md:text-5xl font-bold">{frontmatter.title}</h1>
+          
+          <div class="flex flex-wrap gap-2">
+            {frontmatter.tags.map(tag => (
+              <span class="px-3 py-1 text-sm rounded-full bg-accent/10 text-accent">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="prose prose-invert prose-green max-w-none">
+        <slot />
+      </div>
+
+      <!-- Navigation -->
+      <div class="mt-16 pt-8 border-t border-white/10">
+        <a 
+          href="/blog"
+          class="inline-flex items-center gap-2 text-accent hover:underline"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Back to Blog
+        </a>
+      </div>
+    </div>
+  </article>
+</BlogLayout>
+
+<style>
+  .prose {
+    --tw-prose-body: theme('colors.text.secondary');
+    --tw-prose-headings: theme('colors.text.primary');
+    --tw-prose-links: theme('colors.accent');
+    --tw-prose-bold: theme('colors.text.primary');
+    --tw-prose-counters: theme('colors.text.secondary');
+    --tw-prose-bullets: theme('colors.text.secondary');
+    --tw-prose-quotes: theme('colors.text.primary');
+    --tw-prose-quote-borders: theme('colors.accent');
+    --tw-prose-pre-bg: theme('colors.background');
+    --tw-prose-hr: theme('colors.white / 0.1');
+  }
+</style>

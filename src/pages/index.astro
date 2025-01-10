@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.vue';
+import Hero from '../components/sections/Hero.astro';
+import WowSection from '../components/sections/WowSection.astro';
+import HelloSection from '../components/sections/HelloSection.astro';
+import ProcessSection from '../components/sections/ProcessSection.astro';
+import ProjectsSection from '../components/sections/ProjectsSection.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Fabian Paul - Digital Experiences & Creative Branding">
+  <Navigation client:load />
+  
+  <main class="relative">
+    <Hero />
+    <WowSection />
+    <HelloSection />
+    <ProcessSection />
+    <ProjectsSection />
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  import { initSectionAnimations } from '../utils/animations';
+  
+  // Initialize all section animations
+  initSectionAnimations();
+</script>
+
+<style>
+@keyframes scroll {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+</style>

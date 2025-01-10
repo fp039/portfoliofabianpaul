@@ -1,0 +1,22 @@
+---
+import Layout from './Layout.astro';
+import Navigation from '../components/Navigation.vue';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <Navigation client:load />
+  
+  <main class="pt-32 min-h-screen">
+    <slot />
+  </main>
+
+  <Footer />
+</Layout>

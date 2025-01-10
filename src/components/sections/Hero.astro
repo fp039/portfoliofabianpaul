@@ -1,0 +1,86 @@
+---
+import RotatingCircle from '../ui/RotatingCircle.astro';
+import ScrollIndicator from '../ui/ScrollIndicator.astro';
+---
+
+<section class="min-h-screen flex items-center justify-center relative px-8">
+  <div class="max-w-7xl mx-auto w-full relative">
+    <!-- Main Heading -->
+    <div class="text-center">
+      <h1 class="flex flex-col gap-4 leading-none tracking-[0.02em] mb-32">
+        <div class="flex items-center justify-center gap-6 lg:gap-10">
+          <img 
+            src="/images/Fischer.png" 
+            alt="Fischer" 
+            class="w-[clamp(80px,15vw,166px)] h-auto object-cover bg-background/20"
+          />
+          <span class="text-transparent [-webkit-text-stroke:1.514px_#0F0] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+            Digital
+          </span>
+        </div>
+        <div class="flex items-center justify-center gap-6 lg:gap-10">
+          <span class="text-[#0F0] [-webkit-text-stroke:1.514px_#0F0] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+            Experiences
+          </span>
+          <img 
+            src="/images/harbr.jpg" 
+            alt="Harbr" 
+            class="w-[clamp(80px,15vw,166px)] h-auto object-cover bg-background/20"
+          />
+        </div>
+        <div class="flex items-center justify-center gap-6 lg:gap-10">
+          <img 
+            src="/images/steillagen.jpg" 
+            alt="Steillagen" 
+            class="w-[clamp(80px,15vw,166px)] h-auto object-cover bg-background/20"
+          />
+          <span class="text-[#E5E5E5] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+            & Creative
+          </span>
+        </div>
+        <div class="flex items-center justify-center gap-6 lg:gap-10">
+          <span class="text-transparent [-webkit-text-stroke:1.514px_#E5E5E5] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+            Branding
+          </span>
+          <img 
+            src="/images/steillagen-2.jpg" 
+            alt="Steillagen 2" 
+            class="w-[clamp(80px,15vw,166px)] h-auto object-cover bg-background/20"
+          />
+        </div>
+      </h1>
+    </div>
+    
+    <RotatingCircle />
+    <ScrollIndicator />
+  </div>
+</section>
+
+<style>
+  img {
+    display: block;
+  }
+
+  /* Ensure text remains readable at all sizes */
+  span {
+    line-height: 1.1;
+    letter-spacing: clamp(0.02em, 0.5vw, 0.04em);
+  }
+
+  /* Adjust stroke width responsively */
+  .[-webkit-text-stroke\:1\.514px_#0F0],
+  .[-webkit-text-stroke\:1\.514px_#E5E5E5] {
+    -webkit-text-stroke-width: clamp(1px, 0.15vw, 1.514px);
+  }
+
+  /* Optimize spacing for different screen sizes */
+  @media (max-width: 768px) {
+    .gap-6 {
+      gap: clamp(1rem, 3vw, 1.5rem);
+    }
+    
+    h1 {
+      margin-bottom: clamp(2rem, 6vw, 8rem);
+    }
+  }
+</style>
