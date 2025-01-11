@@ -1,11 +1,11 @@
 <template>
   <nav 
-    class="fixed top-0 left-0 w-full z-50 px-8 py-6 transition-all duration-500"
+    class="fixed top-0 left-0 w-full z-50 px-8 py-3 transition-all duration-500"
     :class="{'nav-scrolled': isScrolled}"
   >
     <!-- Navigation Container -->
     <div 
-      class="max-w-7xl mx-auto flex justify-between items-center relative px-8 transition-all duration-300 rounded-full"
+      class="flex justify-between items-center relative px-8 py-4 transition-all duration-300 rounded-full"
       :class="{'nav-glass': isScrolled && !isMenuOpen}"
     >
       <!-- Logo -->
@@ -22,7 +22,7 @@
         <!-- Burger Button -->
         <button 
           @click="toggleMenu" 
-          class="z-[70] relative group"
+          class="z-[70] relative group rounded-full px-4 py-2"
           @mouseenter="onBurgerHover"
           @mouseleave="onBurgerLeave"
           ref="burgerRef"
@@ -165,7 +165,13 @@ const closeMenu = () => {
 
 const checkSection = () => {
   const sections = document.querySelectorAll('section')
-  const navHeight = 100 // Approximate navigation height
+  const navHeight = 100
+  
+  // Wenn wir auf der Projektübersichtsseite sind, immer dunklen Modus verwenden
+  if (window.location.pathname === '/projects') {
+    currentSection.value = 'dark'
+    return
+  }
   
   for (const section of sections) {
     const rect = section.getBoundingClientRect()
@@ -195,11 +201,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.nav-scrolled {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-}
-
 nav {
   transition: padding 0.5s ease-out;
 }
@@ -213,10 +214,8 @@ button span {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
   border-radius: 9999px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
 .nav-glass::before {

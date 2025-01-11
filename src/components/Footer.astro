@@ -1,50 +1,50 @@
 ---
 ---
 
-<footer class="bg-[#000] py-16 px-8" id="footer">
-  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12 md:gap-[clamp(40px,5vw,80px)]">
-    <!-- Brand Column -->
-    <div class="flex flex-col text-center md:text-left">
-      <p class="font-tt-firs text-[#494949] text-[clamp(16px,2vw,20px)] font-medium leading-none">FABIAN PAUL</p>
-      <p class="font-tt-firs text-[#494949] text-[clamp(14px,1.5vw,16px)] font-light leading-none mt-2">
+<footer class="bg-[#000] py-16" id="footer">
+  <div class="w-full max-w-[2000px] mx-auto flex flex-col min-[875px]:flex-row gap-[33px] min-[875px]:gap-12 px-8 min-[875px]:px-[4%] justify-evenly min-[1200px]:justify-evenly">
+    <!-- Brand Column (etwas breiter für den längeren Text) -->
+    <div class="flex flex-col text-center min-[875px]:text-left min-[875px]:w-[25%]">
+      <p class="font-tt-firs text-[#494949] text-[clamp(16px,2vw,20px)] font-medium leading-none whitespace-nowrap">FABIAN PAUL</p>
+      <p class="font-tt-firs text-[#494949] text-[clamp(14px,1.5vw,16px)] font-light leading-none mt-2 whitespace-nowrap">
         digital experiences & creative branding
       </p>
     </div>
 
-    <!-- Contact Column -->
-    <div class="flex flex-col text-center md:text-left">
+    <!-- Contact Column (breiter für die E-Mail) -->
+    <div class="flex flex-col text-center min-[875px]:text-left min-[875px]:w-[25%]">
       <a 
         href="tel:+4915901443805" 
-        class="font-tt-firs text-[#494949] text-[clamp(14px,1.5vw,16px)] font-light leading-none hover:text-[#00FF00] transition-colors duration-300"
+        class="font-tt-firs text-[#494949] text-[clamp(14px,1.5vw,16px)] font-light leading-none hover:text-[#00FF00] transition-colors duration-300 whitespace-nowrap"
       >
         +49 159 01 44 38 05
       </a>
       <a 
         href="mailto:hello@fabian-paul.design" 
-        class="font-tt-firs text-[#494949] text-[clamp(14px,1.5vw,16px)] font-light leading-none hover:text-[#00FF00] transition-colors duration-300 mt-1"
+        class="font-tt-firs text-[#494949] text-[clamp(14px,1.5vw,16px)] font-light leading-none hover:text-[#00FF00] transition-colors duration-300 mt-1 whitespace-nowrap"
       >
         hello@fabian-paul.design
       </a>
     </div>
 
-    <!-- Legal Links Column -->
-    <div class="flex flex-col text-center md:text-left">
+    <!-- Legal Links Column (schmaler, da kurze Links) -->
+    <div class="flex flex-col text-center min-[875px]:text-left min-[875px]:w-[15%]">
       <a 
         href="/impressum" 
-        class="font-tt-firs text-[#494949] text-[clamp(14px,1.5vw,16px)] font-light leading-none hover:text-[#00FF00] transition-colors duration-300"
+        class="font-tt-firs text-[#494949] text-[clamp(14px,1.5vw,16px)] font-light leading-none hover:text-[#00FF00] transition-colors duration-300 whitespace-nowrap"
       >
         Impressum
       </a>
       <a 
         href="/datenschutz" 
-        class="font-tt-firs text-[#494949] text-[clamp(14px,1.5vw,16px)] font-light leading-none hover:text-[#00FF00] transition-colors duration-300 mt-1"
+        class="font-tt-firs text-[#494949] text-[clamp(14px,1.5vw,16px)] font-light leading-none hover:text-[#00FF00] transition-colors duration-300 mt-1 whitespace-nowrap"
       >
         Datenschutz
       </a>
     </div>
 
-    <!-- Social Links Column -->
-    <div class="flex justify-center md:justify-start">
+    <!-- Social Links Column (schmaler, da kurze Icons) -->
+    <div class="flex justify-center min-[875px]:justify-start min-[875px]:w-[15%]">
       <div class="flex items-center gap-[clamp(12px,2vw,24px)]">
         <a 
           href="#" 
@@ -84,22 +84,38 @@
 </footer>
 
 <script>
+  // Flag für die Animation in localStorage speichern
+  const hasAnimated = localStorage.getItem('footerHasAnimated');
+
   // Initialize GSAP fade-in animation
   window.addEventListener('load', () => {
     if (typeof gsap === 'undefined') return;
 
-    gsap.from("#footer > div > div", {
-      scrollTrigger: {
-        trigger: "#footer",
-        start: "top bottom-=100",
-        toggleActions: "play none none reverse"
-      },
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: "power2.out"
-    });
+    // Nur animieren, wenn es das erste Mal ist
+    if (!hasAnimated) {
+      gsap.from("#footer > div > div", {
+        scrollTrigger: {
+          trigger: "#footer",
+          start: "top bottom-=100",
+          toggleActions: "play none none none" // "reverse" entfernt
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power2.out",
+        onComplete: () => {
+          // Nach der Animation als "animiert" markieren
+          localStorage.setItem('footerHasAnimated', 'true');
+        }
+      });
+    } else {
+      // Wenn bereits animiert, Elemente direkt sichtbar machen
+      gsap.set("#footer > div > div", {
+        y: 0,
+        opacity: 1
+      });
+    }
   });
 </script>
 

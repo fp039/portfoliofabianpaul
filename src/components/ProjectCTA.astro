@@ -1,35 +1,75 @@
 ---
+const { prevProject, nextProject } = Astro.props;
 ---
 
-<section class="relative overflow-hidden w-full">
-  <div class="text-center space-y-12 py-16">
-    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-light italic text-[#E5E5E5] leading-relaxed">
-      Bereit für dein eigenes Projekt?
-    </h2>
-    
-    <div class="flex flex-wrap justify-center gap-[30px]">
-      <a 
-        href="#contact" 
-        class="button-hover-effect relative flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-[35.833px] bg-[#0F0] text-[#1D1D1B] hover:scale-105 transition-all hover:shadow-[0_0_20px_rgba(0,255,0,0.3)] overflow-hidden"
-        style="font-size: clamp(1rem, 1.5vw, 1.194rem); font-weight: 500; line-height: 1;"
-      >
-        <span class="relative z-10">Erstgespräch vereinbaren</span>
-        <div class="absolute inset-0 bg-[#0F0] transform -translate-x-full transition-transform duration-300 ease-out hover-line"></div>
-      </a>
-      <a 
-        href="/#projects" 
-        class="button-hover-effect relative flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-[35.833px] border border-[#0F0] text-[#0F0] hover:scale-105 transition-all hover:shadow-[0_0_20px_rgba(0,255,0,0.3)] overflow-hidden"
-        style="font-size: clamp(1rem, 1.5vw, 1.194rem); font-weight: 500; line-height: 1;"
-      >
-        <span class="relative z-10">Mehr Projekte</span>
-        <div class="absolute inset-0 bg-[#0F0]/10 transform -translate-x-full transition-transform duration-300 ease-out hover-line"></div>
-      </a>
+<section class="relative overflow-hidden w-full py-32 bg-[#181818]">
+  <!-- Hintergrund-Effekt -->
+  <div class="absolute inset-0">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,0,0.02),transparent_70%)]"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto px-8">
+    <div class="text-center space-y-12">
+      <div class="space-y-4">
+        <span class="text-[#0F0] text-sm uppercase tracking-wider">Next Project</span>
+        <h2 class="text-[clamp(2rem,5vw,3.5rem)] font-medium text-[#E5E5E5] leading-tight">
+          Bereit für dein<br/>eigenes Projekt?
+        </h2>
+        <p class="text-[#E5E5E5]/60 text-[clamp(1rem,1.5vw,1.25rem)] font-light">
+          Lass uns gemeinsam deine Vision in die Realität umsetzen
+        </p>
+      </div>
+      
+      <div class="flex flex-wrap justify-center gap-[30px]">
+        <a 
+          href="#contact" 
+          class="relative flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-full bg-[#0F0] text-[#1D1D1B] hover:scale-105 transition-all hover:shadow-[0_0_30px_rgba(0,255,0,0.3)]"
+          style="font-size: clamp(1rem, 1.5vw, 1.194rem); font-weight: 500; line-height: 1;"
+        >
+          <span class="relative z-10">Erstgespräch vereinbaren</span>
+        </a>
+        <a 
+          href="/#projects" 
+          class="relative flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-full border border-[#0F0] text-[#0F0] hover:scale-105 transition-all hover:shadow-[0_0_30px_rgba(0,255,0,0.2)]"
+          style="font-size: clamp(1rem, 1.5vw, 1.194rem); font-weight: 500; line-height: 1;"
+        >
+          <span class="relative z-10">Mehr Projekte</span>
+        </a>
+      </div>
     </div>
+  </div>
+
+  <!-- Projekt Navigation -->
+  <div class="absolute bottom-0 left-0 right-0 flex justify-between items-center px-8 py-12 max-w-[1800px] mx-auto">
+    {prevProject && (
+      <a href={`/projects/${prevProject.slug}`} class="group flex items-center gap-4 text-[#E5E5E5] hover:text-[#0F0] transition-colors duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 transform group-hover:-translate-x-2 transition-transform duration-300">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <div class="text-left">
+          <span class="block text-sm text-[#E5E5E5]/60">Vorheriges Projekt</span>
+          <span class="block text-lg font-medium">{prevProject.title}</span>
+        </div>
+      </a>
+    )}
+
+    {nextProject && (
+      <a href={`/projects/${nextProject.slug}`} class="group flex items-center gap-4 text-[#E5E5E5] hover:text-[#0F0] transition-colors duration-300 ml-auto">
+        <div class="text-right">
+          <span class="block text-sm text-[#E5E5E5]/60">Nächstes Projekt</span>
+          <span class="block text-lg font-medium">{nextProject.title}</span>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 transform group-hover:translate-x-2 transition-transform duration-300">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    )}
   </div>
 </section>
 
 <style>
-  .button-hover-effect:hover .hover-line {
-    transform: translateX(0);
+  section {
+    border-top: 1px solid rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
   }
 </style>

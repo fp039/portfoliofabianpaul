@@ -1,93 +1,200 @@
 <template>
   <div 
-    class="fixed inset-0 bg-background transition-transform duration-500 ease-in-out"
-    :class="isOpen ? 'translate-x-0' : 'translate-x-full'"
+    class="fixed inset-0 z-50 overflow-hidden pointer-events-none"
+    :class="isOpen ? 'translate-y-0' : '-translate-y-full'"
+    :style="{ transitionDelay: isOpen ? '0ms' : '1000ms' }"
   >
-    <div class="h-full flex items-center justify-center">
-      <ul class="text-center space-y-8">
-        <li>
-          <a 
-            href="/" 
-            class="text-4xl md:text-6xl font-bold hover:text-accent transition-colors duration-300"
-            @click="$emit('close')"
-          >
-            Home
-          </a>
-        </li>
-        <li>
-          <a 
-            href="#projects" 
-            class="text-4xl md:text-6xl font-bold hover:text-accent transition-colors duration-300"
-            @click="$emit('close')"
-          >
-            Projects
-          </a>
-        </li>
-        <li>
-          <a 
-            href="#about" 
-            class="text-4xl md:text-6xl font-bold hover:text-accent transition-colors duration-300"
-            @click="$emit('close')"
-          >
-            About
-          </a>
-        </li>
-        <li>
-          <a 
-            href="/blog" 
-            class="text-4xl md:text-6xl font-bold hover:text-accent transition-colors duration-300"
-            @click="$emit('close')"
-          >
-            Blog
-          </a>
-        </li>
-        <li class="md:hidden">
-          <a 
-            href="#contact" 
-            class="text-4xl md:text-6xl font-bold hover:text-accent transition-colors duration-300"
-            @click="$emit('close')"
-          >
-            Kontakt
-          </a>
-        </li>
-      </ul>
-    </div>
+    <!-- Background Layer mit Animation -->
+    <div 
+      class="absolute top-[28px] right-[48px] rounded-full bg-[#1E1E1E] transition-all duration-1000 ease-[cubic-bezier(0.87,0,0.13,1)] pointer-events-auto"
+      :class="isOpen ? 'scale-[100] opacity-100' : 'scale-[0.1] opacity-0'"
+      :style="{ 
+        width: '40px',
+        height: '40px',
+        transformOrigin: 'center center',
+        transitionDelay: isOpen ? '0ms' : '400ms'
+      }"
+    ></div>
 
-    <!-- Social Links -->
-    <div class="absolute bottom-8 left-0 right-0 flex justify-center gap-8">
-      <a 
-        href="#" 
-        class="text-text-secondary hover:text-accent transition-colors duration-300"
-        target="_blank"
-        rel="noopener noreferrer"
+    <div class="h-full relative pointer-events-auto">
+      <!-- Logo & Slogan -->
+      <div 
+        class="absolute top-[28px] left-16 flex items-center gap-6 transition-all duration-700"
+        :class="isOpen ? 'opacity-100 translate-y-0 delay-500' : 'opacity-0 -translate-y-8 delay-[300ms]'"
       >
-        <span class="sr-only">Instagram</span>
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-        </svg>
-      </a>
-      <a 
-        href="#" 
-        class="text-text-secondary hover:text-accent transition-colors duration-300"
-        target="_blank"
-        rel="noopener noreferrer"
+        <span class="text-[#E5E5E5] text-[36px] font-medium tracking-tight leading-[0.9]">
+          FABIAN<br>PAUL
+        </span>
+        <span class="text-[#E5E5E5]/60 text-[20px] font-light leading-[1.2]">
+          digital experiences<br>& creative branding
+        </span>
+      </div>
+
+      <!-- Contact Info Top Right -->
+      <div 
+        class="absolute top-0 right-20 pt-64 transition-all duration-700"
+        :class="isOpen ? 'opacity-100 translate-y-0 delay-[900ms]' : 'opacity-0 -translate-y-8 delay-[200ms]'"
       >
-        <span class="sr-only">LinkedIn</span>
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-        </svg>
-      </a>
+        <div class="flex flex-col items-end whitespace-nowrap">
+          <a 
+            href="tel:+4915901443805" 
+            class="text-[#E5E5E5] text-[clamp(16px,2vw,20px)] hover:text-[#0F0] transition-colors"
+          >
+            +49 159 01 44 38 05
+          </a>
+          <a 
+            href="mailto:hello@fabian-paul.design" 
+            class="text-[#E5E5E5] text-[clamp(16px,2vw,20px)] hover:text-[#0F0] transition-colors mt-2"
+          >
+            hello@fabian-paul.design
+          </a>
+        </div>
+      </div>
+
+      <!-- Hauptcontainer mit Navigation -->
+      <div class="h-full flex flex-col">
+        <!-- Navigation Links -->
+        <div class="flex-grow pt-64 px-4 pl-16">
+          <div class="space-y-[clamp(24px,4vw,48px)]">
+            <div 
+              v-for="(item, index) in menuItems" 
+              :key="item.path"
+              class="flex items-baseline gap-8 transition-all duration-700"
+              :class="isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'"
+              :style="{
+                transitionDelay: isOpen 
+                  ? `${700 + (index * 100)}ms`
+                  : `${700 - (index * 100)}ms`
+              }"
+            >
+              <span class="text-[#0F0] text-sm uppercase tracking-wider font-light">
+                {{ String(index + 1).padStart(2, '0') }}
+              </span>
+              <a 
+                :href="item.path" 
+                class="rolling-text text-[clamp(2.5rem,8vw,5rem)] font-medium leading-[0.9] tracking-tight"
+                @click="$emit('close')"
+              >
+                <div class="block">
+                  <span 
+                    v-for="(letter, letterIndex) in item.name" 
+                    :key="letterIndex"
+                    class="letter inline-block"
+                    :style="{ transitionDelay: `${letterIndex * 0.05}s` }"
+                  >
+                    {{ letter === ' ' ? '\xa0' : letter }}
+                  </span>
+                </div>
+                <div class="block text-[#0F0]">
+                  <span 
+                    v-for="(letter, letterIndex) in item.name" 
+                    :key="letterIndex"
+                    class="letter inline-block"
+                    :style="{ transitionDelay: `${letterIndex * 0.05}s` }"
+                  >
+                    {{ letter === ' ' ? '\xa0' : letter }}
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Links Bottom Right -->
+        <div 
+          class="absolute bottom-0 right-0 pb-28 pr-20 transition-all duration-700"
+          :class="isOpen ? 'opacity-100 translate-y-0 delay-[1200ms]' : 'opacity-0 translate-y-8 delay-[100ms]'"
+        >
+          <div class="flex gap-8">
+            <a 
+              v-for="(social, index) in socials" 
+              :key="social"
+              :href="'#'"
+              class="text-[#0F0] text-[clamp(20px,3vw,30px)] font-light hover:translate-y-[-5px] transition-all duration-300"
+              :style="{
+                transitionDelay: isOpen 
+                  ? `${800 + (index * 50)}ms`
+                  : `${200 - (index * 50)}ms`
+              }"
+            >
+              {{ social }}
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
+import { watch } from 'vue'
+
+const menuItems = [
+  { name: 'Home', path: '/' },
+  { name: 'Projects', path: '/projects' },
+  { name: 'About', path: '/about' },
+  { name: 'Blog', path: '/blog' },
+  { name: 'Contact', path: '/contact' }
+]
+
+const socials = ['Xi', 'Li', 'Ig', 'Wa']
+
+const props = defineProps({
   isOpen: {
     type: Boolean,
     required: true
   }
 })
 
+watch(() => props.isOpen, (isOpen) => {
+  if (isOpen) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
+
 defineEmits(['close'])
 </script>
+
+<style scoped>
+.perspective {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.group:hover span {
+  transform: translateY(-50%);
+}
+
+.group span {
+  will-change: transform;
+}
+
+.rolling-text {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  height: 1.2em;
+  letter-spacing: 0.02em;
+}
+
+.block {
+  height: 100%;
+  line-height: 1;
+}
+
+.block:last-child {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.letter {
+  transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.rolling-text:hover .letter {
+  transform: translateY(-100%);
+}
+</style>
