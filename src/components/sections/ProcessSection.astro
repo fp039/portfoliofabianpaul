@@ -4,7 +4,77 @@ import ProcessTimeline from '../ProcessTimeline.vue';
 
 <section class="min-h-screen px-8 py-24 relative bg-background" id="process">
   <div class="max-w-7xl mx-auto">
-    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">Der Prozess</h2>
+    <div class="text-center space-y-8 mb-16">
+      <div class="space-y-2">
+        <span class="block text-[#D9D9D9] italic font-medium tracking-[2.8px]" style="font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 2.5;">
+          DER
+        </span>
+        <span class="block text-[#D9D9D9] font-medium tracking-[1.56px]" style="font-size: clamp(2.5rem, 5vw, 4.875rem); line-height: 0.88;">
+          PROZESS
+        </span>
+        <span class="block text-[#D9D9D9] italic font-medium tracking-[2.8px]" style="font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 2.5;">
+          IM DETAIL
+        </span>
+      </div>
+      
+      <!-- Toggle Button -->
+      <div class="inline-flex rounded-full border border-[#7F7F7F] p-1">
+        <button
+          class="timeline-toggle px-[clamp(16px,3vw,32px)] py-[clamp(8px,1.5vw,12px)] rounded-full transition-colors duration-300 uppercase tracking-[clamp(1px,0.1vw,1.911px)] text-[clamp(14px,1.5vw,19.111px)] font-medium leading-[100%] min-w-[clamp(120px,15vw,140px)]"
+          data-timeline="branding"
+        >
+          Branding
+        </button>
+        <button
+          class="timeline-toggle px-[clamp(16px,3vw,32px)] py-[clamp(8px,1.5vw,12px)] rounded-full transition-colors duration-300 uppercase tracking-[clamp(1px,0.1vw,1.911px)] text-[clamp(14px,1.5vw,19.111px)] font-medium leading-[100%] min-w-[clamp(120px,15vw,140px)]"
+          data-timeline="website"
+        >
+          Website
+        </button>
+      </div>
+    </div>
+    
     <ProcessTimeline client:visible />
   </div>
 </section>
+
+<style>
+  .timeline-toggle {
+    color: #7F7F7F;
+  }
+  
+  .timeline-toggle[data-active="true"] {
+    color: #0F0;
+    background-color: rgba(0, 255, 0, 0.1);
+  }
+</style>
+
+<script>
+  // Initialize toggle functionality
+  const initToggle = () => {
+    const toggles = document.querySelectorAll('.timeline-toggle');
+    
+    // Set initial state - website active by default
+    const websiteToggle = document.querySelector('[data-timeline="website"]');
+    websiteToggle.setAttribute('data-active', 'true');
+    
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        // Remove active state from all toggles
+        toggles.forEach(t => t.setAttribute('data-active', 'false'));
+        
+        // Set active state on clicked toggle
+        toggle.setAttribute('data-active', 'true');
+        
+        // Emit custom event for timeline component
+        const timelineType = toggle.getAttribute('data-timeline');
+        window.dispatchEvent(new CustomEvent('timelineChange', {
+          detail: { type: timelineType }
+        }));
+      });
+    });
+  };
+
+  // Initialize when the document is ready
+  document.addEventListener('DOMContentLoaded', initToggle);
+</script>

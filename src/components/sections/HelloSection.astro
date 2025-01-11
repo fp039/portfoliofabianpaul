@@ -29,17 +29,19 @@
       <div class="flex flex-wrap gap-[30px]" id="hello-buttons">
         <a 
           href="#contact" 
-          class="flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-[35.833px] bg-[#0F0] text-[#1D1D1B] hover:scale-105 transition-all hover:shadow-[0_0_20px_rgba(0,255,0,0.3)]"
+          class="button-hover-effect relative flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-[35.833px] bg-[#0F0] text-[#1D1D1B] hover:scale-105 transition-all hover:shadow-[0_0_20px_rgba(0,255,0,0.3)] overflow-hidden"
           style="font-size: clamp(1rem, 1.5vw, 1.194rem); font-weight: 500; line-height: 1;"
         >
-          Erstgespräch vereinbaren
+          <span class="relative z-10">Erstgespräch vereinbaren</span>
+          <div class="absolute inset-0 bg-[#0F0] transform -translate-x-full transition-transform duration-300 ease-out hover-line"></div>
         </a>
         <a 
           href="#about" 
-          class="flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-[35.833px] border border-[#0F0] text-[#0F0] hover:scale-105 transition-all hover:shadow-[0_0_20px_rgba(0,255,0,0.3)]"
+          class="button-hover-effect relative flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-[35.833px] border border-[#0F0] text-[#0F0] hover:scale-105 transition-all hover:shadow-[0_0_20px_rgba(0,255,0,0.3)] overflow-hidden"
           style="font-size: clamp(1rem, 1.5vw, 1.194rem); font-weight: 500; line-height: 1;"
         >
-          Mehr zu mir
+          <span class="relative z-10">Mehr zu mir</span>
+          <div class="absolute inset-0 bg-[#0F0]/10 transform -translate-x-full transition-transform duration-300 ease-out hover-line"></div>
         </a>
       </div>
     </div>
@@ -47,9 +49,9 @@
     <!-- Image -->
     <div id="hello-image" class="relative w-full h-full flex items-center justify-center">
       <img 
-        src="/images/fabian_paul.jpg" 
+        src="/images/portrait-fabian-1683x1920.jpg" 
         alt="Fabian Paul" 
-        class="rounded-lg w-full max-w-[600px] h-auto object-cover shadow-lg"
+        class="w-full max-w-[600px] h-auto object-cover shadow-lg"
         width="600"
         height="800"
       />
@@ -57,17 +59,16 @@
   </div>
 </section>
 
+<style>
+  .button-hover-effect:hover .hover-line {
+    transform: translateX(0);
+  }
+</style>
+
 <script>
   const initHelloSection = () => {
-    // Wait for GSAP to be available
     window.addEventListener('load', () => {
       if (typeof gsap === 'undefined') return;
-
-      // Role switching animation
-      const roles = document.getElementById('roles');
-      const roleHeight = document.querySelector('#role-container').clientHeight;
-      let currentRole = 0;
-      const totalRoles = 3;
 
       // Initial animation timeline
       const timeline = gsap.timeline({
@@ -119,6 +120,11 @@
       });
 
       // Role switching loop
+      const roles = document.getElementById('roles');
+      const roleHeight = document.querySelector('#role-container').clientHeight;
+      let currentRole = 0;
+      const totalRoles = 3;
+
       const switchRole = () => {
         gsap.to(roles, {
           y: -roleHeight * currentRole,
@@ -139,35 +145,3 @@
   // Initialize animations
   initHelloSection();
 </script>
-
-<style>
-  /* Ensure smooth animations */
-  #roles {
-    will-change: transform;
-  }
-
-  #roles span {
-    display: flex;
-    align-items: center;
-  }
-
-  /* Ensure image is visible */
-  #hello-image img {
-    display: block;
-  }
-
-  /* Ensure buttons are visible initially */
-  #hello-buttons {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .space-y-12 {
-      --space: clamp(2rem, 6vw, 3rem);
-      margin-top: var(--space);
-      margin-bottom: var(--space);
-    }
-  }
-</style>

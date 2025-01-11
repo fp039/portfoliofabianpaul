@@ -30,50 +30,51 @@ const connector = ref(null)
 const circleArrow = ref(null)
 
 const onButtonEnter = () => {
-  // First stretch the connector to the middle of the circle
+  // First stretch the connector with a more organic motion
   gsap.timeline()
     .to(connector.value, {
-      scaleX: 2.5,
-      duration: 0.3,
-      ease: "power2.inOut",
+      scaleX: 1.8,
+      duration: 0.4,
+      ease: "elastic.out(1, 0.8)",
       transformOrigin: "left center"
     })
     .to(connector.value, {
       opacity: 0,
-      duration: 0.2,
+      duration: 0.15,
       ease: "power2.inOut"
-    }, "-=0.1")
+    }, "-=0.15")
     
-  // Pop out the circle with arrow
+  // Pop out the circle with arrow using elastic effect
   gsap.to(circleArrow.value, {
-    x: 15,
-    duration: 0.4,
-    ease: "back.out(1.7)",
+    x: 15, // Increased from 8 to 15 to move circle further right
+    scale: 1.05,
+    duration: 0.6,
+    ease: "elastic.out(1.2, 0.5)",
     delay: 0.1
   })
 }
 
 const onButtonLeave = () => {
-  // Reset connector - fade in first, then un-stretch
-  gsap.timeline()
-    .to(connector.value, {
-      opacity: 1,
-      duration: 0.2,
-      ease: "power2.inOut"
-    })
-    .to(connector.value, {
-      scaleX: 1,
-      duration: 0.3,
-      ease: "power2.inOut",
-      transformOrigin: "left center"
-    }, "-=0.1")
-  
-  // Reset circle with arrow
+  // Reset circle with arrow first with a smoother motion
   gsap.to(circleArrow.value, {
     x: 0,
-    duration: 0.3,
-    ease: "power2.inOut"
+    scale: 1,
+    duration: 0.4,
+    ease: "back.out(1.7)"
   })
+  
+  // Then handle connector reset
+  gsap.timeline()
+    .set(connector.value, {
+      scaleX: 1,
+      transformOrigin: "left center"
+    })
+    .to(connector.value, {
+      opacity: 1,
+      duration: 0.3,
+      ease: "power2.out",
+      delay: 0.1
+    })
 }
 </script>
 

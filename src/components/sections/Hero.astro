@@ -1,64 +1,157 @@
 ---
 import RotatingCircle from '../ui/RotatingCircle.astro';
 import ScrollIndicator from '../ui/ScrollIndicator.astro';
+
+// Define image sets for each position
+const imageGroups = {
+  topLeft: [
+    '/images/gin-fischer-1920x1080.jpg',
+    '/images/gin-fischer-1920x1080-2.jpg',
+    '/images/website-wontec-2000x1125.png',
+  ],
+  topRight: [
+    '/images/guest-journey-harbr-2000x1125.jpg',
+    '/images/wondera-wontec-2000x1125.png',
+    '/images/work-hard-2000x1125.jpg',
+  ],
+  bottomLeft: [
+    '/images/rose-steillagen-2000x1125.jpg',
+    '/images/rose-steillagen-2000x1125-2.jpg',
+    '/images/rose-steillagen-2000x1125-3.png',
+  ],
+  bottomRight: [
+    '/images/rose-steillagen-2000x1125-2.jpg',
+    '/images/rose-steillagen-2000x1125-3.png',
+  ],
+};
 ---
 
-<section class="min-h-screen flex items-center justify-center relative px-8">
-  <div class="max-w-7xl mx-auto w-full relative">
-    <!-- Main Heading -->
-    <div class="text-center">
-      <h1 class="flex flex-col gap-4 leading-none tracking-[0.02em] mb-32">
-        <div class="flex items-center justify-center gap-6 lg:gap-10">
-          <img 
-            src="/images/Fischer.png" 
-            alt="Fischer" 
-            class="w-[clamp(80px,15vw,166px)] h-auto object-cover bg-background/20"
-          />
-          <span class="text-transparent [-webkit-text-stroke:1.514px_#0F0] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
-            Digital
-          </span>
-        </div>
-        <div class="flex items-center justify-center gap-6 lg:gap-10">
-          <span class="text-[#0F0] [-webkit-text-stroke:1.514px_#0F0] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
-            Experiences
-          </span>
-          <img 
-            src="/images/harbr.jpg" 
-            alt="Harbr" 
-            class="w-[clamp(80px,15vw,166px)] h-auto object-cover bg-background/20"
-          />
-        </div>
-        <div class="flex items-center justify-center gap-6 lg:gap-10">
-          <img 
-            src="/images/steillagen.jpg" 
-            alt="Steillagen" 
-            class="w-[clamp(80px,15vw,166px)] h-auto object-cover bg-background/20"
-          />
-          <span class="text-[#E5E5E5] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
-            & Creative
-          </span>
-        </div>
-        <div class="flex items-center justify-center gap-6 lg:gap-10">
-          <span class="text-transparent [-webkit-text-stroke:1.514px_#E5E5E5] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
-            Branding
-          </span>
-          <img 
-            src="/images/steillagen-2.jpg" 
-            alt="Steillagen 2" 
-            class="w-[clamp(80px,15vw,166px)] h-auto object-cover bg-background/20"
-          />
-        </div>
-      </h1>
+<section class="min-h-screen relative px-8 pb-0 flex flex-col">
+  <div class="flex-1 flex items-center justify-center py-32">
+    <div class="max-w-7xl mx-auto w-full relative">
+      <!-- Main Heading -->
+      <div class="text-center">
+        <h1 class="flex flex-col gap-4 leading-none tracking-[0.02em]">
+          <div class="flex items-center justify-center gap-6 lg:gap-10">
+            <div class="relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
+              {imageGroups.topLeft.map((src, index) => (
+                <img 
+                  src={src}
+                  alt="Project Image"
+                  class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
+                  data-image-group="topLeft"
+                  data-image-index={index}
+                />
+              ))}
+            </div>
+            <span class="text-transparent [-webkit-text-stroke:1.514px_#0F0] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+              Digital
+            </span>
+          </div>
+          <div class="flex items-center justify-center gap-6 lg:gap-10">
+            <span class="text-[#0F0] [-webkit-text-stroke:1.514px_#0F0] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+              Experiences
+            </span>
+            <div class="relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
+              {imageGroups.topRight.map((src, index) => (
+                <img 
+                  src={src}
+                  alt="Project Image"
+                  class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
+                  data-image-group="topRight"
+                  data-image-index={index}
+                />
+              ))}
+            </div>
+          </div>
+          <div class="flex items-center justify-center gap-6 lg:gap-10">
+            <div class="relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
+              {imageGroups.bottomLeft.map((src, index) => (
+                <img 
+                  src={src}
+                  alt="Project Image"
+                  class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
+                  data-image-group="bottomLeft"
+                  data-image-index={index}
+                />
+              ))}
+            </div>
+            <span class="text-[#E5E5E5] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+              & Creative
+            </span>
+          </div>
+          <div class="flex items-center justify-center gap-6 lg:gap-10">
+            <span class="text-transparent [-webkit-text-stroke:1.514px_#E5E5E5] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+              Branding
+            </span>
+            <div class="relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
+              {imageGroups.bottomRight.map((src, index) => (
+                <img 
+                  src={src}
+                  alt="Project Image"
+                  class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
+                  data-image-group="bottomRight"
+                  data-image-index={index}
+                />
+              ))}
+            </div>
+          </div>
+        </h1>
+      </div>
+      
+      <RotatingCircle />
     </div>
-    
-    <RotatingCircle />
-    <ScrollIndicator />
   </div>
+  
+  <ScrollIndicator />
 </section>
+
+<script>
+  const initImageSwitching = () => {
+    const groups = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'];
+    const currentIndices = {
+      topLeft: 0,
+      topRight: 0,
+      bottomLeft: 0,
+      bottomRight: 0
+    };
+
+    const switchImage = (group) => {
+      const images = document.querySelectorAll(`[data-image-group="${group}"]`);
+      const currentIndex = currentIndices[group];
+      const nextIndex = (currentIndex + 1) % images.length;
+
+      // Fade out current image
+      gsap.to(images[currentIndex], {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+
+      // Fade in next image
+      gsap.to(images[nextIndex], {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+
+      currentIndices[group] = nextIndex;
+    };
+
+    // Start the switching cycle for each group with different delays
+    groups.forEach((group, index) => {
+      setInterval(() => switchImage(group), 3000 + (index * 750));
+    });
+  };
+
+  // Initialize when the document is ready
+  window.addEventListener('load', initImageSwitching);
+</script>
 
 <style>
   img {
     display: block;
+    transition: opacity 0.5s ease-in-out;
   }
 
   /* Ensure text remains readable at all sizes */
@@ -77,10 +170,6 @@ import ScrollIndicator from '../ui/ScrollIndicator.astro';
   @media (max-width: 768px) {
     .gap-6 {
       gap: clamp(1rem, 3vw, 1.5rem);
-    }
-    
-    h1 {
-      margin-bottom: clamp(2rem, 6vw, 8rem);
     }
   }
 </style>

@@ -1,0 +1,40 @@
+---
+import Layout from './Layout.astro';
+import Navigation from '../components/Navigation.vue';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+  <Navigation client:load />
+  
+  <main class="pt-32 min-h-screen px-8 py-16">
+    <div class="max-w-3xl mx-auto">
+      <div class="prose prose-invert prose-green max-w-none">
+        <slot />
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .prose {
+    --tw-prose-body: theme('colors.text.secondary');
+    --tw-prose-headings: theme('colors.text.primary');
+    --tw-prose-links: theme('colors.accent');
+    --tw-prose-bold: theme('colors.text.primary');
+    --tw-prose-counters: theme('colors.text.secondary');
+    --tw-prose-bullets: theme('colors.text.secondary');
+    --tw-prose-quotes: theme('colors.text.primary');
+    --tw-prose-quote-borders: theme('colors.accent');
+    --tw-prose-pre-bg: theme('colors.background');
+    --tw-prose-hr: theme('colors.white / 0.1');
+  }
+</style>

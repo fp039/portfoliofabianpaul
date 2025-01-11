@@ -1,0 +1,40 @@
+---
+interface Props {
+  type: 'featured' | 'standard';
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+}
+
+const { type, title, description, image, tags } = Astro.props;
+
+const width = type === 'featured' ? 'w-[50vw] min-w-[500px]' : 'w-[30vw] min-w-[300px]';
+---
+
+<article class={`project-card flex-shrink-0 ${width} group relative overflow-hidden rounded-lg bg-[#1E1E1E]`}>
+  <div class="relative aspect-video overflow-hidden">
+    <img 
+      src={image} 
+      alt={title}
+      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+      loading="lazy"
+    />
+    <div class="absolute inset-0 bg-[#00FF00]/0 transition-colors duration-300 group-hover:bg-[#00FF00]/90">
+      <div class="absolute inset-0 p-8 flex flex-col justify-between opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+        <div>
+          <h3 class="text-[#1E1E1E] text-2xl font-medium mb-2">{title}</h3>
+          <p class="text-[#1E1E1E]/80">{description}</p>
+        </div>
+        
+        <div class="flex flex-wrap gap-2">
+          {tags.map(tag => (
+            <span class="px-3 py-1 text-sm rounded-full bg-[#1E1E1E]/10 text-[#1E1E1E]">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

@@ -6,13 +6,14 @@
           :src="image" 
           :alt="title"
           class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          loading="lazy"
         />
       </div>
       <div class="p-6 space-y-4">
         <div class="flex items-center gap-4 text-text-secondary">
-          <time :datetime="date" class="text-sm">{{ formatDate(date) }}</time>
+          <time :datetime="date" class="text-sm">{{ formattedDate }}</time>
           <span class="w-1 h-1 rounded-full bg-accent"></span>
-          <span class="text-sm">{{ readingTime }} min read</span>
+          <span class="text-sm">{{ readingTime }} min Lesezeit</span>
         </div>
         
         <h3 class="text-2xl font-bold text-text-primary">{{ title }}</h3>
@@ -32,24 +33,46 @@
   </article>
 </template>
 
-<script setup lang="ts">
-interface Props {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  image: string;
-  readingTime: number;
-  tags: string[];
-}
+<script setup>
+import { computed } from 'vue';
 
-defineProps<Props>();
+const props = defineProps({
+  slug: {
+    type: String,
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  },
+  excerpt: {
+    type: String,
+    required: true
+  },
+  date: {
+    type: String,
+    required: true
+  },
+  image: {
+    type: String,
+    required: true
+  },
+  readingTime: {
+    type: Number,
+    required: true
+  },
+  tags: {
+    type: Array,
+    required: true
+  }
+});
 
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', {
+const formattedDate = computed(() => {
+  const date = new Date(props.date);
+  return new Intl.DateTimeFormat('de-DE', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
-  });
-};
+  }).format(date);
+});
 </script>

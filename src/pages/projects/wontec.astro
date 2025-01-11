@@ -1,0 +1,222 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navigation from '../../components/Navigation.vue';
+import Footer from '../../components/Footer.astro';
+import ProjectCTA from '../../components/ProjectCTA.astro';
+
+const imageGroups = {
+  group1: [
+    '/images/website-wontec-2000x1125.png',
+    '/images/wondera-wontec-2000x1125.png',
+    '/images/work-hard-2000x1125.jpg'
+  ],
+  group2: [
+    '/images/wondera-wontec-2000x1125.png',
+    '/images/work-hard-2000x1125.jpg',
+    '/images/website-wontec-2000x1125.png'
+  ]
+};
+---
+
+<Layout title="Wontec Project - Fabian Paul">
+  <Navigation client:load />
+  
+  <main class="bg-[#1E1E1E] text-[#E5E5E5]">
+    <!-- Hero -->
+    <section class="min-h-screen relative flex items-center">
+      <div class="absolute inset-0">
+        <img 
+          src="/images/website-wontec-2000x1125.png"
+          alt="Wontec Project"
+          class="w-full h-full object-cover opacity-70"
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-[#1E1E1E]"></div>
+      </div>
+
+      <div class="relative z-10 container mx-auto px-8 pt-32">
+        <div class="max-w-4xl">
+          <h1 class="text-[clamp(3.5rem,10vw,6rem)] font-medium leading-[0.9] tracking-tight mb-6">
+            Wontec
+          </h1>
+          <p class="text-[clamp(1.25rem,3vw,1.75rem)] font-light italic max-w-2xl">
+            Ein Visionär im Projektmanagement braucht eine starke Identität.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <div class="py-32 px-8">
+      <div class="max-w-[1800px] mx-auto space-y-48">
+        <!-- Gallery Section 1 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-24">
+          <div class="aspect-[4/3] overflow-hidden relative">
+            {imageGroups.group1.map((src, index) => (
+              <img 
+                src={src}
+                alt="Wontec Website"
+                class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                data-image-group="group1"
+                data-image-index={index}
+              />
+            ))}
+          </div>
+          <div class="aspect-[4/3] overflow-hidden md:translate-y-24 relative">
+            {imageGroups.group2.map((src, index) => (
+              <img 
+                src={src}
+                alt="Wontec Brand"
+                class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                data-image-group="group2"
+                data-image-index={index}
+              />
+            ))}
+          </div>
+        </section>
+
+        <!-- Text Break 1 -->
+        <p class="text-[clamp(1.25rem,2.5vw,1.75rem)] font-light italic max-w-3xl">
+          Klare Linien, präzise Formen – die Essenz von effizientem Projektmanagement in visueller Form.
+        </p>
+
+        <!-- Gallery Section 2 -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div class="md:col-span-8 aspect-video overflow-hidden">
+            <img 
+              src="/images/work-hard-2000x1125.jpg"
+              alt="Wontec Workspace"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="md:col-span-4 aspect-video overflow-hidden md:translate-y-32">
+            <img 
+              src="/images/wondera-wontec-2000x1125.png"
+              alt="Wontec Details"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </section>
+
+        <!-- Gallery Section 3 -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="aspect-[3/4] overflow-hidden">
+            <img 
+              src="/images/website-wontec-2000x1125.png"
+              alt="Wontec Detail 1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="aspect-[3/4] overflow-hidden md:translate-y-24">
+            <img 
+              src="/images/wondera-wontec-2000x1125.png"
+              alt="Wontec Detail 2"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="aspect-[3/4] overflow-hidden">
+            <img 
+              src="/images/work-hard-2000x1125.jpg"
+              alt="Wontec Detail 3"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </section>
+
+        <!-- Gallery Section 4 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="aspect-square overflow-hidden">
+            <img 
+              src="/images/website-wontec-2000x1125.png"
+              alt="Wontec Final 1"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="aspect-square overflow-hidden md:translate-y-24">
+            <img 
+              src="/images/wondera-wontec-2000x1125.png"
+              alt="Wontec Final 2"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </section>
+
+        <ProjectCTA />
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  const initImageSwitching = () => {
+    const groups = ['group1', 'group2'];
+    const currentIndices = {
+      group1: 0,
+      group2: 0
+    };
+
+    const switchImage = (group) => {
+      const images = document.querySelectorAll(`[data-image-group="${group}"]`);
+      const currentIndex = currentIndices[group];
+      const nextIndex = (currentIndex + 1) % images.length;
+
+      gsap.to(images[currentIndex], {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+
+      gsap.to(images[nextIndex], {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+
+      currentIndices[group] = nextIndex;
+    };
+
+    groups.forEach((group, index) => {
+      setInterval(() => switchImage(group), 3000 + (index * 750));
+    });
+  };
+
+  window.addEventListener('load', () => {
+    if (typeof gsap === 'undefined') return;
+
+    initImageSwitching();
+
+    // Hero animations
+    gsap.from('h1', {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out'
+    });
+
+    gsap.from('h1 + p', {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      delay: 0.3,
+      ease: 'power3.out'
+    });
+
+    // Scroll animations for images and text
+    gsap.utils.toArray('section').forEach(section => {
+      gsap.from(section.children, {
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse'
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out'
+      });
+    });
+  });
+</script>

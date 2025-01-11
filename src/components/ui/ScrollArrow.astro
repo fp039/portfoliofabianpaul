@@ -1,0 +1,68 @@
+---
+interface Props {
+  direction: 'left' | 'right';
+  class?: string;
+}
+
+const { direction, class: className } = Astro.props;
+---
+
+<button 
+  class={`scroll-arrow hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-[#00FF00] text-[#1E1E1E] absolute top-1/2 -translate-y-1/2 z-10 opacity-80 hover:opacity-100 transition-opacity duration-300 ${className}`}
+  data-direction={direction}
+>
+  <svg 
+    class={`w-6 h-6 ${direction === 'left' ? 'rotate-180' : ''}`} 
+    fill="none" 
+    viewBox="0 0 24 24" 
+    stroke="currentColor"
+  >
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+  </svg>
+</button>
+
+<script>
+  // Initialize scroll arrows
+  const initScrollArrows = () => {
+    const container = document.querySelector('[data-scroll-container]');
+    const arrows = document.querySelectorAll('.scroll-arrow');
+    
+    if (!container || !arrows.length) return;
+
+    arrows.forEach(arrow => {
+      arrow.addEventListener('click', () => {
+        const direction = arrow.getAttribute('data-direction');
+        const scrollAmount = container.clientWidth * 0.5;
+        
+        container.scrollBy({
+          left: direction === 'left' ? -scrollAmount : scrollAmount,
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Show/hide arrows based on scroll position
+    const updateArrowVisibility = () => {
+      const leftArrow = document.querySelector('[data-direction="left"]');
+      const rightArrow = document.querySelector('[data-direction="right"]');
+      
+      if (leftArrow) {
+        leftArrow.style.opacity = container.scrollLeft > 0 ? '0.8' : '0';
+        leftArrow.style.pointerEvents = container.scrollLeft > 0 ? 'auto' : 'none';
+      }
+      
+      if (rightArrow) {
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        rightArrow.style.opacity = container.scrollLeft < maxScroll ? '0.8' : '0';
+        rightArrow.style.pointerEvents = container.scrollLeft < maxScroll ? 'auto' : 'none';
+      }
+    };
+
+    container.addEventListener('scroll', updateArrowVisibility);
+    window.addEventListener('resize', updateArrowVisibility);
+    updateArrowVisibility();
+  };
+
+  // Initialize when the document is ready
+  document.addEventListener('DOMContentLoaded', initScrollArrows);
+</script>

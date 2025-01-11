@@ -5,50 +5,51 @@ import BlogCard from '../../components/BlogCard.vue';
 const posts = [
   {
     slug: 'principles-of-modern-ui-design',
-    title: 'The Principles of Modern UI Design',
-    excerpt: 'Explore the fundamental principles that shape modern user interface design, from visual hierarchy to micro-interactions.',
+    title: 'Die Prinzipien modernen UI-Designs',
+    excerpt: 'Entdecken Sie die grundlegenden Prinzipien, die modernes User Interface Design prägen, von visueller Hierarchie bis zu Mikrointeraktionen.',
     date: '2024-01-15',
-    image: '/images/blog/ui-design-principles.jpg',
+    image: '/images/blog/ui-design.jpg',
     readingTime: 8,
-    tags: ['UI Design', 'Design Principles', 'UX']
+    tags: ['UI Design', 'Design Prinzipien', 'UX']
   },
   {
     slug: 'web-development-trends-2024',
-    title: 'Web Development Trends That Will Shape 2024',
-    excerpt: 'Discover the latest trends in web development, from AI integration to advanced animation techniques.',
+    title: 'Webentwicklungs-Trends, die 2024 prägen werden',
+    excerpt: 'Entdecken Sie die neuesten Trends in der Webentwicklung, von KI-Integration bis zu fortgeschrittenen Animationstechniken.',
     date: '2024-01-10',
-    image: '/images/blog/web-dev-trends.jpg',
+    image: '/images/blog/code-trends.jpg',
     readingTime: 10,
-    tags: ['Web Development', 'Trends', 'Technology']
+    tags: ['Webentwicklung', 'Trends', 'Technologie']
   },
   {
     slug: 'bridging-design-development-gap',
-    title: 'Bridging the Gap Between Design and Development',
-    excerpt: 'Learn how designers and developers can work together more effectively to create seamless digital experiences.',
+    title: 'Die Brücke zwischen Design und Entwicklung',
+    excerpt: 'Erfahren Sie, wie Designer und Entwickler effektiver zusammenarbeiten können, um nahtlose digitale Erlebnisse zu schaffen.',
     date: '2024-01-05',
-    image: '/images/blog/design-dev-bridge.jpg',
+    image: '/images/blog/design_code_bridge.jpg',
     readingTime: 12,
-    tags: ['Design', 'Development', 'Collaboration']
+    tags: ['Design', 'Entwicklung', 'Zusammenarbeit']
   }
 ];
 ---
 
 <BlogLayout 
   title="Blog - Digital Experiences & Creative Branding"
-  description="Insights about UI/UX design, web development, and creative branding"
+  description="Einblicke in UI/UX-Design, Webentwicklung und kreatives Branding"
 >
   <div class="px-8 py-16">
     <div class="max-w-7xl mx-auto">
       <header class="text-center mb-16">
         <h1 class="text-4xl md:text-5xl font-bold mb-4">Blog</h1>
         <p class="text-text-secondary text-lg max-w-2xl mx-auto">
-          Insights about design, development, and the intersection of both worlds.
+          Einblicke in Design, Entwicklung und die Schnittstelle beider Welten.
         </p>
       </header>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map(post => (
           <BlogCard 
+            key={post.slug}
             client:visible
             {...post}
           />
