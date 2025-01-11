@@ -227,7 +227,8 @@ const projects = [
   const initFilter = () => {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const projects = document.querySelectorAll('.project-item');
-    const grid = document.querySelector('.grid');
+    // Initialisiere mit allen Projekten als sichtbar
+    let currentlyVisible = new Set(projects);
 
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -235,38 +236,130 @@ const projects = [
         btn.classList.add('active');
 
         const filterValue = btn.getAttribute('data-filter');
+        let newlyVisible = new Set();
+        let toHide = new Set();
+        let toShow = new Set();
+
+        // Wenn "Alle" geklickt wird, spezielle Behandlung
+        if (filterValue === 'all') {
+          projects.forEach(project => {
+            project.style.display = 'block';
+          });
+          
+          gsap.fromTo(projects,
+            {
+              opacity: 0,
+              y: 30,
+              scale: 0.95
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.8,
+              ease: 'power2.out',
+              stagger: {
+                amount: 0.3,
+                from: "start"
+              },
+              clearProps: "all"
+            }
+          );
+          
+          currentlyVisible = new Set(projects);
+          return;
+        }
 
         projects.forEach(project => {
           const categories = project.getAttribute('data-categories').split(',');
+          const shouldBeVisible = filterValue === 'all' || categories.includes(filterValue);
           
-          if (filterValue === 'all' || categories.includes(filterValue)) {
-            project.style.display = 'block';
-            gsap.to(project, {
-              opacity: 1,
-              scale: 1,
-              duration: 0.5,
-              ease: 'power3.out',
-              clearProps: 'scale'
-            });
-          } else {
-            gsap.to(project, {
-              opacity: 0,
-              scale: 0.95,
-              duration: 0.5,
-              ease: 'power3.out',
-              onComplete: () => {
-                project.style.display = 'none';
-              }
-            });
+          if (shouldBeVisible) {
+            newlyVisible.add(project);
+            // Wenn es vorher nicht sichtbar war, muss es eingeblendet werden
+            if (!currentlyVisible.has(project)) {
+              toShow.add(project);
+            }
+          } else if (currentlyVisible.has(project)) {
+            // Wenn es vorher sichtbar war, muss es ausgeblendet werden
+            toHide.add(project);
           }
         });
 
-        // Optional: Animate grid reorganization
-        gsap.from(grid, {
-          opacity: 0.8,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
+        // Nur die Elemente ausblenden, die wirklich versteckt werden müssen
+        if (toHide.size > 0) {
+          gsap.to(Array.from(toHide), {
+            opacity: 0,
+            y: 30,
+            scale: 0.95,
+            duration: 0.5,
+            ease: 'power2.inOut',
+            stagger: {
+              amount: 0.2,
+              from: "random"
+            },
+            onComplete: () => {
+              toHide.forEach(project => {
+                project.style.display = 'none';
+              });
+              
+              // Nur neue Elemente einblenden
+              if (toShow.size > 0) {
+                Array.from(toShow).forEach(project => {
+                  project.style.display = 'block';
+                });
+              
+                gsap.fromTo(Array.from(toShow),
+                  {
+                    opacity: 0,
+                    y: 50,
+                    scale: 0.95
+                  },
+                  {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    stagger: {
+                      amount: 0.3,
+                      from: "start"
+                    },
+                    clearProps: "all"
+                  }
+                );
+              }
+            }
+          });
+        } else if (toShow.size > 0) {
+          // Wenn nichts ausgeblendet werden muss, aber neue Elemente angezeigt werden sollen
+          Array.from(toShow).forEach(project => {
+            project.style.display = 'block';
+          });
+          
+          gsap.fromTo(Array.from(toShow),
+            {
+              opacity: 0,
+              y: 50,
+              scale: 0.95
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.8,
+              ease: 'power2.out',
+              stagger: {
+                amount: 0.3,
+                from: "start"
+              },
+              clearProps: "all"
+            }
+          );
+        }
+
+        // Update currently visible projects
+        currentlyVisible = newlyVisible;
       });
     });
   };
@@ -280,6 +373,6 @@ const projects = [
   }
 
   .project-item {
-    transition: opacity 0.5s ease-out;
+    will-change: transform, opacity;
   }
 </style> 

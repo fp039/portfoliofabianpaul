@@ -7,7 +7,7 @@
     <!-- Background Layer mit Animation -->
     <div 
       class="absolute top-[28px] right-[48px] rounded-full bg-[#1E1E1E] transition-all duration-1000 ease-[cubic-bezier(0.87,0,0.13,1)] pointer-events-auto"
-      :class="isOpen ? 'scale-[100] opacity-100' : 'scale-[0.1] opacity-0'"
+      :class="isOpen ? 'scale-[200] opacity-100' : 'scale-[0.1] opacity-0'"
       :style="{ 
         width: '40px',
         height: '40px',
@@ -32,19 +32,19 @@
 
       <!-- Contact Info Top Right -->
       <div 
-        class="absolute top-0 right-20 pt-64 transition-all duration-700"
+        class="absolute top-0 right-20 pt-64 transition-all duration-700 z-50"
         :class="isOpen ? 'opacity-100 translate-y-0 delay-[900ms]' : 'opacity-0 -translate-y-8 delay-[200ms]'"
       >
         <div class="flex flex-col items-end whitespace-nowrap">
           <a 
             href="tel:+4915901443805" 
-            class="text-[#E5E5E5] text-[clamp(16px,2vw,20px)] hover:text-[#0F0] transition-colors"
+            class="text-[#E5E5E5] text-[clamp(16px,2vw,20px)] hover:text-[#0F0] transition-colors duration-300 cursor-pointer pointer-events-auto"
           >
             +49 159 01 44 38 05
           </a>
           <a 
             href="mailto:hello@fabian-paul.design" 
-            class="text-[#E5E5E5] text-[clamp(16px,2vw,20px)] hover:text-[#0F0] transition-colors mt-2"
+            class="text-[#E5E5E5] text-[clamp(16px,2vw,20px)] hover:text-[#0F0] transition-colors duration-300 mt-2 cursor-pointer pointer-events-auto"
           >
             hello@fabian-paul.design
           </a>
@@ -55,7 +55,7 @@
       <div class="h-full flex flex-col">
         <!-- Navigation Links -->
         <div class="flex-grow pt-64 px-4 pl-16">
-          <div class="space-y-[clamp(24px,4vw,48px)]">
+          <div class="space-y-4">
             <div 
               v-for="(item, index) in menuItems" 
               :key="item.path"
@@ -72,7 +72,7 @@
               </span>
               <a 
                 :href="item.path" 
-                class="rolling-text text-[clamp(2.5rem,8vw,5rem)] font-medium leading-[0.9] tracking-tight"
+                class="rolling-text text-[clamp(2.5rem,8vw,6rem)] font-medium leading-[0.9] tracking-tight pointer-events-auto"
                 @click="$emit('close')"
               >
                 <div class="block">
@@ -100,20 +100,22 @@
           </div>
         </div>
 
-        <!-- Social Links Bottom Right -->
+        <!-- Social Links -->
         <div 
           class="absolute bottom-0 right-0 pb-28 pr-20 transition-all duration-700"
-          :class="isOpen ? 'opacity-100 translate-y-0 delay-[1200ms]' : 'opacity-0 translate-y-8 delay-[100ms]'"
+          :class="isOpen ? 'opacity-100 translate-y-0 delay-[800ms]' : 'opacity-0 translate-y-8 delay-[100ms]'"
         >
           <div class="flex gap-8">
             <a 
               v-for="(social, index) in socials" 
               :key="social"
-              :href="'#'"
-              class="text-[#0F0] text-[clamp(20px,3vw,30px)] font-light hover:translate-y-[-5px] transition-all duration-300"
+              :href="getSocialLink(social)"
+              class="text-[#0F0] text-[clamp(20px,3vw,30px)] font-light hover:translate-y-[-5px] transition-transform duration-200"
+              target="_blank"
+              rel="noopener noreferrer"
               :style="{
                 transitionDelay: isOpen 
-                  ? `${800 + (index * 50)}ms`
+                  ? `${(index * 50)}ms`
                   : `${200 - (index * 50)}ms`
               }"
             >
@@ -155,6 +157,16 @@ watch(() => props.isOpen, (isOpen) => {
 })
 
 defineEmits(['close'])
+
+const getSocialLink = (social) => {
+  const links = {
+    Xi: 'https://www.xing.com/profile/your-profile',
+    Li: 'https://www.linkedin.com/in/your-profile',
+    Ig: 'https://www.instagram.com/your-profile',
+    Wa: 'https://wa.me/+4915901443805'
+  }
+  return links[social]
+}
 </script>
 
 <style scoped>
