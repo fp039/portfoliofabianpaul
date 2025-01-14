@@ -2,33 +2,13 @@
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.vue';
 import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
 
-const projects = [
-  {
-    title: "Wontec",
-    description: "Branding & Webdesign für einen Visionär im Projektmanagement",
-    image: "/images/website-wontec-2000x1125.png",
-    link: "/projects/wontec",
-    tags: ["Branding", "Webdesign", "Development", "UI/UX Design"],
-    featured: true
-  },
-  {
-    title: "Brennerei Fischer",
-    description: "Gin & Branding: Tradition in dritter Generation, neu interpretiert",
-    image: "/images/gin-fischer-1920x1080.jpg",
-    link: "/projects/fischer",
-    tags: ["Branding", "Packaging Design", "Corporate Design", "Etiketten Design"],
-    featured: false
-  },
-  {
-    title: "Steillagen",
-    description: "Ein Etikett, das die Geschichte der Steillagen erzählt",
-    image: "/images/rose-steillagen-2000x1125.jpg",
-    link: "/projects/steillagen",
-    tags: ["Branding", "Etiketten Design", "Packaging"],
-    featured: false
-  }
-];
+const projects = await getCollection('projects');
+const sortedProjects = projects.sort((a, b) => a.data.order - b.data.order);
+
+// Extrahiere einzigartige Kategorien für die Filter
+const allCategories = [...new Set(projects.flatMap(project => project.data.categories))];
 ---
 
 <Layout title="Projekte - Fabian Paul">
@@ -39,50 +19,37 @@ const projects = [
     <div class="pt-32 pb-16 px-8">
       <div class="max-w-[1800px] mx-auto">
         <div class="max-w-4xl flex flex-col gap-[clamp(16px,2.5vw,24px)]">
-          <span class="text-[#0F0] text-sm uppercase tracking-wider font-light">
+          <span class="text-accent text-fluid-sm uppercase tracking-wider font-light">
             ALL NEW
           </span>  
           <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
-            <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-medium leading-[0.9] tracking-tight pb-4">
+            <h1 class="text-fluid-3xl font-medium leading-[0.9] tracking-tight pb-4">
               Projects
             </h1>
-                <!-- Filter Section -->
-    <div>
-      <div class="max-w-[1800px] mx-auto">
-        <div class="flex flex-wrap gap-[clamp(8px,1vw,10px)]">
-          <button 
-            class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn active"
-            data-filter="all"
-          >
-            Alle
-          </button>
-          <button 
-            class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn"
-            data-filter="auswahl"
-          >
-            Auswahl
-          </button>
-          <button 
-            class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn"
-            data-filter="branding"
-          >
-            Branding
-          </button>
-          <button 
-            class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn"
-            data-filter="webdesign"
-          >
-            Webdesign
-          </button>
-          <button 
-            class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn"
-            data-filter="packaging"
-          >
-            Packaging
-          </button>
-        </div>
-      </div>
-    </div>
+            <!-- Filter Section -->
+            <div>
+              <div class="max-w-[1800px] mx-auto">
+                <div class="flex flex-wrap gap-[clamp(8px,1vw,10px)]">
+                  <button 
+                    class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-fluid-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn active"
+                    data-filter="all"
+                  >
+                    Alle
+                  </button>
+                  {allCategories.map(category => (
+                    <button 
+                      class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-fluid-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn"
+                      data-filter={category}
+                    >
+                      {category === 'auswahl' ? 'Auswahl' : 
+                       category === 'branding' ? 'Branding' :
+                       category === 'webdesign' ? 'Webdesign' :
+                       category === 'packaging' ? 'Packaging' : category}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -92,95 +59,37 @@ const projects = [
     <div class="px-4 md:px-8 pb-[clamp(48px,10vw,128px)]">
       <div class="max-w-[1800px] mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-[clamp(24px,5vw,96px)]">
-          <!-- Wontec -->
-          <div class="md:col-span-2 space-y-[clamp(16px,3vw,32px)] project-item" data-categories="auswahl,branding,webdesign,development">
-            <a href="/projects/wontec" class="block group">
-              <div class="aspect-[16/9] overflow-hidden relative" data-speed="0.01">
-                <img 
-                  src="/images/website-wontec-2000x1125.png"
-                  alt="Wontec"
-                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-            </a>
-            <div class="flex flex-col gap-[clamp(4px,1vw,8px)]">
+          {sortedProjects.map(project => (
+            <div class={`${project.data.featured ? "md:col-span-2" : ""} space-y-[clamp(16px,3vw,32px)] project-item`} 
+                 data-categories={project.data.categories.join(',')}>
+              <a href={`/projects/${project.slug}`} class="block group">
+                <div class={`aspect-[16/9] overflow-hidden ${project.data.featured && !project.data.order === 2 ? "md:mr-48" : ""}`} data-speed={project.data.featured ? "0.01" : "-0.01"}>
+                  <img 
+                    src={project.data.image}
+                    alt={project.data.title}
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+              </a>
               <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
-                <h2 class="text-[24px] md:text-[32px] font-medium leading-[0.9] tracking-tight">
-                  Wontec
-                </h2>
-                <p class="text-sm md:text-base font-light italic max-w-2xl text-[#E5E5E5]/90">
-                  Branding & Webdesign für einen Visionär im Projektmanagement
-                </p>
-              </div>
-              <div class="flex flex-wrap gap-[clamp(6px,1vw,12px)]">
-                {projects[0].tags.map(tag => (
-                  <span class="px-[clamp(12px,2vw,16px)] py-[clamp(6px,1vw,8px)] rounded-full border border-[#E5E5E5]/20 text-[#E5E5E5]/60 text-[clamp(12px,1vw,14px)]">
-                    {tag}
-                  </span>
-                ))}
+                <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
+                  <h2 class="text-fluid-xl font-medium leading-[0.9] tracking-tight">
+                    {project.data.title}
+                  </h2>
+                  <p class="text-fluid-sm font-light italic max-w-2xl text-[#E5E5E5]/90">
+                    {project.data.description}
+                  </p>
+                </div>
+                <div class="flex flex-wrap gap-[clamp(6px,1vw,12px)]">
+                  {project.data.tags.map(tag => (
+                    <span class="px-[clamp(12px,2vw,16px)] py-[clamp(6px,1vw,8px)] rounded-full border border-[#E5E5E5]/20 text-[#E5E5E5]/60 text-fluid-xsm">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-
-          <!-- Steillagen -->
-          <div class="space-y-[clamp(16px,3vw,32px)] project-item" data-categories="branding,packaging">
-            <a href="/projects/steillagen" class="block group">
-              <div class="aspect-[16/9] overflow-hidden relative" data-speed="-0.01">
-                <img 
-                  src="/images/rose-steillagen-2000x1125.jpg"
-                  alt="Steillagen"
-                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-            </a>
-            <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
-              <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
-                <h2 class="text-[24px] md:text-[32px] font-medium leading-[0.9] tracking-tight">
-                  Steillagen
-                </h2>
-                <p class="text-sm md:text-base font-light italic max-w-2xl text-[#E5E5E5]/90">
-                  Ein Etikett, das die Geschichte der Steillagen erzählt
-                </p>
-              </div>
-              <div class="flex flex-wrap gap-[clamp(6px,1vw,12px)]">
-                {projects[2].tags.map(tag => (
-                  <span class="px-[clamp(12px,2vw,16px)] py-[clamp(6px,1vw,8px)] rounded-full border border-[#E5E5E5]/20 text-[#E5E5E5]/60 text-[clamp(12px,1vw,14px)]">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <!-- Fischer -->
-          <div class="md:col-span-2 space-y-[clamp(16px,3vw,32px)] project-item" data-categories="branding,packaging">
-            <a href="/projects/fischer" class="block group">
-              <div class="aspect-[16/9] overflow-hidden md:mr-48" data-speed="0.03">
-                <img 
-                  src="/images/gin-fischer-1920x1080.jpg"
-                  alt="Fischer"
-                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-            </a>
-            <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
-              <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
-                <h2 class="text-[24px] md:text-[32px] font-medium leading-[0.9] tracking-tight">
-                  Brennerei Fischer
-                </h2>
-                <p class="text-sm md:text-base font-light italic max-w-2xl text-[#E5E5E5]/90">
-                  Gin & Branding: Tradition in dritter Generation, neu interpretiert
-                </p>
-              </div>
-              <div class="flex flex-wrap gap-[clamp(6px,1vw,12px)]">
-                {projects[1].tags.map(tag => (
-                  <span class="px-[clamp(12px,2vw,16px)] py-[clamp(6px,1vw,8px)] rounded-full border border-[#E5E5E5]/20 text-[#E5E5E5]/60 text-[clamp(12px,1vw,14px)]">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
@@ -369,7 +278,7 @@ const projects = [
 
 <style>
   .filter-btn.active {
-    @apply border-[#0F0] text-[#0F0];
+    @apply border-accent text-accent;
   }
 
   .project-item {

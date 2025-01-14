@@ -1,6 +1,7 @@
 ---
 import BlogLayout from './BlogLayout.astro';
 import type { MarkdownLayoutProps } from 'astro';
+import '../styles/prose.css';
 
 type Props = MarkdownLayoutProps<{
   title: string;
@@ -22,32 +23,32 @@ const formatDate = (date: string) => {
 ---
 
 <BlogLayout title={frontmatter.title}>
-  <article class="px-8 py-16">
+  <article class="container mx-auto px-8 py-16">
     <div class="max-w-3xl mx-auto">
       <!-- Header -->
-      <header class="mb-16">
-        <div class="mb-8">
+      <header class="space-y-16">
+        <div class="aspect-video">
           <img
             src={frontmatter.image}
             alt={frontmatter.title}
-            class="w-full aspect-video object-cover rounded-lg"
+            class="w-full h-full object-cover rounded-lg"
           />
         </div>
         
-        <div class="space-y-4">
+        <div class="space-y-6">
           <div class="flex items-center gap-4 text-text-secondary">
-            <time datetime={frontmatter.date} class="text-sm">
+            <time datetime={frontmatter.date} class="text-fluid-sm">
               {formatDate(frontmatter.date)}
             </time>
             <span class="w-1 h-1 rounded-full bg-accent"></span>
-            <span class="text-sm">{frontmatter.author}</span>
+            <span class="text-fluid-sm">{frontmatter.author}</span>
           </div>
           
-          <h1 class="text-4xl md:text-5xl font-bold">{frontmatter.title}</h1>
+          <h1 class="text-fluid-2xl md:text-fluid-xl font-medium text-text-primary">{frontmatter.title}</h1>
           
           <div class="flex flex-wrap gap-2">
             {frontmatter.tags.map(tag => (
-              <span class="px-3 py-1 text-sm rounded-full bg-accent/10 text-accent">
+              <span class="px-3 py-1 text-fluid-sm rounded-full bg-accent/10 text-accent">
                 {tag}
               </span>
             ))}
@@ -56,7 +57,7 @@ const formatDate = (date: string) => {
       </header>
 
       <!-- Content -->
-      <div class="prose prose-invert prose-green max-w-none">
+      <div class="prose-custom mt-16">
         <slot />
       </div>
 
@@ -64,29 +65,14 @@ const formatDate = (date: string) => {
       <div class="mt-16 pt-8 border-t border-white/10">
         <a 
           href="/blog"
-          class="inline-flex items-center gap-2 text-accent hover:underline"
+          class="group inline-flex items-center gap-2 text-accent hover:underline"
         >
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
           </svg>
-          Back to Blog
+          <span class="text-fluid-sm">Back to Blog</span>
         </a>
       </div>
     </div>
   </article>
 </BlogLayout>
-
-<style>
-  .prose {
-    --tw-prose-body: theme('colors.text.secondary');
-    --tw-prose-headings: theme('colors.text.primary');
-    --tw-prose-links: theme('colors.accent');
-    --tw-prose-bold: theme('colors.text.primary');
-    --tw-prose-counters: theme('colors.text.secondary');
-    --tw-prose-bullets: theme('colors.text.secondary');
-    --tw-prose-quotes: theme('colors.text.primary');
-    --tw-prose-quote-borders: theme('colors.accent');
-    --tw-prose-pre-bg: theme('colors.background');
-    --tw-prose-hr: theme('colors.white / 0.1');
-  }
-</style>

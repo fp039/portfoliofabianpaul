@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navigation from '../../components/Navigation.vue';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<Layout title={`${project.data.title} - Fabian Paul`}>
+  <Navigation client:load />
+  
+  <main class="bg-[#1E1E1E] min-h-screen">
+    <div class="container mx-auto px-8 py-[clamp(4rem,10vh,8rem)]">
+      <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="space-y-8 mb-16">
+          <div class="aspect-video overflow-hidden">
+            <img 
+              src={project.data.image}
+              alt={project.data.title}
+              class="w-full h-full object-cover"
+            />
+          </div>
+          
+          <div class="space-y-6">
+            <h1 class="text-fluid-2xl font-medium text-text-primary leading-tight">{project.data.title}</h1>
+            <p class="text-fluid-lg text-text-secondary max-w-2xl leading-relaxed">{project.data.description}</p>
+            
+            <div class="flex flex-wrap gap-2">
+              {project.data.tags.map(tag => (
+                <span class="px-4 py-2 text-fluid-sm rounded-full bg-accent/10 text-accent">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </header>
+
+        <!-- Content -->
+        <article class="prose-custom">
+          <Content />
+        </article>
+
+        <!-- Navigation -->
+        <div class="mt-16 pt-8 border-t border-white/10">
+          <a 
+            href="/projects"
+            class="group inline-flex items-center gap-2 text-accent hover:underline"
+          >
+            <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span class="text-fluid-sm">Zurück zu Projekten</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout> 

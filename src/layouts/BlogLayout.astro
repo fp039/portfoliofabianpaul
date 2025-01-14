@@ -14,9 +14,17 @@ const { title, description } = Astro.props;
 <Layout title={title} description={description}>
   <Navigation client:load />
   
-  <main class="pt-32 min-h-screen">
-    <slot />
+  <main class="container mx-auto pt-[clamp(5rem,15vh,8rem)] min-h-screen">
+    <div class="relative">
+      <slot />
+    </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  main {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+  }
+</style>

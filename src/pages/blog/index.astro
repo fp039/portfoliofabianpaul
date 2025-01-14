@@ -1,57 +1,33 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import BlogCard from '../../components/BlogCard.vue';
+import '../../styles/prose.css';
+import { getCollection } from 'astro:content';
 
-const posts = [
-  {
-    slug: 'principles-of-modern-ui-design',
-    title: 'Die Prinzipien modernen UI-Designs',
-    excerpt: 'Entdecken Sie die grundlegenden Prinzipien, die modernes User Interface Design prägen, von visueller Hierarchie bis zu Mikrointeraktionen.',
-    date: '2024-01-15',
-    image: '/images/blog/ui-design.jpg',
-    readingTime: 8,
-    tags: ['UI Design', 'Design Prinzipien', 'UX']
-  },
-  {
-    slug: 'web-development-trends-2024',
-    title: 'Webentwicklungs-Trends, die 2024 prägen werden',
-    excerpt: 'Entdecken Sie die neuesten Trends in der Webentwicklung, von KI-Integration bis zu fortgeschrittenen Animationstechniken.',
-    date: '2024-01-10',
-    image: '/images/blog/code-trends.jpg',
-    readingTime: 10,
-    tags: ['Webentwicklung', 'Trends', 'Technologie']
-  },
-  {
-    slug: 'bridging-design-development-gap',
-    title: 'Die Brücke zwischen Design und Entwicklung',
-    excerpt: 'Erfahren Sie, wie Designer und Entwickler effektiver zusammenarbeiten können, um nahtlose digitale Erlebnisse zu schaffen.',
-    date: '2024-01-05',
-    image: '/images/blog/design_code_bridge.jpg',
-    readingTime: 12,
-    tags: ['Design', 'Entwicklung', 'Zusammenarbeit']
-  }
-];
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
 <BlogLayout 
   title="Blog - Digital Experiences & Creative Branding"
   description="Einblicke in UI/UX-Design, Webentwicklung und kreatives Branding"
 >
-  <div class="px-8 py-16">
+  <div class="container mx-auto px-8 py-[clamp(4rem,10vh,8rem)]">
     <div class="max-w-7xl mx-auto">
-      <header class="text-center mb-16">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">Blog</h1>
-        <p class="text-text-secondary text-lg max-w-2xl mx-auto">
+      <header class="text-center space-y-6 mb-[clamp(3rem,8vh,6rem)]">
+        <h1 class="text-fluid-xl font-medium text-text-primary">Blog</h1>
+        <p class="text-fluid-sm text-text-secondary max-w-2xl mx-auto">
           Einblicke in Design, Entwicklung und die Schnittstelle beider Welten.
         </p>
       </header>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map(post => (
+        {sortedPosts.map(post => (
           <BlogCard 
             key={post.slug}
             client:visible
-            {...post}
+            slug={post.slug}
+            {...post.data}
           />
         ))}
       </div>

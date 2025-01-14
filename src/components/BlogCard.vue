@@ -1,5 +1,5 @@
 <template>
-  <article class="group relative overflow-hidden rounded-lg bg-[#1A1A1A] transition-all hover:scale-[1.02]">
+  <article class="group relative overflow-hidden bg-[#1A1A1A] transition-all hover:scale-[1.02] hover:bg-[#222222]">
     <a :href="`/blog/${slug}`" class="block">
       <div class="aspect-video overflow-hidden">
         <img 
@@ -9,21 +9,21 @@
           loading="lazy"
         />
       </div>
-      <div class="p-6 space-y-4">
+      <div class="p-8 space-y-6">
         <div class="flex items-center gap-4 text-text-secondary">
-          <time :datetime="date" class="text-sm">{{ formattedDate }}</time>
+          <time :datetime="date" class="text-fluid-xsm">{{ formattedDate }}</time>
           <span class="w-1 h-1 rounded-full bg-accent"></span>
-          <span class="text-sm">{{ readingTime }} min Lesezeit</span>
+          <span class="text-fluid-xsm">{{ readingTime }} min Lesezeit</span>
         </div>
         
-        <h3 class="text-2xl font-bold text-text-primary">{{ title }}</h3>
-        <p class="text-text-secondary line-clamp-2">{{ excerpt }}</p>
+        <h3 class="text-fluid-lg font-medium text-text-primary leading-tight">{{ title }}</h3>
+        <p class="text-fluid-sm text-text-secondary leading-relaxed line-clamp-2">{{ excerpt }}</p>
         
         <div class="flex flex-wrap gap-2">
           <span 
             v-for="tag in tags" 
             :key="tag"
-            class="px-3 py-1 text-sm rounded-full bg-accent/10 text-accent"
+            class="px-3 py-1 text-fluid-xsm rounded-full bg-accent/10 text-accent"
           >
             {{ tag }}
           </span>

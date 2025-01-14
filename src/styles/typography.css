@@ -9,20 +9,61 @@
   --h1-size: clamp(2.5rem, 5vw, 4.875rem);
   --h2-size: clamp(2rem, 4vw, 3.953rem);
   --h3-size: clamp(1.75rem, 3vw, 55.315px);
+  --h4-size: clamp(1.5rem, 2.5vw, 2.032rem);
+  --h5-size: clamp(1.25rem, 2vw, 1.75rem);
+  
+  /* Font sizes for body text */
+  --text-xs: clamp(0.75rem, 1vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 1.25vw, 1rem);
+  --text-base: clamp(1rem, 1.5vw, 1.194rem);
+  --text-lg: clamp(1.125rem, 1.75vw, 1.35rem);
+  --text-xl: clamp(1.25rem, 2vw, 1.5rem);
+  
+  /* Display sizes for large text */
+  --display-sm: clamp(3rem, 6vw, 5rem);
+  --display-md: clamp(3.5rem, 8vw, 7rem);
+  --display-lg: clamp(4rem, 10vw, 9rem);
+  --display-xl: clamp(5rem, 15vw, 11.25rem);
+}
+
+/* Font loading stages */
+.fonts-stage-1 {
+  font-family: Arial, sans-serif;
+}
+
+.fonts-stage-2 {
+  font-family: 'TT Firs Neue', sans-serif;
+}
+
+/* Base font settings */
+html {
+  font-family: 'TT Firs Neue', Arial, sans-serif;
+  font-weight: 500;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Heading base styles */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "TT Firs Neue", sans-serif;
+  font-family: 'TT Firs Neue', Arial, sans-serif;
   line-height: var(--line-height-tight);
   font-weight: 500;
   margin: 0;
+  font-feature-settings: "salt" 1, "ss01" 1;
+}
+
+/* Size-specific optimizations */
+@media screen and (max-width: 640px) {
+  html {
+    font-size: 14px; /* Kleinere Basis-Schriftgröße für Mobile */
+  }
 }
 
 /* Timeline specific heading styles */
 .timeline-heading {
-  font-size: var(--h3-size);
-  line-height: 1.2 !important; /* Override for timeline headings */
+  font-size: var(--h4-size);
+  line-height: 1.2 !important;
   letter-spacing: 1.106px;
   margin-bottom: 1rem;
 }

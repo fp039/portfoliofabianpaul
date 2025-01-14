@@ -1,0 +1,29 @@
+/* Prose Base Styles */
+.prose-custom {
+  @apply prose prose-invert prose-green max-w-none
+    prose-headings:font-medium 
+    prose-h1:text-fluid-xl 
+    prose-h2:text-fluid-lg 
+    prose-h3:text-fluid-base 
+    prose-p:text-fluid-sm
+    prose-p:leading-relaxed
+    prose-li:text-fluid-sm
+    prose-li:leading-relaxed
+    prose-ul:space-y-2
+    prose-ol:space-y-2
+    prose-ul:my-4
+    prose-ol:my-4;
+}
+
+.prose-custom {
+  --tw-prose-body: theme('colors.text.secondary');
+  --tw-prose-headings: theme('colors.text.primary');
+  --tw-prose-links: theme('colors.accent');
+  --tw-prose-bold: theme('colors.text.primary');
+  --tw-prose-counters: theme('colors.text.secondary');
+  --tw-prose-bullets: theme('colors.accent');
+  --tw-prose-quotes: theme('colors.text.primary');
+  --tw-prose-quote-borders: theme('colors.accent');
+  --tw-prose-pre-bg: theme('colors.background');
+  --tw-prose-hr: theme('colors.white / 0.1');
+} 

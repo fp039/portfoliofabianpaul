@@ -2,145 +2,299 @@
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.vue';
 import Footer from '../components/Footer.astro';
+import TechCard from '../components/TechCard.vue';
+import RotatingCircle from '../components/ui/RotatingCircle.astro';
+import '../utils/gsapInit';
 
-const skills = [
-  { category: 'Design', items: ['UI/UX Design', 'Branding', 'Design Systems', 'Motion Design'] },
-  { category: 'Development', items: ['Frontend Development', 'Creative Coding', 'Vue.js', 'Astro'] },
-  { category: 'Tools', items: ['Figma', 'Adobe CC', 'VS Code', 'Git'] }
+// Berechne Alter
+const birthDate = new Date('1995-10-06');
+const today = new Date();
+const age = Math.floor((today - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
+
+// Berechne Erfahrung seit Ausbildungsbeginn
+const careerStart = new Date('2015-09-01');
+const yearsExperience = Math.floor((today - careerStart) / (365.25 * 24 * 60 * 60 * 1000));
+
+const techStack = [
+  { 
+    name: 'Astro', 
+    category: 'Frontend', 
+    description: 'Schnelle statische Websites mit optimaler Performance',
+    icon: 'astro.svg'
+  },
+  { 
+    name: 'Vue.js', 
+    category: 'Frontend', 
+    description: 'Moderne, reaktive Benutzeroberflächen mit hoher Interaktivität',
+    icon: 'vue.svg'
+  },
+  { 
+    name: 'Tailwind', 
+    category: 'Frontend', 
+    description: 'Utility-First CSS für schnelles, konsistentes Design',
+    icon: 'tailwind.svg'
+  },
+  { 
+    name: 'GSAP', 
+    category: 'Animation', 
+    description: 'Professionelle Webanimationen für lebendige Interfaces',
+    icon: 'gsap.svg'
+  },
+  { 
+    name: 'Figma', 
+    category: 'Design', 
+    description: 'UI/UX Design & Prototyping für Nutzererlebnisse',
+    icon: 'figma.svg'
+  },
+  { 
+    name: 'Adobe CC', 
+    category: 'Design', 
+    description: 'Kreative Designlösungen von Branding bis Print',
+    icon: 'adobe.svg'
+  }
+];
+
+const personalInterests = [
+  'Hundeliebhaber & Naturmensch',
+  'Skandinavisches Design-Fan',
+  'Leidenschaftlicher Reisender',
+  'Sport & Bewegung Enthusiast'
 ];
 ---
 
 <Layout title="About - Fabian Paul">
   <Navigation client:load />
   
-  <main class="bg-[#1E1E1E] min-h-screen">
-    <!-- Header -->
-    <div class="pt-32 pb-16 px-8">
-      <div class="max-w-[1800px] mx-auto">
-        <div class="max-w-4xl flex flex-col gap-[clamp(16px,2.5vw,24px)]">
-          <span class="text-[#0F0] text-sm uppercase tracking-wider font-light">
-            About
-          </span>  
-          <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-medium leading-[0.9] tracking-tight">
-            Crafting Digital<br>Experiences
-          </h1>
+  <main class="bg-background min-h-screen" id="main-content">
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16">
+      <div class="container mx-auto px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <!-- Image Gallery -->
+          <div class="relative w-full max-w-[600px] mx-auto">
+            <div class="aspect-[7/9] overflow-hidden group relative animate-image">
+              <img 
+                src="/images/portrait-fabian-1683x1920.jpg"
+                alt="Portrait von Fabian Paul"
+                class="w-full h-full object-cover"
+                width="1683"
+                height="1920"
+                loading="eager"
+                fetchpriority="high"
+              />
+              <img 
+                src="/images/fabian-mit-hund.jpg"
+                alt="Fabian mit seinem Hund"
+                class="w-full h-full object-cover absolute inset-0 opacity-0"
+                width="1683"
+                height="1920"
+                loading="lazy"
+              />
+            </div>
+            <RotatingCircle />
+          </div>
+
+          <!-- Bio Content -->
+          <div class="space-y-8 hero-content">
+            <div>
+              <h1 class="text-fluid-xl font-medium text-text-primary mb-2">Hi, ich bin Fabian</h1>
+              <p class="text-fluid-base text-text-secondary">Designer & Creative Developer</p>
+            </div>
+
+            <div class="space-y-4 text-fluid-sm text-text-secondary">
+              <p>
+                Als {age}-jähriger Designer und Entwickler verbinde ich meine fundierte Ausbildung 
+                als Mediengestalter Digital und Print mit meiner Leidenschaft für ästhetisches Design 
+                und technische Innovation.
+              </p>
+              <p>
+                In den letzten {yearsExperience} Jahren habe ich in verschiedenen Agenturen meine 
+                detailverliebte und ergebnisorientierte Arbeitsweise perfektioniert. Aktuell bin ich 
+                in den letzten Zügen meines Medieninformatik-Studiums, wo ich meine Fähigkeiten im 
+                Frontend- und Backend-Bereich weiter vertiefe.
+              </p>
+              <p>
+                Mein Herz schlägt besonders für UI/UX-Design und Frontend-Entwicklung. Ich liebe es, 
+                digitale Erlebnisse zu schaffen, die nicht von der Stange kommen, sondern maßgeschneidert 
+                beeindrucken. Qualität steht für mich immer vor Quantität – jedes Projekt verdient 100% 
+                Einsatz.
+              </p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 gap-8 pt-6">
+              <div class="space-y-1">
+                <span class="text-accent text-fluid-sm">Erfahrung</span>
+                <p class="text-fluid-base font-medium text-text-primary">{yearsExperience}+ Jahre</p>
+              </div>
+              <div class="space-y-1">
+                <span class="text-accent text-fluid-sm">Spezialisierung</span>
+                <p class="text-fluid-base font-medium text-text-primary">UI/UX & Frontend</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Content -->
-    <div class="px-8 pb-[clamp(48px,10vw,128px)]">
-      <div class="max-w-[1800px] mx-auto">
-        <!-- Hero Section -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-32">
-          <!-- Bio -->
-          <div class="max-w-xl">
-            <p class="text-[clamp(20px,2.5vw,32px)] font-light leading-[1.2] mb-8">
-              Als Digital Designer und Developer kreiere ich digitale Erlebnisse, die Menschen begeistern. Mit einem Auge für Details und einer Leidenschaft für Innovation verbinde ich Design und Technologie.
-            </p>
-            <p class="text-[#E5E5E5]/80 text-[clamp(16px,1.5vw,20px)] leading-relaxed">
-              Mein Ziel ist es, durch die perfekte Balance zwischen ästhetischem Design und technischer Exzellenz einzigartige digitale Lösungen zu schaffen.
+    <!-- Tech Stack Section -->
+    <section class="py-24 bg-background-secondary/20">
+      <div class="container mx-auto px-8">
+        <div class="max-w-4xl mx-auto space-y-12 tech-stack">
+          <div>
+            <h2 class="text-fluid-lg font-medium text-text-primary mb-3">Tech Stack & Tools</h2>
+            <p class="text-fluid-sm text-text-secondary">
+              Als leidenschaftlicher Designer und Entwickler setze ich auf moderne Technologien, 
+              die es mir ermöglichen, beeindruckende und maßgeschneiderte digitale Erlebnisse zu schaffen. 
+              Mein Fokus liegt dabei immer auf der perfekten Balance zwischen Ästhetik und Funktionalität.
             </p>
           </div>
 
-          <!-- Image -->
-          <div class="relative aspect-[3/4] md:aspect-[4/5] overflow-hidden rounded-2xl">
-            <img 
-              src="/images/portrait-fabian-1683x1920.jpg" 
-              alt="Fabian Paul"
-              class="w-full h-full object-cover object-[center_20%] transition-transform duration-700 hover:scale-105"
-            />
-          </div>
-        </div>
-
-        <!-- Skills Section -->
-        <div class="mb-32">
-          <h2 class="text-[#0F0] text-sm uppercase tracking-wider font-light mb-16">Expertise</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
-            {skills.map(section => (
-              <div class="space-y-6">
-                <h3 class="text-[clamp(18px,1.5vw,24px)] font-medium">
-                  {section.category}
-                </h3>
-                <ul class="space-y-3">
-                  {section.items.map(item => (
-                    <li class="text-[#E5E5E5]/80 text-[clamp(16px,1.5vw,20px)] font-light">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {techStack.map((tech) => (
+              <TechCard 
+                client:visible 
+                name={tech.name} 
+                category={tech.category} 
+                description={tech.description}
+                icon={tech.icon}
+              />
             ))}
           </div>
         </div>
-
-        <!-- Contact Section -->
-        <div class="border-t border-[#E5E5E5]/10 pt-32">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-            <!-- Contact -->
-            <div class="space-y-6">
-              <h2 class="text-[#0F0] text-sm uppercase tracking-wider font-light">Contact</h2>
-              <div class="space-y-3">
-                <a 
-                  href="mailto:hello@fabian-paul.design"
-                  class="block text-[clamp(16px,1.5vw,20px)] hover:text-[#0F0] transition-colors"
-                >
-                  hello@fabian-paul.design
-                </a>
-                <a 
-                  href="tel:+4915901443805"
-                  class="block text-[clamp(16px,1.5vw,20px)] hover:text-[#0F0] transition-colors"
-                >
-                  +49 159 01 44 38 05
-                </a>
-              </div>
-            </div>
-
-            <!-- Social -->
-            <div class="space-y-6">
-              <h2 class="text-[#0F0] text-sm uppercase tracking-wider font-light">Social</h2>
-              <div class="flex gap-8">
-                <a 
-                  href="#" 
-                  class="text-[clamp(16px,1.5vw,20px)] hover:text-[#0F0] transition-colors"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  LinkedIn
-                </a>
-                <a 
-                  href="#" 
-                  class="text-[clamp(16px,1.5vw,20px)] hover:text-[#0F0] transition-colors"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Instagram
-                </a>
-                <a 
-                  href="#" 
-                  class="text-[clamp(16px,1.5vw,20px)] hover:text-[#0F0] transition-colors"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Xing
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
+    </section>
   </main>
 
   <Footer />
 </Layout>
 
-<style>
-  img {
-    transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+<script>
+// Initialisiere die Animationen
+const initAboutAnimations = () => {
+  console.log('initAboutAnimations wurde aufgerufen');
+
+  if (typeof window.gsap === 'undefined') {
+    console.warn('GSAP ist nicht geladen');
+    return;
   }
 
-  img:hover {
-    transform: scale(1.05);
+  console.log('GSAP ist geladen');
+
+  // Stelle sicher, dass ScrollTrigger registriert ist
+  window.gsap.registerPlugin(ScrollTrigger);
+  console.log('ScrollTrigger wurde registriert');
+
+  // Hero Content Animation
+  const mainTimeline = window.gsap.timeline({
+    scrollTrigger: {
+      trigger: "#main-content",
+      start: "top center",
+      end: "bottom center",
+      once: true,
+      markers: true,
+      onEnter: () => console.log('mainTimeline wurde getriggert')
+    }
+  });
+
+  // Hero Content Animation
+  mainTimeline
+    .from(".animate-image", {
+      opacity: 0,
+      y: 50,
+      duration: 0.8
+    })
+    .from(".hero-content h1", {
+      opacity: 0,
+      y: 30,
+      duration: 0.6
+    }, "-=0.3")
+    .from(".hero-content .text-fluid-base", {
+      opacity: 0,
+      y: 30,
+      duration: 0.6
+    }, "-=0.3")
+    .from(".hero-content .space-y-4 p", {
+      opacity: 0,
+      y: 30,
+      stagger: 0.2,
+      duration: 0.6
+    }, "-=0.3")
+    .from(".hero-content .space-y-3", {
+      opacity: 0,
+      y: 30,
+      duration: 0.6
+    }, "-=0.3")
+    .from(".hero-content .grid.grid-cols-2", {
+      opacity: 0,
+      y: 30,
+      duration: 0.6
+    }, "-=0.3");
+
+  // Tech Stack Animation
+  const techTimeline = window.gsap.timeline({
+    scrollTrigger: {
+      trigger: ".tech-stack",
+      start: "top center",
+      end: "bottom center",
+      once: true,
+      markers: true
+    }
+  });
+
+  techTimeline
+    .from(".tech-stack h2", {
+      opacity: 0,
+      y: 30,
+      duration: 0.6
+    })
+    .from(".tech-stack p", {
+      opacity: 0,
+      y: 30,
+      duration: 0.6
+    }, "-=0.3")
+    .from("div[data-tech-card]", {
+      opacity: 0,
+      y: 30,
+      duration: 0.6,
+      stagger: 0.15,
+      ease: "power2.out"
+    }, "-=0.3");
+
+  // Bild Hover Effect
+  const imageContainer = document.querySelector('.animate-image');
+  if (imageContainer) {
+    const mainImage = imageContainer.querySelector('img:first-child');
+    const secondImage = imageContainer.querySelector('img:last-child');
+
+    imageContainer.addEventListener('mouseenter', () => {
+      window.gsap.to([mainImage, secondImage], {
+        scale: 1.05,
+        opacity: (i) => i === 1 ? 1 : 1,
+        duration: 0.5,
+        ease: "power2.out"
+      });
+    });
+
+    imageContainer.addEventListener('mouseleave', () => {
+      window.gsap.to([mainImage, secondImage], {
+        scale: 1,
+        opacity: (i) => i === 1 ? 0 : 1,
+        duration: 0.5,
+        ease: "power2.out"
+      });
+    });
   }
-</style> 
+};
+
+// Initialize animations
+console.log('Script wird geladen');
+window.addEventListener('load', () => {
+  console.log('Window load event wurde ausgelöst');
+  initAboutAnimations();
+});
+document.addEventListener('astro:page-load', () => {
+  console.log('Astro page load event wurde ausgelöst');
+  initAboutAnimations();
+});
+</script> 

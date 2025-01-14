@@ -29,6 +29,9 @@ onMounted(() => {
       el.addEventListener('mouseenter', onLinkHover)
       el.addEventListener('mouseleave', onLinkLeave)
     })
+    
+    // Add class to html element
+    document.documentElement.classList.add('has-custom-cursor')
   }
 })
 
@@ -42,6 +45,9 @@ onUnmounted(() => {
     el.removeEventListener('mouseenter', onLinkHover)
     el.removeEventListener('mouseleave', onLinkLeave)
   })
+  
+  // Remove class when cursor is unmounted
+  document.documentElement.classList.remove('has-custom-cursor')
 })
 
 const onMouseMove = (e) => {
@@ -161,17 +167,3 @@ const onLinkLeave = () => {
   }
 }
 </style>
-
-<script>
-// Add class to html element when cursor is mounted
-onMounted(() => {
-  if (window.matchMedia('(pointer: fine)').matches && !navigator.userAgent.includes('Firefox')) {
-    document.documentElement.classList.add('has-custom-cursor')
-  }
-})
-
-// Remove class when cursor is unmounted
-onUnmounted(() => {
-  document.documentElement.classList.remove('has-custom-cursor')
-})
-</script>

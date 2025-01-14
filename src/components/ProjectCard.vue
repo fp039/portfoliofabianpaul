@@ -13,8 +13,8 @@
       class="absolute inset-0 bg-background/80 flex flex-col justify-center items-center p-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
       ref="content"
     >
-      <h3 class="text-2xl font-bold mb-2">{{ title }}</h3>
-      <p class="text-text-secondary text-center">{{ description }}</p>
+      <h3 class="text-h5 font-medium leading-tight tracking-[0.02em] mb-4">{{ title }}</h3>
+      <p class="text-fluid-sm font-light leading-snug text-center text-text-secondary">{{ description }}</p>
     </div>
   </div>
 </template>

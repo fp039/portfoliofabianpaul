@@ -13,7 +13,19 @@ export default {
         }
       },
       fontFamily: {
-        'tt-firs': ['TT Firs', 'sans-serif']
+        'tt-firs': ['TT Firs', 'sans-serif'],
+        'tt-firs-neue': ['"TT Firs Neue"', 'sans-serif'],
+      },
+      fontSize: {
+        'fluid-xxsm': 'clamp(0.875rem, 1.5vw, 1rem)',
+        'fluid-xsm': 'clamp(0.9rem, 1.5vw, 0.875rem)',
+        'fluid-sm': 'clamp(1rem, 1.5vw, 1.194rem)',
+        'fluid-base': 'clamp(1.25rem, 2vw, 1.75rem)',
+        'fluid-lg': 'clamp(1.5rem, 2.5vw, 2.032rem)',
+        'fluid-xl': 'clamp(2rem, 4vw, 3.953rem)',
+        'fluid-2xl': 'clamp(2.5rem, 5vw, 4.875rem)',
+        'fluid-3xl': 'clamp(3rem, 8vw, 7.383rem)',
+        'fluid-4xl': 'clamp(5rem, 15vw, 11.25rem)',
       },
       letterSpacing: {
         'tight': '-0.02em',
@@ -88,6 +100,10 @@ export default {
           },
         },
       },
+      fontWeight: {
+        light: 300,
+        medium: 500,
+      }
     },
   },
   plugins: [
