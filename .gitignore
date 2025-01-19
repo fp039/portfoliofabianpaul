@@ -156,3 +156,16 @@ Temporary Items
 # Vue.js and related tools
 docs/_book
 test/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+dist/
+.astro/
+
+# .idea
+.idea/

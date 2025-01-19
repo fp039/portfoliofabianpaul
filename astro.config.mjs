@@ -6,5 +6,6 @@ export default defineConfig({
   integrations: [tailwind(), vue()],
   devToolbar: {
     enabled: false
-  }
+  },
+  output: 'server'
 });

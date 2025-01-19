@@ -120,9 +120,18 @@ export default {
       this.isSubmitting = true;
       
       try {
-        // Hier kommt später die E-Mail-Versand-Logik
-        console.log('Form submitted:', this.formData);
-        
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.formData)
+        });
+
+        if (!response.ok) {
+          throw new Error('Netzwerkfehler');
+        }
+
         // Formular zurücksetzen
         this.formData = {
           name: '',
