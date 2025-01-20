@@ -32,8 +32,10 @@ const imageGroups = {
       <!-- Main Heading -->
       <div class="text-center">
         <h1 class="flex flex-col gap-4 leading-none tracking-[0.02em]">
-          <div class="flex items-center justify-center gap-6 lg:gap-10">
-            <div class="relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
+          <!-- Digital + Image -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-6 lg:gap-10">
+            <!-- Mobile: Image nach oben und zum Rand gepusht -->
+            <div class="absolute -top-[130px] -left-8 md:relative md:top-0 md:left-0 w-[clamp(140px,45vw,220px)] md:w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
               {imageGroups.topLeft.map((src, index) => (
                 <img 
                   src={src}
@@ -44,15 +46,21 @@ const imageGroups = {
                 />
               ))}
             </div>
-            <span class="text-transparent [-webkit-text-stroke:1.514px_#0F0] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+            <span 
+              class="text-transparent [-webkit-text-stroke:1px_#0F0] uppercase text-balance" 
+              style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;"
+            >
               Digital
             </span>
           </div>
-          <div class="flex items-center justify-center gap-6 lg:gap-10">
-            <span class="text-[#0F0] [-webkit-text-stroke:1.514px_#0F0] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+
+          <!-- Experiences -->
+          <div class="flex items-center justify-center">
+            <span class="text-[#0F0] [-webkit-text-stroke:1px_#0F0] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
               Experiences
             </span>
-            <div class="relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
+            <!-- Bild nur auf Desktop sichtbar -->
+            <div class="hidden md:block relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
               {imageGroups.topRight.map((src, index) => (
                 <img 
                   src={src}
@@ -64,8 +72,11 @@ const imageGroups = {
               ))}
             </div>
           </div>
-          <div class="flex items-center justify-center gap-6 lg:gap-10">
-            <div class="relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
+
+          <!-- & Creative -->
+          <div class="flex items-center justify-center">
+            <!-- Bild nur auf Desktop sichtbar -->
+            <div class="hidden md:block relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden mr-10">
               {imageGroups.bottomLeft.map((src, index) => (
                 <img 
                   src={src}
@@ -80,11 +91,17 @@ const imageGroups = {
               & Creative
             </span>
           </div>
-          <div class="flex items-center justify-center gap-6 lg:gap-10">
-            <span class="text-transparent [-webkit-text-stroke:1.514px_#E5E5E5] uppercase text-balance" style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;">
+
+          <!-- Branding + Image -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-6 lg:gap-10 relative">
+            <span 
+              class="text-transparent [-webkit-text-stroke:1px_#E5E5E5] uppercase text-balance" 
+              style="font-size: clamp(3rem, 8vw, 7.383rem); font-weight: 500;"
+            >
               Branding
             </span>
-            <div class="relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
+            <!-- Mobile: Bild nach unten und zum Rand gepusht -->
+            <div class="absolute -bottom-[130px] -right-8 md:relative md:bottom-0 md:right-0 w-[clamp(140px,45vw,220px)] md:w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
               {imageGroups.bottomRight.map((src, index) => (
                 <img 
                   src={src}
@@ -98,12 +115,12 @@ const imageGroups = {
           </div>
         </h1>
       </div>
-      
-      <RotatingCircle />
     </div>
   </div>
   
-  <ScrollIndicator />
+  <div class="pb-5 md:pb-0">
+    <ScrollIndicator />
+  </div>
 </section>
 
 <script>
@@ -158,12 +175,6 @@ const imageGroups = {
   span {
     line-height: 1.1;
     letter-spacing: clamp(0.02em, 0.5vw, 0.04em);
-  }
-
-  /* Adjust stroke width responsively */
-  .[-webkit-text-stroke\:1\.514px_#0F0],
-  .[-webkit-text-stroke\:1\.514px_#E5E5E5] {
-    -webkit-text-stroke-width: clamp(1px, 0.15vw, 1.514px);
   }
 
   /* Optimize spacing for different screen sizes */

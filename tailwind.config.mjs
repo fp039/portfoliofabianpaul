@@ -26,6 +26,10 @@ export default {
         'fluid-2xl': 'clamp(2.5rem, 5vw, 4.875rem)',
         'fluid-3xl': 'clamp(3rem, 8vw, 7.383rem)',
         'fluid-4xl': 'clamp(5rem, 15vw, 11.25rem)',
+        'nav-title': 'clamp(2rem, min(7vh, 7vw), 7rem)',
+        'nav-title-large': 'clamp(2rem, 5vw, 4.5rem)',
+        'nav-contact': 'clamp(14px, 1.5vw, 20px)',
+        'nav-social': 'clamp(20px, 3vw, 30px)'
       },
       letterSpacing: {
         'tight': '-0.02em',
@@ -103,6 +107,12 @@ export default {
       fontWeight: {
         light: 300,
         medium: 500,
+      },
+      spacing: {
+        'nav-top': 'clamp(28px, 4vh, 36px)',
+        'nav-padding': 'clamp(64px, 12vh, 96px)',
+        'nav-spacing': '2rem',
+        'nav-bottom': 'clamp(28px, 5vh, 48px)'
       }
     },
   },

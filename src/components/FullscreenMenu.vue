@@ -1,10 +1,13 @@
 <template>
   <div 
-    class="fixed inset-0 z-50 overflow-hidden pointer-events-none"
+    class="fixed inset-0 z-[88] overflow-hidden pointer-events-none"
     :class="isOpen ? 'translate-y-0' : '-translate-y-full'"
-    :style="{ transitionDelay: isOpen ? '0ms' : '1000ms' }"
+    :style="{ 
+      transitionDelay: isOpen ? '0ms' : '1200ms',
+      transitionDuration: '500ms'
+    }"
   >
-    <!-- Background Layer mit Animation -->
+    <!-- Background Layer -->
     <div 
       class="absolute top-[28px] right-[48px] rounded-full bg-[#1E1E1E] transition-all duration-1000 ease-[cubic-bezier(0.87,0,0.13,1)] pointer-events-auto"
       :class="isOpen ? 'scale-[200] opacity-100' : 'scale-[0.1] opacity-0'"
@@ -12,39 +15,45 @@
         width: '40px',
         height: '40px',
         transformOrigin: 'center center',
-        transitionDelay: isOpen ? '0ms' : '400ms'
+        transitionDelay: isOpen ? '0ms' : '700ms'
       }"
     ></div>
 
     <div class="h-full relative pointer-events-auto">
-      <!-- Logo & Slogan -->
-      <div 
-        class="absolute top-[28px] left-16 flex items-center gap-6 transition-all duration-700"
-        :class="isOpen ? 'opacity-100 translate-y-0 delay-500' : 'opacity-0 -translate-y-8 delay-[300ms]'"
-      >
-        <span class="text-[#E5E5E5] text-[36px] font-medium tracking-tight leading-[0.9]">
-          FABIAN<br>PAUL
-        </span>
-        <span class="text-[#E5E5E5]/60 text-[20px] font-light leading-[1.2]">
-          digital experiences<br>& creative branding
-        </span>
-      </div>
+       <!-- Logo & Slogan -->
+       <div 
+       class="absolute top-nav-top left-16 flex items-center gap-6 transition-all duration-500"
+       :class="isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'"
+       :style="{
+         transitionDelay: isOpen ? '800ms' : '0ms'
+       }"
+     >
+       <span class="text-[#E5E5E5] text-[36px] font-medium tracking-tight leading-[0.9]">
+         FABIAN<br>PAUL
+       </span>
+       <span class="text-[#E5E5E5]/60 text-[20px] font-medium leading-[1.2] hidden md:block">
+         digital experiences<br>& creative branding
+       </span>
+     </div>
 
       <!-- Contact Info Top Right -->
       <div 
-        class="absolute top-0 right-20 pt-64 transition-all duration-700 z-50"
-        :class="isOpen ? 'opacity-100 translate-y-0 delay-[900ms]' : 'opacity-0 -translate-y-8 delay-[200ms]'"
+        class="absolute top-0 right-20 pt-nav-padding transition-all duration-500 z-50"
+        :class="isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'"
+        :style="{
+          transitionDelay: isOpen ? '900ms' : '0ms'
+        }"
       >
-        <div class="flex flex-col items-end whitespace-nowrap">
+        <div class="flex flex-col items-end whitespace-nowra pt-10">
           <a 
             href="tel:+4915901443805" 
-            class="text-[#E5E5E5] text-[clamp(16px,2vw,20px)] hover:text-[#0F0] transition-colors duration-300 cursor-pointer pointer-events-auto"
+            class="text-[#E5E5E5] text-[14px] md:text-nav-contact hover:text-[#0F0] transition-colors duration-300 cursor-pointer pointer-events-auto"
           >
             +49 159 01 44 38 05
           </a>
           <a 
             href="mailto:hello@fabian-paul.design" 
-            class="text-[#E5E5E5] text-[clamp(16px,2vw,20px)] hover:text-[#0F0] transition-colors duration-300 mt-2 cursor-pointer pointer-events-auto"
+            class="text-[#E5E5E5] text-[14px] md:text-nav-contact hover:text-[#0F0] transition-colors duration-300 cursor-pointer pointer-events-auto"
           >
             hello@fabian-paul.design
           </a>
@@ -54,63 +63,70 @@
       <!-- Hauptcontainer mit Navigation -->
       <div class="h-full flex flex-col">
         <!-- Navigation Links -->
-        <div class="flex-grow pt-64 px-4 pl-16">
-          <div class="space-y-4">
-            <div 
-              v-for="(item, index) in menuItems" 
-              :key="item.path"
-              class="flex items-baseline gap-8 transition-all duration-700"
-              :class="isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'"
-              :style="{
-                transitionDelay: isOpen 
-                  ? `${700 + (index * 100)}ms`
-                  : `${700 - (index * 100)}ms`
-              }"
-            >
-              <span class="text-[#0F0] text-sm uppercase tracking-wider font-light">
-                {{ String(index + 1).padStart(2, '0') }}
-              </span>
-              <a 
-                :href="item.path" 
-                class="rolling-text text-[clamp(2.5rem,8vw,6rem)] font-medium leading-[0.9] tracking-tight pointer-events-auto"
-                @click="$emit('close')"
+        <div class="flex-grow flex items-center justify-center">
+          <div class="w-[90%] max-w-[1400px]">
+            <div class="space-y-nav-spacing">
+              <div 
+                v-for="(item, index) in menuItems" 
+                :key="item.path"
+                class="flex items-center gap-8 transition-all duration-500"
+                :class="isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'"
+                :style="{
+                  transitionDelay: isOpen 
+                    ? `${1000 + (index * 100)}ms`
+                    : '0ms'
+                }"
               >
-                <div class="block">
-                  <span 
-                    v-for="(letter, letterIndex) in item.name" 
-                    :key="letterIndex"
-                    class="letter inline-block"
-                    :style="{ transitionDelay: `${letterIndex * 0.05}s` }"
-                  >
-                    {{ letter === ' ' ? '\xa0' : letter }}
+                <div class="w-[32px] flex justify-end">
+                  <span class="text-[#0F0] text-sm uppercase tracking-wider font-light">
+                    {{ String(index + 1).padStart(2, '0') }}
                   </span>
                 </div>
-                <div class="block text-[#0F0]">
-                  <span 
-                    v-for="(letter, letterIndex) in item.name" 
-                    :key="letterIndex"
-                    class="letter inline-block"
-                    :style="{ transitionDelay: `${letterIndex * 0.05}s` }"
-                  >
-                    {{ letter === ' ' ? '\xa0' : letter }}
-                  </span>
-                </div>
-              </a>
+                <a 
+                  :href="item.path" 
+                  class="rolling-text font-medium tracking-tight pointer-events-auto text-nav-title"
+                  @click="$emit('close')"
+                >
+                  <div class="block">
+                    <span 
+                      v-for="(letter, letterIndex) in item.name" 
+                      :key="letterIndex"
+                      class="letter inline-block"
+                      :style="{ transitionDelay: `${letterIndex * 0.05}s` }"
+                    >
+                      {{ letter === ' ' ? '\xa0' : letter }}
+                    </span>
+                  </div>
+                  <div class="block text-[#0F0]">
+                    <span 
+                      v-for="(letter, letterIndex) in item.name" 
+                      :key="letterIndex"
+                      class="letter inline-block"
+                      :style="{ transitionDelay: `${letterIndex * 0.05}s` }"
+                    >
+                      {{ letter === ' ' ? '\xa0' : letter }}
+                    </span>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Social Links -->
         <div 
-          class="absolute bottom-0 right-0 pb-28 pr-20 transition-all duration-700"
-          :class="isOpen ? 'opacity-100 translate-y-0 delay-[800ms]' : 'opacity-0 translate-y-8 delay-[100ms]'"
+          class="absolute bottom-0 right-0 pb-nav-bottom pr-20 transition-all duration-500"
+          :class="isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
+          :style="{
+            transitionDelay: isOpen ? '1400ms' : '0ms'
+          }"
         >
           <div class="flex gap-8">
             <a 
               v-for="(social, index) in socials" 
               :key="social"
               :href="getSocialLink(social)"
-              class="text-[#0F0] text-[clamp(20px,3vw,30px)] font-light hover:translate-y-[-5px] transition-transform duration-200"
+              class="text-[#0F0] text-nav-social font-light hover:translate-y-[-5px] transition-transform duration-200"
               target="_blank"
               rel="noopener noreferrer"
               :style="{
@@ -129,7 +145,7 @@
 </template>
 
 <script setup>
-import { watch } from 'vue'
+import { watch, ref } from 'vue'
 
 const menuItems = [
   { name: 'Home', path: '/' },
@@ -194,19 +210,40 @@ const getSocialLink = (social) => {
 .block {
   height: 100%;
   line-height: 1;
+  position: relative;
 }
 
 .block:last-child {
   position: absolute;
-  top: 100%;
+  top: 98%;
   left: 0;
+  width: 100%;
 }
 
 .letter {
   transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+  display: inline-block;
 }
 
 .rolling-text:hover .letter {
   transform: translateY(-100%);
+}
+
+/* Option 1: Mit Transform */
+.block:first-child {
+  transform: translateY(-0.05em); /* Negative Werte bewegen nach oben */
+}
+
+/* ODER Option 2: Mit Padding */
+.block:first-child {
+  padding-top: 0.05em;    /* Verschiebt Text nach unten */
+  /* oder */
+  padding-bottom: 0.05em; /* Verschiebt Text nach oben */
+}
+
+/* ODER Option 3: Mit Position relative */
+.block:first-child {
+  position: relative;
+  top: -0.05em; /* Negative Werte bewegen nach oben */
 }
 </style>

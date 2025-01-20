@@ -3,17 +3,21 @@ import BlogLayout from './BlogLayout.astro';
 import type { MarkdownLayoutProps } from 'astro';
 import '../styles/prose.css';
 
-type Props = MarkdownLayoutProps<{
-  title: string;
-  date: string;
-  author: string;
-  image: string;
-  tags: string[];
-}>;
+interface Props {
+  frontmatter: {
+    title?: string;
+    date?: Date | string;
+    author?: string;
+    image?: string;
+    tags?: string[];
+    file: string;
+    url: string;
+  }
+}
 
 const { frontmatter } = Astro.props;
 
-const formatDate = (date: string) => {
+const formatDate = (date: Date | string) => {
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -37,7 +41,7 @@ const formatDate = (date: string) => {
         
         <div class="space-y-6">
           <div class="flex items-center gap-4 text-text-secondary">
-            <time datetime={frontmatter.date} class="text-fluid-sm">
+            <time datetime={frontmatter.date?.toString()} class="text-fluid-sm">
               {formatDate(frontmatter.date)}
             </time>
             <span class="w-1 h-1 rounded-full bg-accent"></span>
