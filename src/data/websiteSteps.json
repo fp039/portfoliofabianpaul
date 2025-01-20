@@ -3,7 +3,7 @@
     {
       "stepNumber": "Schritt 1",
       "title": "Erstgespräch",
-      "description": "Wir lernen uns kennen und besprechen deine Ziele und<br>Wünsche. Ganz entspannt – online oder vor Ort."
+      "description": "Wir lernen uns kennen und besprechen deine Ziele und Wünsche. Ganz entspannt – online oder vor Ort."
     },
     {
       "stepNumber": "Schritt 2",
@@ -15,11 +15,11 @@
       "stepNumber": "Schritt 3",
       "duration": "2 Werktage",
       "title": "Angebotserstellung",
-      "description": "Transparenz ist wichtig: Du erhältst ein faires Angebot,<br>das genau zu deinen Anforderungen passt."
+      "description": "Transparenz ist wichtig: Du erhältst ein faires Angebot, das genau zu deinen Anforderungen passt."
     },
     {
       "stepNumber": "Schritt 4",
-      "duration": "Sobald das go da ist",
+      "duration": "Wenn das go da ist",
       "title": "Projektstart",
       "description": "Nach der Zusage geht\u2019s los. Wir starten mit voller Energie und Kreativität."
     },
@@ -27,25 +27,25 @@
       "stepNumber": "Schritt 5",
       "duration": "5-10 Werktage",
       "title": "Content sammeln",
-      "description": "Gemeinsam entwickeln wir den Content, der deine<br>Website einzigartig macht – von authentischen Texten<br>bis hin zu beeindruckenden Bildern und Videos.<br>Dabei können auch Drohne und Kamera zum Einsatz<br>kommen, um Bewegtbild oder Fotos perfekt in Szene<br>zu setzen."
+      "description": "Gemeinsam entwickeln wir den Content, der deine Website einzigartig macht – von authentischen Texten bis hin zu beeindruckenden Bildern und Videos. Dabei können auch Drohne und Kamera zum Einsatz kommen, um Bewegtbild oder Fotos perfekt in Szene zu setzen."
     },
     {
       "stepNumber": "Schritt 6",
       "duration": "5-10 Werktage",
-      "title": "High-Fidelity-Mockup mit Animation",
+      "title": "High-Fidelity-Mockup",
       "description": "Deine Website wird lebendig: Das detaillierte Design mit Animationen und Interaktionen entsteht."
     },
     {
       "stepNumber": "Schritt 7",
       "duration": "5-10 Werktage",
       "title": "Finaler Design Prototyp",
-      "description": "Deine Website wird lebendig: Das detaillierte Design<br>mit Animationen und Interaktionen entsteht."
+      "description": "Deine Website wird lebendig: Das detaillierte Design mit Animationen und Interaktionen entsteht."
     },
     {
       "stepNumber": "Schritt 8",
       "duration": "5-15 Werktage",
       "title": "Webentwicklung",
-      "description": "Ab hier wird\u2019s technisch: Ich entwickle deine Website mit modernsten Technologien wie Vue.js, Astro, GSAP und Tailwind CSS – für herausragende Performance, beeindruckende Animationen und ein erstklassiges Nutzererlebnis.<br><br>Benötigst du ein Backend? Kein Problem! Ich integriere entweder WordPress oder ein Headless CMS."
+      "description": "Ab hier wird\u2019s technisch: Ich entwickle deine Website mit modernsten Technologien wie Vue.js, Astro, GSAP und Tailwind CSS – für herausragende Performance, beeindruckende Animationen und ein erstklassiges Nutzererlebnis. Benötigst du ein Backend? Kein Problem! Ich integriere entweder WordPress oder ein Headless CMS."
     }
   ]
 }

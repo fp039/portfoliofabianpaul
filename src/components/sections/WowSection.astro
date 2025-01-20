@@ -11,39 +11,41 @@ import ScrollIndicator from '../ui/ScrollIndicator.astro';
   <div class="max-w-4xl mx-auto text-center relative z-10 flex flex-col items-center justify-center" id="wow-text">
     <h2 class="flex flex-col items-center gap-2 mb-8">
       <div class="overflow-hidden">
-        <span class="block transform italic text-[#E5E5E5] opacity-0" id="line1" style="font-size: clamp(1.5rem, 2.5vw, 2.032rem); font-weight: 300; line-height: 1.1; letter-spacing: 0.01em;">
-          Schon mal auf einer Website
+        <span 
+          class="block transform italic text-text-primary opacity-0 text-wow-headline leading-wow tracking-wow font-light max-w-[800px] mx-auto" 
+          id="line1"
+        >
+          Warst du schon mal auf einer Website<br class="hidden sm:block"> und hast dir gedacht:
         </span>
       </div>
-      <div class="overflow-hidden">
-        <span class="block transform italic text-[#E5E5E5] opacity-0" id="line2" style="font-size: clamp(1.5rem, 2.5vw, 2.032rem); font-weight: 300; line-height: 1.1; letter-spacing: 0.01em;">
-          gewesen und dir gedacht
-        </span>
-      </div>
+      
       <div class="overflow-visible h-[clamp(100px,20vw,200px)] flex items-center justify-center relative mt-4 mb-4" id="wow-container">
         <!-- Glow effect layers -->
         <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
           <span class="text-accent blur-[30px] opacity-0 absolute" id="wow-glow-outer" style="font-size: clamp(5rem, 15vw, 11.25rem); font-weight: 500; line-height: 1;">
-            WOW
+            WOW!
           </span>
           <span class="text-accent blur-[15px] opacity-0 absolute" id="wow-glow-inner" style="font-size: clamp(5rem, 15vw, 11.25rem); font-weight: 500; line-height: 1;">
-            WOW
+            WOW!
           </span>
         </div>
         <!-- Main WOW text -->
-        <span class="text-accent translate-z-0 opacity-0 relative" id="wow-word" style="font-size: clamp(5rem, 15vw, 11.25rem); font-weight: 500; line-height: 1;">
-          WOW
+        <span 
+          class="text-accent translate-z-0 opacity-0 relative text-wow-main font-medium leading-none" 
+          id="wow-word"
+        >
+          WOW!
         </span>
       </div>
     </h2>
     
     <div class="overflow-hidden w-full mt-4">
       <div class="text-center space-y-2 text-text-primary">
-        <p class="italic opacity-0" id="help1" style="font-size: clamp(1.5rem, 2.5vw, 2.032rem); font-weight: 300; line-height: 1.1; letter-spacing: 0.01em;">
-          Ich helfe dir, genau dieses Erlebnis
-        </p>
-        <p class="italic opacity-0" id="help2" style="font-size: clamp(1.5rem, 2.5vw, 2.032rem); font-weight: 300; line-height: 1.1; letter-spacing: 0.01em;">
-          bei deinen Kunden zu schaffen!
+        <p 
+          class="italic opacity-0 text-text-primary text-wow-headline leading-wow tracking-wow font-light max-w-[800px] mx-auto" 
+          id="help1"
+        >
+          Ich helfe dir, genau dieses Erlebnis<br class="hidden sm:block"> bei deinen Kunden zu schaffen!
         </p>
       </div>
     </div>

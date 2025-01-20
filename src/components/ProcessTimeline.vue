@@ -5,7 +5,7 @@
       class="absolute h-full w-px bg-white"
       :class="{
         'md:left-1/2 md:-translate-x-1/2': true,
-        'left-[14px]': true // Align with the center of the dots in mobile
+        'left-[15px]': true // Align with the center of the dots in mobile
       }"
     ></div>
     
@@ -20,22 +20,22 @@
         <div class="md:hidden flex items-start">
           <!-- Timeline Dot -->
           <div class="relative shrink-0 w-7">
-            <div class="w-4 h-4 rounded-full bg-accent absolute top-[10px] left-1/2 transform -translate-x-1/2"></div>
+            <div class="w-4 h-4 rounded-full bg-accent absolute left-1/2 ml-1 transform -translate-x-1/2"></div>
           </div>
           
           <!-- Content -->
-          <div class="flex-1">
+          <div class="flex-1 ml-8">
             <!-- Step Number -->
-            <div class="text-accent text-[clamp(16px,2vw,19px)] font-normal tracking-[1.9px] uppercase leading-[1.5] mb-2">
+            <div class="text-accent text-fluid-sm font-medium tracking-[1.9px] uppercase leading-[1.5] mb-2">
               {{ step.stepNumber }}
-              <span v-if="step.duration" class="text-accent ml-2">| {{ step.duration }}</span>
+              <span v-if="step.duration" class="text-accent text-fluid-sm uppercase tracking-wider font-medium">| {{ step.duration }}</span>
             </div>
             <!-- Title -->
             <h3 class="text-[clamp(24px,3vw,32px)] font-medium text-white leading-[1.2] tracking-[0.02em] mb-4">
               {{ step.title }}
             </h3>
             <!-- Description -->
-            <p class="text-[clamp(16px,2vw,19px)] font-medium leading-[1.3] text-white" v-html="step.description"></p>
+            <p class="text-[clamp(16px,2vw,19px)] font-light leading-[1.3] text-white" v-html="step.description"></p>
           </div>
         </div>
 
@@ -48,11 +48,11 @@
               <span v-if="step.duration" class="text-accent ml-2">| {{ step.duration }}</span>
             </div>
             <!-- Title -->
-            <h3 class="text-[clamp(24px,3vw,32px)] font-medium text-white leading-[1.2] tracking-[0.02em] mb-4">
+            <h3 class="text-fluid-2xl font-medium text-white leading-[1.2] tracking-[0.02em] mb-4">
               {{ step.title }}
             </h3>
             <!-- Description -->
-            <p class="text-[clamp(16px,2vw,19px)] font-medium leading-[1.3] text-white" v-html="step.description"></p>
+            <p class="text-fluid-lg font-light leading-[1.3] text-white" v-html="step.description"></p>
           </div>
           
           <!-- Timeline Dot -->

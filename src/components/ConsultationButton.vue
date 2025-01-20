@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <a 
-      href="#contact" 
+      href="/contact" 
       class="flex items-center group relative"
       @mouseenter="onButtonEnter"
       @mouseleave="onButtonLeave"

@@ -16,12 +16,9 @@ const allCategories = [...new Set(projects.flatMap(project => project.data.categ
   
   <main class="bg-[#1E1E1E] min-h-screen">
     <!-- Header -->
-    <div class="pt-32 pb-16 px-8">
+    <div class="pt-48 pb-16 px-8">
       <div class="max-w-[1800px] mx-auto">
         <div class="max-w-4xl flex flex-col gap-[clamp(16px,2.5vw,24px)]">
-          <span class="text-accent text-fluid-sm uppercase tracking-wider font-light">
-            ALL NEW
-          </span>  
           <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
             <h1 class="text-fluid-3xl font-medium leading-[0.9] tracking-tight pb-4">
               Projects
@@ -31,14 +28,14 @@ const allCategories = [...new Set(projects.flatMap(project => project.data.categ
               <div class="max-w-[1800px] mx-auto">
                 <div class="flex flex-wrap gap-[clamp(8px,1vw,10px)]">
                   <button 
-                    class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-fluid-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn active"
+                    class="px-4 py-2 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-fluid-xs uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn active"
                     data-filter="all"
                   >
                     Alle
                   </button>
                   {allCategories.map(category => (
                     <button 
-                      class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-fluid-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn"
+                      class="px-4 py-2 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-fluid-xs uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300 filter-btn"
                       data-filter={category}
                     >
                       {category === 'auswahl' ? 'Auswahl' : 
@@ -63,7 +60,7 @@ const allCategories = [...new Set(projects.flatMap(project => project.data.categ
             <div class={`${project.data.featured ? "md:col-span-2" : ""} space-y-[clamp(16px,3vw,32px)] project-item`} 
                  data-categories={project.data.categories.join(',')}>
               <a href={`/projects/${project.slug}`} class="block group">
-                <div class={`aspect-[16/9] overflow-hidden ${project.data.featured && !project.data.order === 2 ? "md:mr-48" : ""}`} data-speed={project.data.featured ? "0.01" : "-0.01"}>
+                <div class={`aspect-[16/9] overflow-hidden ${project.data.featured && !project.data.order === 2 ? "md:mr-48" : ""}`}>
                   <img 
                     src={project.data.image}
                     alt={project.data.title}
@@ -82,7 +79,7 @@ const allCategories = [...new Set(projects.flatMap(project => project.data.categ
                 </div>
                 <div class="flex flex-wrap gap-[clamp(6px,1vw,12px)]">
                   {project.data.tags.map(tag => (
-                    <span class="px-[clamp(12px,2vw,16px)] py-[clamp(6px,1vw,8px)] rounded-full border border-[#E5E5E5]/20 text-[#E5E5E5]/60 text-fluid-xsm">
+                    <span class="px-3 py-1.5 rounded-full border border-[#E5E5E5]/20 text-[#E5E5E5]/60 text-fluid-xs">
                       {tag}
                     </span>
                   ))}
@@ -97,40 +94,6 @@ const allCategories = [...new Set(projects.flatMap(project => project.data.categ
 
   <Footer />
 </Layout>
-
-<script>
-  // Parallax Effect
-  const initParallax = () => {
-    const parallaxElements = document.querySelectorAll('[data-speed]');
-    
-    window.addEventListener('scroll', () => {
-      parallaxElements.forEach(element => {
-        const speed = parseFloat(element.getAttribute('data-speed'));
-        const rect = element.getBoundingClientRect();
-        const scrolled = window.pageYOffset;
-        
-        const yPos = -(scrolled * speed);
-        
-        // Limit the parallax effect
-        const maxOffset = 50; // Maximum pixel offset
-        const limitedYPos = Math.max(Math.min(yPos, maxOffset), -maxOffset);
-        
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          gsap.to(element, {
-            y: limitedYPos,
-            duration: 0.5,
-            ease: 'none'
-          });
-        }
-      });
-    });
-  };
-
-  window.addEventListener('load', () => {
-    if (typeof gsap === 'undefined') return;
-    initParallax();
-  });
-</script>
 
 <script>
   const initFilter = () => {

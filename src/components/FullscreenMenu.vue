@@ -22,7 +22,7 @@
     <div class="h-full relative pointer-events-auto">
        <!-- Logo & Slogan -->
        <div 
-       class="absolute top-nav-top left-16 flex items-center gap-6 transition-all duration-500"
+       class="absolute top-nav-top pl-16 flex items-center gap-6 transition-all duration-500"
        :class="isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'"
        :style="{
          transitionDelay: isOpen ? '800ms' : '0ms'
@@ -63,8 +63,8 @@
       <!-- Hauptcontainer mit Navigation -->
       <div class="h-full flex flex-col">
         <!-- Navigation Links -->
-        <div class="flex-grow flex items-center justify-center">
-          <div class="w-[90%] max-w-[1400px]">
+        <div class="flex-grow flex items-center">
+          <div class="w-[90%] max-w-[1400px] pl-16">
             <div class="space-y-nav-spacing">
               <div 
                 v-for="(item, index) in menuItems" 

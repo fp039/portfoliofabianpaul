@@ -17,23 +17,33 @@ export default {
         'tt-firs-neue': ['"TT Firs Neue"', 'sans-serif'],
       },
       fontSize: {
-        'fluid-xxsm': 'clamp(0.875rem, 1.5vw, 1rem)',
-        'fluid-xsm': 'clamp(0.9rem, 1.5vw, 0.875rem)',
-        'fluid-sm': 'clamp(1rem, 1.5vw, 1.194rem)',
-        'fluid-base': 'clamp(1.25rem, 2vw, 1.75rem)',
-        'fluid-lg': 'clamp(1.5rem, 2.5vw, 2.032rem)',
-        'fluid-xl': 'clamp(2rem, 4vw, 3.953rem)',
-        'fluid-2xl': 'clamp(2.5rem, 5vw, 4.875rem)',
-        'fluid-3xl': 'clamp(3rem, 8vw, 7.383rem)',
-        'fluid-4xl': 'clamp(5rem, 15vw, 11.25rem)',
+        // Kleinere Größen für UI-Elemente und Nebentexte
+        'fluid-xxsm': 'clamp(0.75rem, 1vw, 0.875rem)',      // 12px - 14px
+        'fluid-xsm': 'clamp(0.875rem, 1.2vw, 1rem)',        // 14px - 16px
+        'fluid-sm': 'clamp(1rem, 1.5vw, 1.125rem)',         // 16px - 18px
+        
+        // Basis-Textgrößen
+        'fluid-base': 'clamp(1.125rem, 1.8vw, 1.25rem)',    // 18px - 20px
+        'fluid-lg': 'clamp(1.25rem, 2vw, 1.5rem)',          // 20px - 24px
+        
+        // Überschriften
+        'fluid-xl': 'clamp(1.5rem, 2.5vw, 2rem)',           // 24px - 32px
+        'fluid-2xl': 'clamp(2rem, 3.5vw, 2.5rem)',          // 32px - 40px
+        'fluid-3xl': 'clamp(2.5rem, 5vw, 3.5rem)',          // 40px - 56px
+        'fluid-4xl': 'clamp(3.5rem, 7vw, 5rem)',            // 56px - 80px
+        
+        // Spezielle Navigation und UI-Elemente bleiben unverändert
         'nav-title': 'clamp(2rem, min(7vh, 7vw), 7rem)',
         'nav-title-large': 'clamp(2rem, 5vw, 4.5rem)',
         'nav-contact': 'clamp(14px, 1.5vw, 20px)',
-        'nav-social': 'clamp(20px, 3vw, 30px)'
+        'nav-social': 'clamp(20px, 3vw, 30px)',
+        'wow-headline': 'clamp(1.5rem, 2.5vw, 2.032rem)',
+        'wow-main': 'clamp(5rem, 15vw, 11.25rem)',
       },
       letterSpacing: {
         'tight': '-0.02em',
-        'wider': '0.05em'
+        'wider': '0.05em',
+        'wow': '0.01em',
       },
       typography: {
         DEFAULT: {
@@ -113,6 +123,9 @@ export default {
         'nav-padding': 'clamp(64px, 12vh, 96px)',
         'nav-spacing': '2rem',
         'nav-bottom': 'clamp(28px, 5vh, 48px)'
+      },
+      lineHeight: {
+        'wow': '1.1',
       }
     },
   },
