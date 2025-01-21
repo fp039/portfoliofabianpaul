@@ -1,10 +1,19 @@
 <template>
   <div class="calendar-embed">
-    <div class="calendar-wrapper">
+    <button 
+      v-if="!showCalendar" 
+      @click="showCalendar = true"
+      class="calendar-button"
+    >
+      Kalender öffnen
+    </button>
+    
+    <div v-show="showCalendar" class="calendar-wrapper">
       <div class="cal-embed-container">
         <iframe
-          src="https://cal.com/fabianpauldesign/30min?theme=dark&hideEventTypeDetails=false&layout=month_view&hiddenFields=title,location&hideNavigation=true&hideCalendarNotes=true&hideExternalCalendarLink=true&hideTimeZone=true&hideBookingTabButton=true"
-          loading="lazy"
+          v-if="showCalendar"
+          :src="calendarUrl"
+          loading="eager"
           frameborder="0"
           allowtransparency="true"
           data-cal-link="fabianpauldesign/30min"
@@ -17,7 +26,13 @@
 
 <script>
 export default {
-  name: 'CalendarBooking'
+  name: 'CalendarBooking',
+  data() {
+    return {
+      showCalendar: false,
+      calendarUrl: 'https://cal.com/fabianpauldesign/30min?theme=dark&hideEventTypeDetails=false&layout=month_view&hiddenFields=title,location&hideNavigation=true&hideCalendarNotes=true&hideExternalCalendarLink=true&hideTimeZone=true&hideBookingTabButton=true'
+    }
+  }
 }
 </script>
 
@@ -27,26 +42,37 @@ export default {
   width: 100%;
 }
 
+.calendar-button {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.calendar-button:hover {
+  background: rgba(0, 255, 0, 0.1);
+}
+
 .calendar-wrapper {
   background: rgba(var(--background-secondary-rgb), 0.2);
   border-radius: 1rem;
-  padding-top: 2rem;
+  padding: 2rem 1rem;
   margin: 0 auto;
 }
 
 .cal-embed-container {
-  position: relative;
   width: 100%;
-  height: 800px;
+  height: 700px;
   border-radius: 0.75rem;
-  overflow: hidden;
   background: transparent;
+  overflow: hidden;
 }
 
 .cal-embed-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   border: none;

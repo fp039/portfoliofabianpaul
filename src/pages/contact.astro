@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import ContactForm from '../components/ContactForm.vue';
 import CalendarBooking from '../components/CalendarBooking.vue';
 
+// Verhindere Client-Side Markdown Imports
+export const prerender = true;
 ---
 
 <Layout title="Kontakt - Fabian Paul">
@@ -32,7 +34,9 @@ import CalendarBooking from '../components/CalendarBooking.vue';
                 Wähle einen passenden Termin für ein 30-minütiges Erstgespräch.
               </p>
             </div>
-            <CalendarBooking client:load />
+            <div class="calendar-container">
+              <CalendarBooking client:only="vue" />
+            </div>
           </div>
 
           <!-- Contact Form -->
@@ -54,6 +58,16 @@ import CalendarBooking from '../components/CalendarBooking.vue';
 </Layout>
 
 <script>
+// Verbesserte Scroll-Reset Funktion
+const resetScroll = () => {
+  requestAnimationFrame(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'instant'
+    });
+  });
+};
+
 // Initialisiere die Animationen
 const initContactAnimations = () => {
   if (typeof window.gsap === 'undefined') {
@@ -91,7 +105,12 @@ const initContactAnimations = () => {
     }, "-=0.3");
 };
 
-// Initialize animations
-window.addEventListener('load', initContactAnimations);
-document.addEventListener('astro:page-load', initContactAnimations);
+// Event Listeners
+document.addEventListener('astro:page-load', () => {
+  resetScroll();
+  initContactAnimations();
+});
+
+// Nur einen Load-Event verwenden
+document.addEventListener('astro:after-swap', resetScroll);
 </script> 
