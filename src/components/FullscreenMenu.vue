@@ -38,7 +38,7 @@
 
       <!-- Contact Info Top Right -->
       <div 
-        class="absolute top-0 right-20 pt-nav-padding transition-all duration-500 z-50"
+        class="absolute top-0 right-20 pt-nav-padding transition-all duration-500 z-50 md:block hidden"
         :class="isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'"
         :style="{
           transitionDelay: isOpen ? '900ms' : '0ms'

@@ -35,7 +35,7 @@
               {{ step.title }}
             </h3>
             <!-- Description -->
-            <p class="text-[clamp(16px,2vw,19px)] font-light leading-[1.3] text-white" v-html="step.description"></p>
+            <p class="text-[clamp(16px,2vw,19px)] font-medium leading-[1.3] text-text-secondary" v-html="step.description"></p>
           </div>
         </div>
 
@@ -48,11 +48,11 @@
               <span v-if="step.duration" class="text-accent ml-2">| {{ step.duration }}</span>
             </div>
             <!-- Title -->
-            <h3 class="text-fluid-2xl font-medium text-white leading-[1.2] tracking-[0.02em] mb-4">
+            <h2 class="text-fluid-2xl font-medium text-text-primary mb-3">
               {{ step.title }}
-            </h3>
+            </h2>
             <!-- Description -->
-            <p class="text-fluid-lg font-light leading-[1.3] text-white" v-html="step.description"></p>
+            <p class="text-fluid-base text-text-secondary" v-html="step.description"></p>
           </div>
           
           <!-- Timeline Dot -->
