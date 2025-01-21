@@ -9,11 +9,11 @@ import '../utils/gsapInit';
 // Berechne Alter
 const birthDate = new Date('1995-10-06');
 const today = new Date();
-const age = Math.floor((today - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
+const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
 
 // Berechne Erfahrung seit Ausbildungsbeginn
 const careerStart = new Date('2015-09-01');
-const yearsExperience = Math.floor((today - careerStart) / (365.25 * 24 * 60 * 60 * 1000));
+const yearsExperience = Math.floor((today.getTime() - careerStart.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
 
 const techStack = [
   { 
@@ -67,12 +67,12 @@ const personalInterests = [
   
   <main class="bg-background min-h-screen" id="main-content">
     <!-- Hero Section -->
-    <section class="pt-32 pb-16">
+    <section class="pt-48 pb-16">
       <div class="container mx-auto px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <!-- Image Gallery -->
-          <div class="relative w-full max-w-[600px] mx-auto">
-            <div class="aspect-[7/9] overflow-hidden group relative animate-image">
+          <div class="relative w-full max-w-[600px] lg:max-w-none mx-auto">
+            <div class="aspect-square lg:aspect-[7/9] overflow-hidden group relative animate-image">
               <img 
                 src="/images/portrait-fabian-1683x1920.jpg"
                 alt="Portrait von Fabian Paul"
@@ -84,34 +84,38 @@ const personalInterests = [
               />
               <img 
                 src="/images/fabian-mit-hund.jpg"
-                alt="Fabian mit seinem Hund"
+                alt="Fabian mit seinem Hund Mira"
                 class="w-full h-full object-cover absolute inset-0 opacity-0"
                 width="1683"
                 height="1920"
                 loading="lazy"
               />
             </div>
-            <RotatingCircle />
           </div>
 
           <!-- Bio Content -->
           <div class="space-y-8 hero-content">
-            <div>
-              <h1 class="text-fluid-xl font-medium text-text-primary mb-2">Hi, ich bin Fabian</h1>
-              <p class="text-fluid-base text-text-secondary">Designer & Creative Developer</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-fluid-3xl font-medium text-text-primary mb-2">Hi, ich bin Fabian</h1>
+                <p class="text-fluid-base text-text-secondary">Designer & Creative Developer</p>
+              </div>
+              <div class="relative">
+                <RotatingCircle class="ml-4" />
+              </div>
             </div>
 
-            <div class="space-y-4 text-fluid-sm text-text-secondary">
+            <div class="space-y-4 text-fluid-base text-text-secondary">
               <p>
-                Als {age}-jähriger Designer und Entwickler verbinde ich meine fundierte Ausbildung 
+                Ich bin {age} Jahre alt und verbinde meine fundierte Ausbildung 
                 als Mediengestalter Digital und Print mit meiner Leidenschaft für ästhetisches Design 
                 und technische Innovation.
               </p>
               <p>
-                In den letzten {yearsExperience} Jahren habe ich in verschiedenen Agenturen meine 
-                detailverliebte und ergebnisorientierte Arbeitsweise perfektioniert. Aktuell bin ich 
-                in den letzten Zügen meines Medieninformatik-Studiums, wo ich meine Fähigkeiten im 
-                Frontend- und Backend-Bereich weiter vertiefe.
+                In den letzten {yearsExperience} Jahren habe ich sowohl in verschiedenen Agenturen 
+                als auch in der Automobilbranche und deren Zulieferunternehmen meine detailverliebte 
+                und ergebnisorientierte Arbeitsweise weiterentwickelt. Aktuell beende ich mein Medieninformatik-Studium, 
+                wo ich meine Fähigkeiten im Frontend- und Backend-Bereich weiter vertiefe.
               </p>
               <p>
                 Mein Herz schlägt besonders für UI/UX-Design und Frontend-Entwicklung. Ich liebe es, 
@@ -125,11 +129,11 @@ const personalInterests = [
             <div class="grid grid-cols-2 gap-8 pt-6">
               <div class="space-y-1">
                 <span class="text-accent text-fluid-sm">Erfahrung</span>
-                <p class="text-fluid-base font-medium text-text-primary">{yearsExperience}+ Jahre</p>
+                <p class="text-fluid-lg font-medium text-text-primary">{yearsExperience}+ Jahre</p>
               </div>
               <div class="space-y-1">
                 <span class="text-accent text-fluid-sm">Spezialisierung</span>
-                <p class="text-fluid-base font-medium text-text-primary">UI/UX & Frontend</p>
+                <p class="text-fluid-lg font-medium text-text-primary">UI/UX & Frontend</p>
               </div>
             </div>
           </div>
@@ -142,8 +146,8 @@ const personalInterests = [
       <div class="container mx-auto px-8">
         <div class="max-w-4xl mx-auto space-y-12 tech-stack">
           <div>
-            <h2 class="text-fluid-lg font-medium text-text-primary mb-3">Tech Stack & Tools</h2>
-            <p class="text-fluid-sm text-text-secondary">
+            <h2 class="text-fluid-2xl font-medium text-text-primary mb-3">Tech Stack & Tools</h2>
+            <p class="text-fluid-base text-text-secondary">
               Als leidenschaftlicher Designer und Entwickler setze ich auf moderne Technologien, 
               die es mir ermöglichen, beeindruckende und maßgeschneiderte digitale Erlebnisse zu schaffen. 
               Mein Fokus liegt dabei immer auf der perfekten Balance zwischen Ästhetik und Funktionalität.
@@ -152,13 +156,16 @@ const personalInterests = [
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {techStack.map((tech) => (
-              <TechCard 
-                client:visible 
-                name={tech.name} 
-                category={tech.category} 
-                description={tech.description}
-                icon={tech.icon}
-              />
+              <div class="h-full">
+                <TechCard 
+                  client:visible 
+                  name={tech.name} 
+                  category={tech.category} 
+                  description={tech.description}
+                  icon={tech.icon}
+                  class="h-full"
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -192,7 +199,6 @@ const initAboutAnimations = () => {
       start: "top center",
       end: "bottom center",
       once: true,
-      markers: true,
       onEnter: () => console.log('mainTimeline wurde getriggert')
     }
   });
@@ -237,8 +243,7 @@ const initAboutAnimations = () => {
       trigger: ".tech-stack",
       start: "top center",
       end: "bottom center",
-      once: true,
-      markers: true
+      once: true
     }
   });
 

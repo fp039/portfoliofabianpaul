@@ -215,7 +215,7 @@ const getSocialLink = (social) => {
 
 .block:last-child {
   position: absolute;
-  top: 98%;
+  top: 100%;
   left: 0;
   width: 100%;
 }
@@ -229,21 +229,15 @@ const getSocialLink = (social) => {
   transform: translateY(-100%);
 }
 
-/* Option 1: Mit Transform */
-.block:first-child {
-  transform: translateY(-0.05em); /* Negative Werte bewegen nach oben */
-}
-
-/* ODER Option 2: Mit Padding */
-.block:first-child {
-  padding-top: 0.05em;    /* Verschiebt Text nach unten */
-  /* oder */
-  padding-bottom: 0.05em; /* Verschiebt Text nach oben */
-}
-
 /* ODER Option 3: Mit Position relative */
 .block:first-child {
   position: relative;
-  top: -0.05em; /* Negative Werte bewegen nach oben */
+  top: -0.05em;
 }
+
+.block:last-child {
+  position: relative;
+  top: -0.12em;
+}
+
 </style>
