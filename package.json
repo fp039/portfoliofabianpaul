@@ -14,16 +14,20 @@
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/vue": "^4.0.8",
     "@calcom/embed-react": "^1.5.2",
+    "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/typography": "^0.5.10",
     "@types/nodemailer": "^6.4.17",
     "astro": "^4.15.3",
     "gsap": "^3.12.5",
+    "lenis": "^1.1.20",
     "nodemailer": "^6.9.16",
+    "sharp": "^0.33.5",
     "tailwindcss": "^3.4.1",
     "vue": "^3.4.21"
   },
   "devDependencies": {
     "@types/gsap": "^1.20.2",
+    "@types/sharp": "^0.31.1",
     "sass": "^1.83.4"
   }
 }

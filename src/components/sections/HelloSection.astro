@@ -36,7 +36,7 @@
 
       <!-- Description -->
       <p class="text-[#E5E5E5] text-fluid-lg font-light" style="line-height: 1.75; letter-spacing: 0.02em;">
-        Ich gestalte <span class="font-medium italic">digitale Erlebnisse</span> und <span class="font-medium italic">Branding</span>, die wirken. Mein Ziel? <span class="font-medium italic">Dein Unternehmen ins Spotlight rücken</span>, Kunden begeistern und nachhaltig Eindruck hinterlassen. Ob Website oder Branding – <span class="font-medium italic">lass uns deinen Unternehmensauftritt aufs nächste Level bringen</span>.
+        Ich kreiere <span class="font-medium italic">digitale Erlebnisse</span> und <span class="font-medium italic">Branding</span> mit Charakter. Für <span class="font-medium italic">Unternehmen,</span> die auffallen und <span class="font-medium italic">Eindruck hinterlassen wollen.</span> Mit einem Mix aus strategischem Denken, kreativem Feingefühl und technologischem Know-how sorge ich dafür, dass <span class="font-medium italic">dein Auftritt nicht nur sichtbar, sondern spürbar wird.</span>
       </p>
       
       <!-- Buttons -->
@@ -65,6 +65,15 @@
 <style>
   .button-hover-effect:hover .hover-line {
     transform: translateX(0);
+  }
+
+  #role-container {
+    perspective: 1000px;
+  }
+
+  #roles {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
   }
 </style>
 
@@ -95,7 +104,7 @@
           opacity: 0,
           duration: 0.8,
           ease: "power2.out"
-        }, "-=0.4")
+        }, "-=0.6")
         .from("#hello-text p", {
           y: 30,
           opacity: 0,
@@ -122,26 +131,76 @@
         ease: "power2.out"
       });
 
-      // Role switching loop
+      // Role switching loop mit verbesserter Animation
       const roles = document.getElementById('roles');
       const roleHeight = document.querySelector('#role-container').clientHeight;
       let currentRole = 0;
       const totalRoles = 3;
+      let isAnimating = false;
 
       const switchRole = () => {
-        gsap.to(roles, {
-          y: -roleHeight * currentRole,
-          duration: 0.5,
-          ease: "power2.inOut"
+        if (isAnimating) return;
+        isAnimating = true;
+
+        // Timeline für komplexere Animation
+        const tl = gsap.timeline({
+          onComplete: () => {
+            currentRole = (currentRole + 1) % totalRoles;
+            isAnimating = false;
+          }
         });
-        
-        currentRole = (currentRole + 1) % totalRoles;
+
+        // Aktuelle Position merken
+        const currentY = -roleHeight * currentRole;
+        // Nächste Position berechnen
+        const nextY = -roleHeight * ((currentRole + 1) % totalRoles);
+
+        tl.to(roles, {
+          opacity: 0,
+          y: currentY - 20,
+          duration: 0.4,
+          ease: "power2.inOut"
+        })
+        .set(roles, {
+          y: nextY + 20
+        })
+        .to(roles, {
+          opacity: 1,
+          y: nextY,
+          duration: 0.4,
+          ease: "back.out(1.7)"
+        });
       };
 
-      // Start role switching after initial animation
-      timeline.call(() => {
-        setInterval(switchRole, 2000);
-      });
+      // Start role switching mit verbesserter Timing-Kontrolle
+      timeline
+        .call(() => {
+          // Erste Animation mit Verzögerung
+          gsap.delayedCall(0.8, () => {
+            const initialTl = gsap.timeline();
+            initialTl
+              .to(roles, {
+                opacity: 0,
+                y: 20,
+                duration: 0.4,
+                ease: "power2.inOut"
+              })
+              .set(roles, {
+                y: -roleHeight + 20
+              })
+              .to(roles, {
+                opacity: 1,
+                y: -roleHeight,
+                duration: 0.4,
+                ease: "back.out(1.7)"
+              })
+              .call(() => {
+                currentRole = 1;
+                // Starte den regulären Interval
+                setInterval(switchRole, 2500);
+              });
+          });
+        });
     });
   };
 

@@ -31,7 +31,7 @@
           :class="{'opacity-0 pointer-events-none': isMenuOpen}"
         >
           <div class="hidden md:block mr-5 z-[91] consultation-button">
-            <ConsultationButton />
+            <ConsultationButton :is-menu-open="isMenuOpen" />
           </div>
         </div>
 
@@ -40,7 +40,7 @@
           <BurgerButton 
             :is-open="isMenuOpen" 
             @toggle="toggleMenu"
-            :class="burgerColorClass"
+            :class="textColorClass"
           />
         </div>
       </div>

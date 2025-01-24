@@ -13,7 +13,7 @@
       <div 
         v-for="(step, index) in currentSteps" 
         :key="`${currentType}-${index}`" 
-        class="relative" 
+        class="relative opacity-0"
         :ref="el => stepRefs[index] = el"
       >
         <!-- Mobile Layout (Single Column) -->
@@ -68,7 +68,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import websiteSteps from '../data/websiteSteps.json'
 import brandingSteps from '../data/brandingSteps.json'
 
@@ -76,44 +76,52 @@ const stepRefs = ref([])
 const currentType = ref('website')
 const currentSteps = ref(websiteSteps.steps)
 
+const initializeAnimations = () => {
+  stepRefs.value.forEach((step, index) => {
+    if (!step) return
+    
+    // Setze initiale Werte
+    gsap.set(step, {
+      opacity: 0,
+      y: 50
+    })
+    
+    // Erstelle die Animation
+    gsap.to(step, {
+      scrollTrigger: {
+        trigger: step,
+        start: 'top center+=100',
+      },
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      delay: index * 0.2,
+      ease: 'power2.out'
+    })
+  })
+}
+
 onMounted(() => {
+  // Initialisiere Animationen
+  initializeAnimations()
+
   // Listen for timeline type changes
   window.addEventListener('timelineChange', (event) => {
     const { type } = event.detail
     currentType.value = type
     currentSteps.value = type === 'website' ? websiteSteps.steps : brandingSteps.steps
     
-    // Reset and re-trigger animations
-    stepRefs.value.forEach((step, index) => {
-      if (!step) return
-      
-      gsap.from(step, {
-        scrollTrigger: {
-          trigger: step,
-          start: 'top center+=100',
-        },
-        opacity: 0,
-        y: 50,
-        duration: 0.8,
-        delay: index * 0.2
-      })
-    })
-  })
-
-  // Initial animations
-  stepRefs.value.forEach((step, index) => {
-    if (!step) return
-    
-    gsap.from(step, {
-      scrollTrigger: {
-        trigger: step,
-        start: 'top center+=100',
-      },
-      opacity: 0,
-      y: 50,
-      duration: 0.8,
-      delay: index * 0.2
+    // Warte auf DOM-Update
+    nextTick(() => {
+      initializeAnimations()
     })
   })
 })
 </script>
+
+<style scoped>
+/* Optional: Füge eine Transition für smoothere Änderungen hinzu */
+.relative {
+  will-change: opacity, transform;
+}
+</style>

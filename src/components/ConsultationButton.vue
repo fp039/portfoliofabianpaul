@@ -24,14 +24,42 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 const connector = ref(null)
 const circleArrow = ref(null)
+let currentAnimation = null
+
+// Prop für den Menü-Status
+const props = defineProps({
+  isMenuOpen: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const resetAnimation = () => {
+  if (currentAnimation) {
+    currentAnimation.kill()
+  }
+  
+  gsap.to([connector.value, circleArrow.value], {
+    x: 0,
+    scale: 1,
+    scaleX: 1,
+    opacity: 1,
+    duration: 0.2,
+    ease: "power2.out",
+    clearProps: "all" // Wichtig: Setzt alle Properties zurück
+  })
+}
 
 const onButtonEnter = () => {
-  // First stretch the connector with a more organic motion
-  gsap.timeline()
+  if (currentAnimation) {
+    currentAnimation.kill()
+  }
+  
+  currentAnimation = gsap.timeline()
     .to(connector.value, {
       scaleX: 1.8,
       duration: 0.4,
@@ -44,9 +72,8 @@ const onButtonEnter = () => {
       ease: "power2.inOut"
     }, "-=0.15")
     
-  // Pop out the circle with arrow using elastic effect
   gsap.to(circleArrow.value, {
-    x: 15, // Increased from 8 to 15 to move circle further right
+    x: 15,
     scale: 1.05,
     duration: 0.6,
     ease: "elastic.out(1.2, 0.5)",
@@ -55,16 +82,17 @@ const onButtonEnter = () => {
 }
 
 const onButtonLeave = () => {
-  // Reset circle with arrow first with a smoother motion
-  gsap.to(circleArrow.value, {
-    x: 0,
-    scale: 1,
-    duration: 0.4,
-    ease: "back.out(1.7)"
-  })
+  if (currentAnimation) {
+    currentAnimation.kill()
+  }
   
-  // Then handle connector reset
-  gsap.timeline()
+  currentAnimation = gsap.timeline()
+    .to(circleArrow.value, {
+      x: 0,
+      scale: 1,
+      duration: 0.4,
+      ease: "back.out(1.7)"
+    })
     .set(connector.value, {
       scaleX: 1,
       transformOrigin: "left center"
@@ -76,11 +104,28 @@ const onButtonLeave = () => {
       delay: 0.1
     })
 }
+
+// Beobachte Änderungen des Menü-Status
+watch(() => props.isMenuOpen, (isOpen) => {
+  if (isOpen) {
+    resetAnimation()
+  }
+})
+
+// Cleanup beim Unmount
+onMounted(() => {
+  return () => {
+    if (currentAnimation) {
+      currentAnimation.kill()
+    }
+  }
+})
 </script>
 
 <style>
 .connector,
 .circle-arrow {
   transform-origin: left center;
+  will-change: transform, opacity;
 }
 </style>

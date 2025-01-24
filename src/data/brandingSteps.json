@@ -3,28 +3,28 @@
   "steps": [
     {
       "stepNumber": "Schritt 1",
-      "title": "Erstgespräch",
-      "description": "Du brauchst ein Logo, einen Flyer oder ein komplettes Corporate Design? Lass uns gemeinsam deine Anforderungen und Ziele klären."
+      "title": "Kennenlernen",
+      "description": "Jedes starke Branding startet mit einem guten Gespräch. Ich will dich, dein Business, deine Vision und deine Ziele verstehen."
     },
     {
       "stepNumber": "Schritt 2",
-      "title": "Konzeptentwicklung",
-      "description": "Auf Basis deiner Wünsche und Ziele entwickle ich ein Konzept, das deine Marke authentisch und einprägsam macht."
+      "title": "Konzept",
+      "description": "Auf Basis des Gesprächs entwickle ich eine klare Strategie und Idee, die deine Marke einzigartig und wiedererkennbar macht, ohne auf Tradition oder deine Wünsche zu verzichten."
     },
     {
       "stepNumber": "Schritt 3",
-      "title": "Designphase",
-      "description": "Vom ersten Entwurf bis zur finalen Umsetzung – du erhältst Designs, die deine Marke klar und kreativ präsentieren."
+      "title": "Design",
+      "description": "Jetzt wird’s kreativ: Du bekommst drei verschiedene Design-Entwürfe zur Auswahl. Deinen Favoriten bringen wir dann gemeinsam in den Feinschliff."
     },
     {
       "stepNumber": "Schritt 4",
-      "title": "Feedback & Feinschliff",
-      "description": "Gemeinsam optimieren wir das Design, bis es perfekt zu dir und deinem Unternehmen passt."
+      "title": "Feinschliff",
+      "description": "Mit deinem Feedback bringen wir den letzten Schliff ins Design – bis es perfekt auf deine Bedürfnisse passt."
     },
     {
       "stepNumber": "Schritt 5",
-      "title": "Übergabe der Design-Assets",
-      "description": "Egal, ob Logo, Flyer oder Corporate Design: Ich liefere dir alles, was du brauchst, um deine Marke sichtbar zu machen – digital und analog."
+      "title": "Übergabe",
+      "description": "Du bekommst alles, was du brauchst: Logo, Design-Assets sowie alle Files die du für Print und Digital brauchst."
     }
   ]
 }

@@ -176,9 +176,9 @@ defineEmits(['close'])
 
 const getSocialLink = (social) => {
   const links = {
-    Xi: 'https://www.xing.com/profile/your-profile',
-    Li: 'https://www.linkedin.com/in/your-profile',
-    Ig: 'https://www.instagram.com/your-profile',
+    Xi: 'https://www.xing.com/profile/Fabian_Paul8/',
+    Li: 'https://www.linkedin.com/in/fabian-paul-521482336/',
+    Ig: 'https://www.instagram.com/fpdesign_o/',
     Wa: 'https://wa.me/+4915901443805'
   }
   return links[social]

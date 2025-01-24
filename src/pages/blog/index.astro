@@ -12,16 +12,18 @@ const sortedPosts = posts.sort((a, b) => new Date(b.data.date).getTime() - new D
   title="Blog - Digital Experiences & Creative Branding"
   description="Einblicke in UI/UX-Design, Webentwicklung und kreatives Branding"
 >
-  <div class="container mx-auto px-8 py-[clamp(4rem,10vh,8rem)]">
+  <div class="container mx-auto px-8 pt-48 pb-16">
     <div class="max-w-7xl mx-auto">
-      <header class="text-center space-y-8 mb-[clamp(4rem,12vh,8rem)]">
-        <h1 class="text-fluid-2xl font-medium text-text-primary tracking-tight">
-          Blog & Insights
-        </h1>
-        <p class="text-fluid-base text-text-secondary max-w-2xl mx-auto leading-relaxed">
-          Meine persönlichen Erfahrungen und Facts aus Design und Entwicklung.
-          Hier teile ich, was mir in der Praxis begegnet, was ich dabei lerne und was mich weiterbringt.
-        </p>
+      <header class="space-y-8 mb-[clamp(4rem,12vh,8rem)]">
+        <div>
+          <h1 class="text-fluid-3xl font-medium text-text-primary mb-2">
+            Blog & Insights
+          </h1>
+          <p class="text-fluid-base text-text-secondary max-w-2xl leading-relaxed">
+            Meine persönlichen Erfahrungen und Facts aus Design und Entwicklung.
+            Hier teile ich, was mir in der Praxis begegnet, was ich dabei lerne und was mich weiterbringt.
+          </p>
+        </div>
       </header>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -132,7 +132,12 @@ button {
   border: none;
 }
 
-button:hover .burger-menu {
+/* Hover-Effekt basierend auf der aktuellen Textfarbe */
+.text-white button:hover .burger-menu {
+  color: #0F0;
+}
+
+.text-black button:hover .burger-menu {
   color: #0F0;
 }
 </style> 
