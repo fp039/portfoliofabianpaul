@@ -1,0 +1,31 @@
+/* Overscroll-Verhalten nur für Desktop */
+@media (min-width: 1024px) {
+  html {
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    overflow-x: hidden;
+  }
+
+  body {
+    overflow-x: hidden;
+    /* Optional: Verhindert horizontales Bounce-Effekt in manchen Browsern */
+    position: relative;
+    width: 100%;
+  }
+}
+
+/* Für mobile Geräte normales Verhalten beibehalten */
+@media (max-width: 1023px) {
+  html, body {
+    overscroll-behavior: auto;
+    overflow-x: hidden;
+  }
+}
+
+/* Zusätzlich können wir das Verhalten für Touch-Geräte explizit definieren */
+@media (hover: none) and (pointer: coarse) {
+  html, body {
+    overscroll-behavior: auto;
+    overflow-x: hidden;
+  }
+} 
