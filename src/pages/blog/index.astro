@@ -5,7 +5,20 @@ import '../../styles/prose.css';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog');
-const sortedPosts = posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Stelle sicher, dass das Datum als String übergeben wird
+const formattedPosts = sortedPosts.map(post => ({
+  ...post,
+  data: {
+    ...post.data,
+    date: post.data.date.toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    })
+  }
+}));
 ---
 
 <BlogLayout 
@@ -27,12 +40,16 @@ const sortedPosts = posts.sort((a, b) => new Date(b.data.date).getTime() - new D
       </header>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {sortedPosts.map(post => (
+        {formattedPosts.map(post => (
           <BlogCard 
-            key={post.slug}
             client:visible
             slug={post.slug}
-            {...post.data}
+            title={post.data.title}
+            excerpt={post.data.excerpt}
+            date={post.data.date}
+            image={post.data.image}
+            tags={post.data.tags}
+            readingTime={post.data.readingTime}
           />
         ))}
       </div>

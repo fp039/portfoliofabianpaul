@@ -17,7 +17,9 @@ import Footer from '../components/Footer.astro';
     <WowSection />
     <HelloSection />
     <ProcessSection />
-    <ProjectsSection />
+    <div id="projects-wrapper">
+      <ProjectsSection />
+    </div>
   </main>
 
   <Footer />
@@ -27,7 +29,9 @@ import Footer from '../components/Footer.astro';
   import { initSectionAnimations } from '../utils/animations';
   
   // Initialize all section animations
-  initSectionAnimations();
+  document.addEventListener('astro:page-load', () => {
+    initSectionAnimations();
+  });
 </script>
 
 <style>

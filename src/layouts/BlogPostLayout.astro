@@ -1,24 +1,30 @@
 ---
 import BlogLayout from './BlogLayout.astro';
-import type { MarkdownLayoutProps } from 'astro';
+import type { CollectionEntry } from 'astro:content';
 import '../styles/prose.css';
 
 interface Props {
   frontmatter: {
-    title?: string;
-    date?: Date | string;
-    author?: string;
-    image?: string;
-    tags?: string[];
+    title: string;
+    date: Date | string;
+    author: string;
+    image: string;
+    gallery?: string[];
+    tags: string[];
     file: string;
     url: string;
   }
 }
 
 const { frontmatter } = Astro.props;
+console.log('Frontmatter data:', {
+  title: frontmatter.title,
+  gallery: frontmatter.gallery,
+  hasGallery: Boolean(frontmatter.gallery)
+});
 
 const formatDate = (date: Date | string) => {
-  return new Date(date).toLocaleDateString('en-US', {
+  return new Date(date).toLocaleDateString('de-DE', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -27,41 +33,76 @@ const formatDate = (date: Date | string) => {
 ---
 
 <BlogLayout title={frontmatter.title}>
-  <article class="container mx-auto px-8 py-16">
-    <div class="max-w-3xl mx-auto">
-      <!-- Header -->
-      <header class="space-y-16">
-        <div class="aspect-video">
-          <img
-            src={frontmatter.image}
-            alt={frontmatter.title}
-            class="w-full h-full object-cover rounded-lg"
-          />
-        </div>
-        
-        <div class="space-y-6">
-          <div class="flex items-center gap-4 text-text-secondary">
-            <time datetime={frontmatter.date?.toString()} class="text-fluid-sm">
-              {formatDate(frontmatter.date)}
-            </time>
-            <span class="w-1 h-1 rounded-full bg-accent"></span>
-            <span class="text-fluid-sm">{frontmatter.author}</span>
+  <article class="container mx-auto px-4 sm:px-8 py-16">
+    
+    <div class="max-w-4xl mx-auto">
+      <!-- Hero Section -->
+      <header class="space-y-12">
+        <div class="relative">
+          <!-- Hauptbild -->
+          <div class="aspect-[16/9] mb-6">
+            <img
+              src={frontmatter.image}
+              alt={frontmatter.title}
+              class="w-full h-full object-cover rounded-xl shadow-lg"
+            />
           </div>
           
-          <h1 class="text-fluid-2xl md:text-fluid-xl font-medium text-text-primary">{frontmatter.title}</h1>
+          <!-- Bildergalerie falls vorhanden -->
+          {frontmatter.gallery && (
+            <div class="flex gap-4 overflow-x-auto pb-4 snap-x">
+              {frontmatter.gallery.map((img) => (
+                <div class="flex-none w-72 snap-center">
+                  <img
+                    src={img}
+                    alt=""
+                    class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        
+        <!-- Meta-Informationen -->
+        <div class="space-y-6">
+          <div class="flex flex-wrap items-center gap-4 text-text-secondary">
+            <time 
+              datetime={frontmatter.date?.toString()} 
+              class="flex items-center gap-2 text-fluid-sm"
+            >
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {formatDate(frontmatter.date)}
+            </time>
+            
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+            
+            <span class="flex items-center gap-2 text-fluid-sm">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              {frontmatter.author}
+            </span>
+          </div>
+          
+          <h1 class="text-fluid-3xl font-bold text-text-primary leading-tight">
+            {frontmatter.title}
+          </h1>
           
           <div class="flex flex-wrap gap-2">
             {frontmatter.tags.map(tag => (
-              <span class="px-3 py-1 text-fluid-sm rounded-full bg-accent/10 text-accent">
-                {tag}
+              <span class="px-4 py-1.5 text-fluid-sm rounded-full bg-accent/10 text-accent font-medium hover:bg-accent/20 transition-colors">
+                #{tag}
               </span>
             ))}
           </div>
         </div>
       </header>
 
-      <!-- Content -->
-      <div class="prose-custom mt-16">
+      <!-- Inhalt -->
+      <div class="prose-custom mt-16 max-w-none">
         <slot />
       </div>
 
@@ -69,14 +110,35 @@ const formatDate = (date: Date | string) => {
       <div class="mt-16 pt-8 border-t border-white/10">
         <a 
           href="/blog"
-          class="group inline-flex items-center gap-2 text-accent hover:underline"
+          class="group inline-flex items-center gap-3 text-accent hover:underline"
         >
-          <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
           </svg>
-          <span class="text-fluid-sm">Back to Blog</span>
+          <span class="text-fluid-base font-medium">Zurück zum Blog</span>
         </a>
       </div>
     </div>
   </article>
 </BlogLayout>
+
+<style>
+  /* Für die Bildergalerie Scrollbar */
+  .overflow-x-auto {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.accent') transparent;
+  }
+  
+  .overflow-x-auto::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .overflow-x-auto::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .overflow-x-auto::-webkit-scrollbar-thumb {
+    background-color: theme('colors.accent');
+    border-radius: 20px;
+  }
+</style>

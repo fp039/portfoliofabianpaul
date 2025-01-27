@@ -35,50 +35,38 @@ export const initWowAnimations = () => {
 
   // First sequence: Initial text
   mainTimeline
-    .to("#line1", {
-      y: 0,
-      opacity: 1,
-      duration: 0.6
-    })
-    .to("#line2", {
-      y: 0,
-      opacity: 1,
-      duration: 0.6
-    }, "-=0.3")
-    // Pause for emphasis
-    .addLabel("preWow", "+=0.3")
-    
-    // Second sequence: WOW with glow
-    .to(["#wow-word", "#wow-glow-outer", "#wow-glow-inner"], {
-      opacity: 1,
-      scale: 1.2,
-      duration: 0.8,
-      ease: "back.out(1.7)"
-    })
-    .to(["#wow-word", "#wow-glow-outer", "#wow-glow-inner"], {
-      scale: 1,
-      duration: 0.4,
-      ease: "power2.out"
-    })
-    // Pause for emphasis
-    .addLabel("postWow", "+=0.3")
-    
-    // Third sequence: Help text
-    .to("#help1", {
-      y: 0,
-      opacity: 1,
-      duration: 0.6
-    }, "postWow+=0.3")
-    .to("#help2", {
-      y: 0,
-      opacity: 1,
-      duration: 0.6
-    }, "+=0.2")
-    // Mark animation as complete
-    .call(() => {
-      isAnimationComplete = true;
-      elements.wowContainer.classList.add('animation-complete');
-    });
+      .to("#line1", {
+        y: 0,
+        opacity: 1,
+        duration: 0.6
+      })
+      // Pause for emphasis
+      .addLabel("preWow", "+=0.3")
+      // Second sequence: WOW with glow
+      .to(["#wow-word", "#wow-glow-outer", "#wow-glow-inner"], {
+        opacity: 1,
+        scale: 1.2,
+        duration: 0.8,
+        ease: "back.out(1.7)"
+      })
+      .to(["#wow-word", "#wow-glow-outer", "#wow-glow-inner"], {
+        scale: 1,
+        duration: 0.4,
+        ease: "power2.out"
+      })
+      // Pause for emphasis
+      .addLabel("postWow", "+=0.3")
+      // Third sequence: Help text
+      .to("#help1", {
+        y: 0,
+        opacity: 1,
+        duration: 0.6
+      }, "postWow+=0.3")
+      // Mark animation as complete
+      .call(() => {
+        isAnimationComplete = true;
+        elements.wowContainer.classList.add('animation-complete');
+      });
 
   // Grid lines animation
   gsap.fromTo("[id^='grid-line-']",

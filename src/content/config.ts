@@ -1,6 +1,9 @@
 import { defineCollection, z } from 'astro:content';
 
-const blogCollection = defineCollection({
+// Debug: Log beim Laden der Config
+console.log('Loading content config...');
+
+const blog = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
@@ -12,6 +15,9 @@ const blogCollection = defineCollection({
     author: z.string()
   })
 });
+
+// Debug: Log nach Definition
+console.log('Blog collection defined');
 
 const projectCollection = defineCollection({
   type: 'content',
@@ -27,6 +33,9 @@ const projectCollection = defineCollection({
 });
 
 export const collections = {
-  'blog': blogCollection,
+  blog,
   'projects': projectCollection
-}; 
+};
+
+// Debug: Log nach Export
+console.log('Collections exported:', Object.keys(collections)); 

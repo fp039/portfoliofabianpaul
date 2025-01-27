@@ -42,7 +42,7 @@
       <!-- Buttons -->
       <div class="flex flex-wrap gap-[30px]" id="hello-buttons">
         <a 
-          href="#contact" 
+          href="/contact"
           class="button-hover-effect relative flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-[35.833px] bg-[#0F0] text-[#1D1D1B] hover:scale-105 transition-all hover:shadow-[0_0_20px_rgba(0,255,0,0.3)] overflow-hidden"
           style="font-size: clamp(1rem, 1.5vw, 1.194rem); font-weight: 500; line-height: 1;"
         >
@@ -50,7 +50,7 @@
           <div class="absolute inset-0 bg-[#0F0] transform -translate-x-full transition-transform duration-300 ease-out hover-line"></div>
         </a>
         <a 
-          href="#about" 
+          href="/about"
           class="button-hover-effect relative flex items-center justify-center px-[clamp(20px,3vw,35.833px)] py-[clamp(8px,1.5vw,11.944px)] rounded-[35.833px] border border-[#0F0] text-[#0F0] hover:scale-105 transition-all hover:shadow-[0_0_20px_rgba(0,255,0,0.3)] overflow-hidden"
           style="font-size: clamp(1rem, 1.5vw, 1.194rem); font-weight: 500; line-height: 1;"
         >
@@ -133,7 +133,10 @@
 
       // Role switching loop mit verbesserter Animation
       const roles = document.getElementById('roles');
-      const roleHeight = document.querySelector('#role-container').clientHeight;
+      const roleContainer = document.querySelector('#role-container');
+      if (!roles || !roleContainer) return;
+      
+      const roleHeight = roleContainer.clientHeight;
       let currentRole = 0;
       const totalRoles = 3;
       let isAnimating = false;

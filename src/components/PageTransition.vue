@@ -144,7 +144,8 @@ onMounted(() => {
 
 .reveal-letter {
   animation: reveal 4s cubic-bezier(0.45, 0, 0.55, 1) infinite paused;
-  -webkit-text-stroke: 0;
+  -webkit-text-stroke-width: 0;
+  -webkit-text-stroke-color: currentColor;
   clip-path: inset(100% 0 0 0);
 }
 

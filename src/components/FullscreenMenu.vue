@@ -145,7 +145,7 @@
 </template>
 
 <script setup>
-import { watch, ref } from 'vue'
+import { watch } from 'vue'
 
 const menuItems = [
   { name: 'Home', path: '/' },

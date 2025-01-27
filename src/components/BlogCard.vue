@@ -12,8 +12,8 @@
       <div class="p-8 space-y-6">
         <div class="flex items-center gap-4 text-text-secondary">
           <time :datetime="date" class="text-fluid-xsm">{{ formattedDate }}</time>
-          <span class="w-1 h-1 rounded-full bg-accent"></span>
-          <span class="text-fluid-xsm">{{ readingTime }} min Lesezeit</span>
+          <span v-if="readingTime" class="w-1 h-1 rounded-full bg-accent"></span>
+          <span v-if="readingTime" class="text-fluid-xsm">{{ readingTime }} min Lesezeit</span>
         </div>
         
         <h3 class="text-fluid-lg font-medium text-text-primary leading-tight">{{ title }}</h3>
@@ -33,46 +33,31 @@
   </article>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 
-const props = defineProps({
-  slug: {
-    type: String,
-    required: true
-  },
-  title: {
-    type: String,
-    required: true
-  },
-  excerpt: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: String,
-    required: true
-  },
-  image: {
-    type: String,
-    required: true
-  },
-  readingTime: {
-    type: Number,
-    required: true
-  },
-  tags: {
-    type: Array,
-    required: true
-  }
-});
+const props = defineProps<{
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  image: string;
+  readingTime?: number;
+  tags: string[];
+}>();
 
 const formattedDate = computed(() => {
-  const date = new Date(props.date);
-  return new Intl.DateTimeFormat('de-DE', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }).format(date);
+  try {
+    const [day, month, year] = props.date.split('.');
+    const date = new Date(+year, +month - 1, +day);
+    return new Intl.DateTimeFormat('de-DE', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(date);
+  } catch (e) {
+    console.error('Error formatting date:', e);
+    return props.date;
+  }
 });
 </script>

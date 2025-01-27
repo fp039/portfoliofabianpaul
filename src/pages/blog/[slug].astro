@@ -1,23 +1,70 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 
+// Debug: Zeige den aktuellen Ausführungspfad
+console.log('Current execution path:', import.meta.url);
+
+export const prerender = true;
+
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+  try {
+    const posts = await getCollection('blog');
+    console.log('Gefundene Blog-Posts:', posts.map(p => ({
+      slug: p.slug,
+      id: p.id,
+      collection: p.collection
+    })));
+    
+    if (!posts || !posts.length) {
+      console.error('Keine Blog-Posts gefunden in der Collection');
+      return [{
+        params: { slug: 'not-found' },
+        props: { entry: null }
+      }];
+    }
+
+    const paths = posts.map((entry: CollectionEntry<'blog'>) => ({
+      params: { slug: entry.slug },
+      props: { entry },
+    }));
+
+    console.log('Generierte Pfade:', paths.map(p => p.params.slug));
+    return paths;
+
+  } catch (error) {
+    console.error('Fehler beim Laden der Blog-Collection:', error);
+    throw error;
+  }
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+interface Props {
+  entry: CollectionEntry<'blog'> | null;
+}
+
+type Params = {
+  slug: string;
+};
+
+const { entry } = Astro.props;
+const { slug } = Astro.params as Params;
+console.log('Received slug:', slug);
+console.log('Received entry:', entry);
+
+if (!entry) {
+  return new Response('Blog-Post nicht gefunden', {
+    status: 404,
+    statusText: 'Not Found'
+  });
+}
+
+const { Content } = await entry.render();
 ---
 
 <BlogPostLayout frontmatter={{
-  ...post.data,
-  file: post.id,
-  url: `/blog/${post.slug}`
+  ...entry.data,
+  file: entry.id,
+  url: `/blog/${entry.slug}`
 }}>
   <Content />
 </BlogPostLayout> 

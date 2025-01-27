@@ -4,6 +4,7 @@ import CustomCursor from '../components/ui/CustomCursor.vue'
 
 interface Props {
   title: string;
+  description?: string;
 }
 
 const { title } = Astro.props;
@@ -66,8 +67,7 @@ const { title } = Astro.props;
       @font-face {
         font-family: 'TT Firs Neue';
         src: url('/fonts/TT_Firs_Neue_Medium.woff2') format('woff2'),
-             url('/fonts/TT_Firs_Neue_Medium.woff') format('woff'),
-             url('/fonts/TT_Firs_Neue_Medium.ttf') format('truetype');
+             url('/fonts/TT_Firs_Neue_Medium.woff') format('woff');
         font-weight: 500;
         font-style: normal;
         font-display: swap;
@@ -80,8 +80,7 @@ const { title } = Astro.props;
       @font-face {
         font-family: 'TT Firs Neue';
         src: url('/fonts/TT_Firs_Neue_Medium_Italic.woff2') format('woff2'),
-             url('/fonts/TT_Firs_Neue_Medium_Italic.woff') format('woff'),
-             url('/fonts/TT_Firs_Neue_Medium_Italic.ttf') format('truetype');
+             url('/fonts/TT_Firs_Neue_Medium_Italic.woff') format('woff');
         font-weight: 500;
         font-style: italic;
         font-display: swap;
@@ -94,8 +93,7 @@ const { title } = Astro.props;
       @font-face {
         font-family: 'TT Firs Neue';
         src: url('/fonts/TT_Firs_Neue_Light.woff2') format('woff2'),
-             url('/fonts/TT_Firs_Neue_Light.woff') format('woff'),
-             url('/fonts/TT_Firs_Neue_Light.ttf') format('truetype');
+             url('/fonts/TT_Firs_Neue_Light.woff') format('woff');
         font-weight: 300;
         font-style: normal;
         font-display: swap;
@@ -108,8 +106,7 @@ const { title } = Astro.props;
       @font-face {
         font-family: 'TT Firs Neue';
         src: url('/fonts/TT_Firs_Neue_Light_Italic.woff2') format('woff2'),
-             url('/fonts/TT_Firs_Neue_Light_Italic.woff') format('woff'),
-             url('/fonts/TT_Firs_Neue_Light_Italic.ttf') format('truetype');
+             url('/fonts/TT_Firs_Neue_Light_Italic.woff') format('woff');
         font-weight: 300;
         font-style: italic;
         font-display: swap;
@@ -135,6 +132,12 @@ const { title } = Astro.props;
 <script>
   import Lenis from 'lenis'
 
+  declare global {
+    interface Window {
+      lenis: any;
+    }
+  }
+
   // Lenis smooth scroll
   const initSmoothScroll = () => {
     const lenis = new Lenis({
@@ -142,11 +145,9 @@ const { title } = Astro.props;
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
-      smooth: true,
-      smoothTouch: false,
+      lerp: 0.1,
       touchMultiplier: 2,
-      wheelMultiplier: 1,
-      normalizeWheel: true
+      wheelMultiplier: 1
     })
 
     // GSAP ScrollTrigger Integration
@@ -155,7 +156,7 @@ const { title } = Astro.props;
     })
 
     // RAF loop für smoother scroll
-    const raf = (time) => {
+    const raf = (time: number) => {
       lenis.raf(time)
       requestAnimationFrame(raf)
     }
@@ -168,11 +169,12 @@ const { title } = Astro.props;
 
     // Optional: Scrolle sanft zu Anker-Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+      anchor.addEventListener('click', function(this: HTMLAnchorElement, e: Event) {
         e.preventDefault()
-        const target = document.querySelector(this.getAttribute('href'))
+        const href = this.getAttribute('href')
+        const target = href ? document.querySelector(href) : null
         if (target) {
-          lenis.scrollTo(target, {
+          lenis.scrollTo(target as HTMLElement, {
             offset: 0,
             duration: 1.5,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
@@ -188,8 +190,7 @@ const { title } = Astro.props;
   // Device detection (from previous code)
   const isTouchDevice = () => {
     return (('ontouchstart' in window) ||
-      (navigator.maxTouchPoints > 0) ||
-      (navigator.msMaxTouchPoints > 0));
+      (navigator.maxTouchPoints > 0));
   }
 
   // Initialize everything

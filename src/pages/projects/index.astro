@@ -100,23 +100,23 @@ const allCategories = [...new Set(projects.flatMap(project => project.data.categ
     const filterBtns = document.querySelectorAll('.filter-btn');
     const projects = document.querySelectorAll('.project-item');
     // Initialisiere mit allen Projekten als sichtbar
-    let currentlyVisible = new Set(projects);
+    let currentlyVisible = new Set<Element>(projects);
 
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        const filterValue = btn.getAttribute('data-filter');
-        let newlyVisible = new Set();
-        let toHide = new Set();
-        let toShow = new Set();
+        const filterValue = btn.getAttribute('data-filter') || 'all';
+        let newlyVisible = new Set<Element>();
+        let toHide = new Set<Element>();
+        let toShow = new Set<Element>();
 
         // Wenn "Alle" geklickt wird, spezielle Behandlung
         if (filterValue === 'all') {
-          projects.forEach(project => {
-            project.style.display = 'block';
-          });
+            projects.forEach((project) => {
+              (project as HTMLElement).style.display = 'block';
+            });
           
           gsap.fromTo(projects,
             {
@@ -138,12 +138,12 @@ const allCategories = [...new Set(projects.flatMap(project => project.data.categ
             }
           );
           
-          currentlyVisible = new Set(projects);
+          currentlyVisible = new Set<Element>(projects);
           return;
         }
 
-        projects.forEach(project => {
-          const categories = project.getAttribute('data-categories').split(',');
+        projects.forEach((project) => {
+          const categories = (project as HTMLElement).getAttribute('data-categories')?.split(',') ?? [];
           const shouldBeVisible = filterValue === 'all' || categories.includes(filterValue);
           
           if (shouldBeVisible) {
@@ -171,14 +171,14 @@ const allCategories = [...new Set(projects.flatMap(project => project.data.categ
               from: "random"
             },
             onComplete: () => {
-              toHide.forEach(project => {
-                project.style.display = 'none';
+              toHide.forEach((project) => {
+                (project as HTMLElement).style.display = 'none';
               });
               
               // Nur neue Elemente einblenden
               if (toShow.size > 0) {
-                Array.from(toShow).forEach(project => {
-                  project.style.display = 'block';
+                Array.from(toShow).forEach((project) => {
+                  (project as HTMLElement).style.display = 'block';
                 });
               
                 gsap.fromTo(Array.from(toShow),
@@ -205,8 +205,8 @@ const allCategories = [...new Set(projects.flatMap(project => project.data.categ
           });
         } else if (toShow.size > 0) {
           // Wenn nichts ausgeblendet werden muss, aber neue Elemente angezeigt werden sollen
-          Array.from(toShow).forEach(project => {
-            project.style.display = 'block';
+          Array.from(toShow).forEach((project) => {
+            (project as HTMLElement).style.display = 'block';
           });
           
           gsap.fromTo(Array.from(toShow),

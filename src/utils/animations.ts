@@ -3,7 +3,7 @@ export const initSectionAnimations = () => {
   window.addEventListener('load', () => {
     if (typeof gsap === 'undefined') return;
 
-    // WOW Section Animation
+    // WOW, Section Animation
     gsap.from("#wow-text", {
       scrollTrigger: {
         trigger: "#wow-section",

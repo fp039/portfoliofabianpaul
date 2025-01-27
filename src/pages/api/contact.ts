@@ -1,10 +1,26 @@
 import type { APIRoute } from 'astro';
 import nodemailer from 'nodemailer';
 
+// Sanitize input data
+const sanitizeInput = (input: string): string => {
+  return input
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .trim();
+};
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const data = await request.json();
     
+    // Sanitize all input fields
+    const sanitizedData = {
+      name: sanitizeInput(data.name),
+      email: sanitizeInput(data.email),
+      subject: sanitizeInput(data.subject),
+      message: sanitizeInput(data.message)
+    };
+
     // E-Mail-Transporter konfigurieren
     const transporter = nodemailer.createTransport({
       host: import.meta.env.EMAIL_HOST,
@@ -20,22 +36,22 @@ export const POST: APIRoute = async ({ request }) => {
     const mailOptions = {
       from: import.meta.env.EMAIL_USER,
       to: 'hello@fabian-paul.design',
-      subject: `Neue Kontaktanfrage: ${data.subject}`,
+      subject: `Neue Kontaktanfrage: ${sanitizedData.subject}`,
       text: `
-        Name: ${data.name}
-        E-Mail: ${data.email}
-        Betreff: ${data.subject}
+        Name: ${sanitizedData.name}
+        E-Mail: ${sanitizedData.email}
+        Betreff: ${sanitizedData.subject}
         
         Nachricht:
-        ${data.message}
+        ${sanitizedData.message}
       `,
       html: `
         <h2>Neue Kontaktanfrage</h2>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>E-Mail:</strong> ${data.email}</p>
-        <p><strong>Betreff:</strong> ${data.subject}</p>
+        <p><strong>Name:</strong> ${sanitizedData.name}</p>
+        <p><strong>E-Mail:</strong> ${sanitizedData.email}</p>
+        <p><strong>Betreff:</strong> ${sanitizedData.subject}</p>
         <p><strong>Nachricht:</strong></p>
-        <p>${data.message.replace(/\n/g, '<br>')}</p>
+        <p>${sanitizedData.message.split('\n').join('<br>')}</p>
       `,
     };
 
