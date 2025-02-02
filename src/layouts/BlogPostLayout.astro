@@ -1,5 +1,6 @@
 ---
 import BlogLayout from './BlogLayout.astro';
+import BlogGallery from '../components/BlogGallery.astro';
 import type { CollectionEntry } from 'astro:content';
 import '../styles/prose.css';
 
@@ -9,6 +10,11 @@ interface Props {
     date: Date | string;
     author: string;
     image: string;
+    images?: {
+      src: string;
+      layout?: 'single' | 'slider';
+      position?: 'before' | 'after';
+    }[];
     gallery?: string[];
     tags: string[];
     file: string;
@@ -23,6 +29,10 @@ console.log('Frontmatter data:', {
   hasGallery: Boolean(frontmatter.gallery)
 });
 
+// Sortiere Bilder nach Position
+const beforeContent = frontmatter.images?.filter(img => img.position === 'before') || [];
+const afterContent = frontmatter.images?.filter(img => img.position === 'after') || [];
+
 const formatDate = (date: Date | string) => {
   return new Date(date).toLocaleDateString('de-DE', {
     year: 'numeric',
@@ -33,90 +43,101 @@ const formatDate = (date: Date | string) => {
 ---
 
 <BlogLayout title={frontmatter.title}>
-  <article class="container mx-auto px-4 sm:px-8 py-16">
-    
-    <div class="max-w-4xl mx-auto">
-      <!-- Hero Section -->
-      <header class="space-y-12">
-        <div class="relative">
-          <!-- Hauptbild -->
-          <div class="aspect-[16/9] mb-6">
-            <img
-              src={frontmatter.image}
-              alt={frontmatter.title}
-              class="w-full h-full object-cover rounded-xl shadow-lg"
-            />
-          </div>
-          
-          <!-- Bildergalerie falls vorhanden -->
-          {frontmatter.gallery && (
-            <div class="flex gap-4 overflow-x-auto pb-4 snap-x">
-              {frontmatter.gallery.map((img) => (
-                <div class="flex-none w-72 snap-center">
-                  <img
-                    src={img}
-                    alt=""
-                    class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+  <article class="-mt-[clamp(5rem,15vh,8rem)] relative w-full">
+    <!-- Hero Section -->
+    <header class="mb-8">
+      <!-- Hauptbild -->
+      <div class="w-screen relative">
+        <div class="relative h-[clamp(250px,40vh,800px)] md:h-[clamp(400px,60vh,800px)]">
+          <img
+            src={frontmatter.image}
+            alt={frontmatter.title}
+            class="absolute inset-0 w-full h-full object-cover"
+          />
         </div>
-        
-        <!-- Meta-Informationen -->
-        <div class="space-y-6">
-          <div class="flex flex-wrap items-center gap-4 text-text-secondary">
-            <time 
-              datetime={frontmatter.date?.toString()} 
-              class="flex items-center gap-2 text-fluid-sm"
-            >
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              {formatDate(frontmatter.date)}
-            </time>
-            
-            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-            
-            <span class="flex items-center gap-2 text-fluid-sm">
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              {frontmatter.author}
-            </span>
-          </div>
-          
-          <h1 class="text-fluid-3xl font-bold text-text-primary leading-tight">
-            {frontmatter.title}
-          </h1>
-          
-          <div class="flex flex-wrap gap-2">
-            {frontmatter.tags.map(tag => (
-              <span class="px-4 py-1.5 text-fluid-sm rounded-full bg-accent/10 text-accent font-medium hover:bg-accent/20 transition-colors">
-                #{tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      </header>
-
-      <!-- Inhalt -->
-      <div class="prose-custom mt-16 max-w-none">
-        <slot />
       </div>
 
-      <!-- Navigation -->
-      <div class="mt-16 pt-8 border-t border-white/10">
-        <a 
-          href="/blog"
-          class="group inline-flex items-center gap-3 text-accent hover:underline"
-        >
-          <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-          </svg>
-          <span class="text-fluid-base font-medium">Zurück zum Blog</span>
-        </a>
+      <!-- Meta-Informationen -->
+      <div class="container mx-auto px-4 pl-8 pr-4 sm:px-8">
+        <div class="max-w-4xl mx-auto md:mt-16">
+          <div class="bg-[#1E1E1E] md:bg-transparent md:p-0 rounded-t-3xl md:rounded-none">
+            <div class="space-y-6">
+              <div class="space-y-3">
+                <h1 class="text-fluid-2xl md:text-fluid-3xl font-bold text-text-primary leading-[1.1] pt-12">
+                  {frontmatter.title}
+                </h1>
+                
+                <div class="flex flex-wrap items-center gap-3 text-text-secondary/80">
+                  <time 
+                    datetime={frontmatter.date?.toString()} 
+                    class="flex items-center gap-2 text-fluid-sm"
+                  >
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {formatDate(frontmatter.date)}
+                  </time>
+                  
+                  <span class="w-1.5 h-1.5 rounded-full bg-accent/80"></span>
+                  
+                  <span class="flex items-center gap-2 text-fluid-sm">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    {frontmatter.author}
+                  </span>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap gap-2">
+                {frontmatter.tags.map(tag => (
+                  <span class="px-3 py-1 text-fluid-sm rounded-full bg-accent/10 text-accent font-medium hover:bg-accent/20 transition-colors">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Container -->
+    <div class="container mx-auto px-4 sm:px-8 sm: mb-8">
+      <div class="max-w-4xl pl-4 pr-4 pt-8 mx-auto">
+        <!-- Bilder vor dem Content -->
+        {beforeContent.map(img => (
+          <BlogGallery 
+            images={[img.src]} 
+            layout={img.layout || 'single'} 
+          />
+        ))}
+
+        <!-- Inhalt -->
+        <div class="prose-custom max-w-none">
+          <slot />
+        </div>
+
+        <!-- Bilder nach dem Content -->
+        {afterContent.map(img => (
+          <BlogGallery 
+            images={[img.src]} 
+            layout={img.layout || 'single'} 
+          />
+        ))}
+
+        <!-- Navigation -->
+        <div class="mt-16 pt-8 border-t border-white/10">
+          <a 
+            href="/blog"
+            class="group inline-flex items-center gap-3 text-accent hover:underline"
+          >
+            <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span class="text-fluid-base font-medium">Zurück zum Blog</span>
+          </a>
+        </div>
       </div>
     </div>
   </article>
@@ -140,5 +161,37 @@ const formatDate = (date: Date | string) => {
   .overflow-x-auto::-webkit-scrollbar-thumb {
     background-color: theme('colors.accent');
     border-radius: 20px;
+  }
+
+  /* Entfernt Standard-Margin vom Body */
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* Stellt sicher, dass das Bild immer die volle Viewport-Breite einnimmt */
+  .w-screen {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+  }
+
+  /* Zusätzliche Styles für Hero-Bild */
+  @media (min-width: 2000px) {
+    .aspect-[21/9] {
+      max-height: 800px; /* Maximale Höhe für sehr große Bildschirme */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .aspect-[16/9] {
+      min-height: 400px; /* Minimale Höhe für mobile Geräte */
+    }
+  }
+
+  /* Smooth scaling für das Hero-Bild */
+  .aspect-[16/9], .aspect-[21/9] {
+    transition: aspect-ratio 0.3s ease-out;
   }
 </style>
