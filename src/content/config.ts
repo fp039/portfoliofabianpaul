@@ -25,6 +25,7 @@ const projectCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     image: z.string(),
+    gallery: z.array(z.string()).optional(),
     tags: z.array(z.string()),
     featured: z.boolean().default(false),
     categories: z.array(z.string()),

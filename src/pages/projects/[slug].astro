@@ -1,71 +1,295 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.vue';
 import Footer from '../../components/Footer.astro';
+import ProjectCTA from '../../components/ProjectCTA.astro';
+import { preloadAssets } from '../../utils/preloader';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
-  return projects.map(project => ({
-    params: { slug: project.slug },
-    props: { project },
-  }));
+  
+  // Projekte sortieren für Prev/Next Navigation
+  const sortedProjects = [...projects].sort((a, b) => a.data.order - b.data.order);
+  
+  return sortedProjects.map((project, index) => {
+    const prevProject = index > 0 ? sortedProjects[index - 1] : sortedProjects[sortedProjects.length - 1];
+    const nextProject = index < sortedProjects.length - 1 ? sortedProjects[index + 1] : sortedProjects[0];
+    
+    return {
+      params: { slug: project.slug },
+      props: { 
+        project,
+        prevProject: {
+          slug: prevProject.slug,
+          title: prevProject.data.title
+        },
+        nextProject: {
+          slug: nextProject.slug,
+          title: nextProject.data.title
+        }
+      }
+    };
+  });
 }
 
-const { project } = Astro.props;
+const { project, prevProject, nextProject } = Astro.props;
 const { Content } = await project.render();
+
+// Standardbilder für Galerie, falls nicht im Projekt definiert
+const defaultImages = [
+  project.data.image,
+  project.data.image,
+  project.data.image
+];
+
+// Bilder für die Bildgruppen, entweder aus dem Projekt oder Standardbilder
+const gallery = project.data.gallery || [];
+const imageGroups = {
+  group1: gallery.slice(0, 3).length > 0 ? gallery.slice(0, 3) : defaultImages,
+  group2: gallery.slice(3, 6).length > 0 ? gallery.slice(3, 6) : defaultImages,
+  group3: gallery.slice(6, 9).length > 0 ? gallery.slice(6, 9) : defaultImages
+};
+
+export const prerender = true;
 ---
 
 <Layout title={`${project.data.title} - Fabian Paul`}>
   <Navigation client:load />
   
-  <main class="bg-[#1E1E1E] min-h-screen">
-    <div class="container mx-auto px-8 py-[clamp(4rem,10vh,8rem)]">
-      <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <header class="space-y-8 mb-16">
-          <div class="aspect-video overflow-hidden">
+  <main class="bg-[#1E1E1E] text-[#E5E5E5]">
+    <!-- Hero -->
+    <section class="min-h-screen relative flex items-center">
+      <div class="absolute inset-0">
+        <img 
+          src={project.data.image}
+          alt={project.data.title}
+          class="w-full h-full object-cover opacity-[0.97]"
+          style="filter: brightness(0.92) contrast(1.02);"
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-[#1E1E1E]/50 to-[#1E1E1E]"></div>
+      </div>
+
+      <div class="relative z-10 container mx-auto px-8 pt-32">
+        <div class="max-w-4xl flex flex-col gap-[clamp(16px,2.5vw,24px)]">
+          <span class="text-[#0F0] text-sm uppercase tracking-wider font-light">
+            Projekt / {new Date().getFullYear()}
+          </span>
+          
+          <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
+            <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-medium leading-[0.9] tracking-tight">
+              {project.data.title}
+            </h1>
+            <p class="text-[clamp(1rem,2vw,1.25rem)] font-light italic max-w-2xl text-[#E5E5E5]/90">
+              {project.data.description}
+            </p>
+          </div>
+          
+          <div class="flex flex-wrap gap-[clamp(8px,1vw,10px)]">
+            {project.data.tags.map((tag: string) => (
+              <span class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Container -->
+    <div class="py-32 px-8">
+      <div class="max-w-[1800px] mx-auto space-y-48">
+        <!-- Gallery Section 1 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-24">
+          <div class="aspect-[4/3] overflow-hidden relative" data-speed="0.02">
+            {imageGroups.group1.map((src: string, index: number) => (
+              <img 
+                src={src}
+                alt={`${project.data.title} - Bild ${index + 1}`}
+                class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                data-image-group="group1"
+                data-image-index={index}
+              />
+            ))}
+          </div>
+          <div class="aspect-[4/3] overflow-hidden md:translate-y-24" data-speed="-0.02">
             <img 
-              src={project.data.image}
-              alt={project.data.title}
+              src={imageGroups.group1[1] || project.data.image}
+              alt={`${project.data.title} Detail`}
               class="w-full h-full object-cover"
             />
           </div>
-          
-          <div class="space-y-6">
-            <h1 class="text-fluid-2xl font-medium text-text-primary leading-tight">{project.data.title}</h1>
-            <p class="text-fluid-lg text-text-secondary max-w-2xl leading-relaxed">{project.data.description}</p>
-            
-            <div class="flex flex-wrap gap-2">
-              {project.data.tags.map(tag => (
-                <span class="px-4 py-2 text-fluid-sm rounded-full bg-accent/10 text-accent">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        </header>
+        </section>
 
-        <!-- Content -->
-        <article class="prose-custom">
+        <!-- Text Break - hier verwenden wir den Content aus der Markdown -->
+        <article class="prose-custom text-[clamp(1.25rem,2.5vw,1.75rem)] font-light italic max-w-3xl">
           <Content />
         </article>
 
-        <!-- Navigation -->
-        <div class="mt-16 pt-8 border-t border-white/10">
-          <a 
-            href="/projects"
-            class="group inline-flex items-center gap-2 text-accent hover:underline"
-          >
-            <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-            </svg>
-            <span class="text-fluid-sm">Zurück zu Projekten</span>
-          </a>
-        </div>
+        <!-- Gallery Section 2 -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div class="md:col-span-8 aspect-video overflow-hidden" data-speed="0.03">
+            <img 
+              src={imageGroups.group2[0] || project.data.image}
+              alt={`${project.data.title} Workspace`}
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="md:col-span-4 aspect-video overflow-hidden md:translate-y-32 relative" data-speed="-0.03">
+            {imageGroups.group2.map((src: string, index: number) => (
+              <img 
+                src={src}
+                alt={`${project.data.title} Details`}
+                class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                data-image-group="group2"
+                data-image-index={index}
+              />
+            ))}
+          </div>
+        </section>
+
+        <!-- Gallery Section 3 -->
+        {imageGroups.group3.length > 0 && (
+          <section class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="aspect-[3/4] overflow-hidden" data-speed="0.02">
+              <img 
+                src={imageGroups.group3[0] || project.data.image}
+                alt={`${project.data.title} Detail 1`}
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="aspect-[3/4] overflow-hidden md:translate-y-24 relative" data-speed="-0.03">
+              {imageGroups.group3.map((src: string, index: number) => (
+                <img 
+                  src={src}
+                  alt={`${project.data.title} Detail 2`}
+                  class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                  data-image-group="group3"
+                  data-image-index={index}
+                />
+              ))}
+            </div>
+            <div class="aspect-[3/4] overflow-hidden" data-speed="0.02">
+              <img 
+                src={imageGroups.group3[2] || project.data.image}
+                alt={`${project.data.title} Detail 3`}
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </section>
+        )}
       </div>
     </div>
+
+    <!-- CTA Section -->
+    <ProjectCTA 
+      prevProject={prevProject}
+      nextProject={nextProject}
+    />
   </main>
 
   <Footer />
-</Layout> 
+</Layout>
+
+<script>
+  const initImageSwitching = () => {
+    const groups = ['group1', 'group2', 'group3'];
+    const currentIndices = {
+      group1: 0,
+      group2: 0,
+      group3: 0
+    };
+
+    const switchImage = (group: string) => {
+      const images = document.querySelectorAll(`[data-image-group="${group}"]`);
+      if (images.length <= 1) return;
+      
+      const currentIndex = currentIndices[group as keyof typeof currentIndices];
+      const nextIndex = (currentIndex + 1) % images.length;
+
+      gsap.to(images[currentIndex], {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+
+      gsap.to(images[nextIndex], {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.inOut"
+      });
+
+      currentIndices[group as keyof typeof currentIndices] = nextIndex;
+    };
+
+    groups.forEach((group, index) => {
+      if (document.querySelectorAll(`[data-image-group="${group}"]`).length > 1) {
+        setInterval(() => switchImage(group), 3000 + (index * 750));
+      }
+    });
+  };
+
+  // Parallax Effect
+  const initParallax = () => {
+    const parallaxElements = document.querySelectorAll('[data-speed]');
+    
+    window.addEventListener('scroll', () => {
+      parallaxElements.forEach((element: Element) => {
+        const speed = parseFloat(element.getAttribute('data-speed') || '0');
+        const rect = element.getBoundingClientRect();
+        const scrolled = window.pageYOffset;
+        
+        const yPos = -(scrolled * speed);
+        
+        // Nur animieren wenn das Element im Viewport ist
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          gsap.to(element, {
+            y: yPos,
+            duration: 0.5,
+            ease: 'none'
+          });
+        }
+      });
+    });
+  };
+
+  window.addEventListener('load', () => {
+    if (typeof gsap === 'undefined') return;
+    
+    initImageSwitching();
+    initParallax(); // Parallax initialisieren
+    
+    // Hero animations
+    gsap.from('h1', {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out'
+    });
+
+    gsap.from('h1 + p', {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      delay: 0.3,
+      ease: 'power3.out'
+    });
+
+    // Scroll animations for images and text
+    gsap.utils.toArray('section').forEach((section) => {
+      gsap.from((section as Element).children, {
+        scrollTrigger: {
+          trigger: section as Element,
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse'
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out'
+      });
+    });
+  });
+</script> 

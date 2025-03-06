@@ -1,16 +1,25 @@
 ---
-title: "Wontec"
-description: "Branding & Webdesign für einen Visionär im Projektmanagement"
+title: "Wontec Website"
+description: "Ein Visionär im Projektmanagement braucht eine starke Identität."
 image: "/images/website-wontec-2000x1125.png"
+gallery: [
+  "/images/website-wontec-2000x1125.png",
+  "/images/wondera-wontec-2000x1125.png",
+  "/images/work-hard-2000x1125.jpg",
+  "/images/wondera-wontec-2000x1125.png",
+  "/images/work-hard-2000x1125.jpg",
+  "/images/website-wontec-2000x1125.png",
+  "/images/work-hard-2000x1125.jpg",
+  "/images/website-wontec-2000x1125.png",
+  "/images/wondera-wontec-2000x1125.png"
+]
 tags: ["Branding", "Webdesign", "Development", "UI/UX Design"]
 featured: true
-categories: ["auswahl", "branding", "webdesign", "development"]
+categories: ["branding", "webdesign", "development"]
 order: 1
 ---
 
-# Wontec
-
-Wontec ist ein innovatives Unternehmen im Bereich Projektmanagement, das durch seine zukunftsweisende Vision besticht. Das Branding und Webdesign sollte diese Vision widerspiegeln.
+Klare Linien, präzise Formen – die Essenz von effizientem Projektmanagement in visueller Form.
 
 ## Die Herausforderung
 
