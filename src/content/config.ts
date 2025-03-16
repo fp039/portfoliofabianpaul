@@ -25,11 +25,13 @@ const projectCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     image: z.string(),
+    projectType: z.enum(['video', 'default']).optional().default('default'),
+    videoUrl: z.string().optional(),
     gallery: z.array(z.string()).optional(),
     tags: z.array(z.string()),
-    featured: z.boolean().default(false),
+    featured: z.boolean(),
     categories: z.array(z.string()),
-    order: z.number().default(0)
+    order: z.number()
   })
 });
 

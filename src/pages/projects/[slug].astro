@@ -96,83 +96,106 @@ export const prerender = true;
     <!-- Gallery Container -->
     <div class="py-32 px-8">
       <div class="max-w-[1800px] mx-auto space-y-48">
-        <!-- Gallery Section 1 -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-24">
-          <div class="aspect-[4/3] overflow-hidden relative" data-speed="0.02">
-            {imageGroups.topLeft.map((src, index) => (
-              <img 
-                src={src}
-                alt={`${project.data.title} - Bild ${index + 1}`}
-                class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
-                data-image-group="group1"
-                data-image-index={index}
-              />
-            ))}
+        {project.data.projectType === "video" ? (
+          <div class="max-w-4xl mx-auto">
+            <!-- Text Content -->
+            <article class="prose-custom text-[clamp(1.25rem,2.5vw,1.75rem)] font-light italic mb-16">
+              <Content />
+            </article>
+            
+            <!-- Video Player -->
+            <div class="aspect-video w-full">
+              <video
+                controls
+                class="w-full h-full object-cover"
+                poster={project.data.image}
+              >
+                <source src={project.data.videoUrl} type="video/mp4" />
+                Ihr Browser unterstützt das Video-Tag nicht.
+              </video>
+            </div>
           </div>
-          <div class="aspect-[4/3] overflow-hidden md:translate-y-24" data-speed="-0.02">
-            <img 
-              src={imageGroups.topRight}
-              alt={`${project.data.title} Detail`}
-              class="w-full h-full object-cover"
-            />
-          </div>
-        </section>
+        ) : (
+          <>
+            <!-- Standard Gallery Layout -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-24">
+              <div class="aspect-[4/3] overflow-hidden relative" data-speed="0.02">
+                {imageGroups.topLeft.map((src, index) => (
+                  <img 
+                    src={src}
+                    alt={`${project.data.title} - Bild ${index + 1}`}
+                    class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                    data-image-group="group1"
+                    data-image-index={index}
+                  />
+                ))}
+              </div>
+              <div class="aspect-[4/3] overflow-hidden md:translate-y-24" data-speed="-0.02">
+                <img 
+                  src={imageGroups.topRight}
+                  alt={`${project.data.title} Detail`}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            </section>
 
-        <!-- Text Break -->
-        <article class="prose-custom text-[clamp(1.25rem,2.5vw,1.75rem)] font-light italic max-w-3xl">
-          <Content />
-        </article>
+            <!-- Text Break -->
+            <article class="prose-custom text-[clamp(1.25rem,2.5vw,1.75rem)] font-light italic max-w-3xl">
+              <Content />
+            </article>
 
-        <!-- Gallery Section 2 -->
-        <section class="grid grid-cols-1 md:grid-cols-12 gap-8">
-          <div class="md:col-span-8 aspect-video overflow-hidden" data-speed="0.03">
-            <img 
-              src={imageGroups.secondRowLeft}
-              alt={`${project.data.title} Workspace`}
-              class="w-full h-full object-cover"
-            />
-          </div>
-          <div class="md:col-span-4 aspect-video overflow-hidden md:translate-y-32 relative" data-speed="-0.03">
-            {imageGroups.secondRowRight.map((src, index) => (
-              <img 
-                src={src}
-                alt={`${project.data.title} Details`}
-                class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
-                data-image-group="group2"
-                data-image-index={index}
-              />
-            ))}
-          </div>
-        </section>
+            <!-- Gallery Section 2 -->
+            <section class="grid grid-cols-1 md:grid-cols-12 gap-8">
+              <div class="md:col-span-8 aspect-video overflow-hidden" data-speed="0.03">
+                <img 
+                  src={imageGroups.secondRowLeft}
+                  alt={`${project.data.title} Workspace`}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="md:col-span-4 aspect-video overflow-hidden md:translate-y-32 relative" data-speed="-0.03">
+                {imageGroups.secondRowRight.map((src, index) => (
+                  <img 
+                    src={src}
+                    alt={`${project.data.title} Details`}
+                    class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                    data-image-group="group2"
+                    data-image-index={index}
+                  />
+                ))}
+              </div>
+            </section>
 
-        <!-- Gallery Section 3 -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-12">
-          <div class="aspect-[3/4] overflow-hidden" data-speed="0.02">
-            <img 
-              src={imageGroups.thirdRowLeft}
-              alt={`${project.data.title} Detail 1`}
-              class="w-full h-full object-cover"
-            />
-          </div>
-          <div class="aspect-[3/4] overflow-hidden md:translate-y-24 relative" data-speed="-0.03">
-            {imageGroups.thirdRowMid.map((src, index) => (
-              <img 
-                src={src}
-                alt={`${project.data.title} Detail 2`}
-                class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
-                data-image-group="group3"
-                data-image-index={index}
-              />
-            ))}
-          </div>
-          <div class="aspect-[3/4] overflow-hidden" data-speed="0.02">
-            <img 
-              src={imageGroups.thirdRowRight}
-              alt={`${project.data.title} Detail 3`}
-              class="w-full h-full object-cover"
-            />
-          </div>
-        </section>
+            <!-- Gallery Section 3 -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <div class="aspect-[3/4] overflow-hidden" data-speed="0.02">
+                <img 
+                  src={imageGroups.thirdRowLeft}
+                  alt={`${project.data.title} Detail 1`}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="aspect-[3/4] overflow-hidden md:translate-y-24 relative" data-speed="-0.03">
+                {imageGroups.thirdRowMid.map((src, index) => (
+                  <img 
+                    src={src}
+                    alt={`${project.data.title} Detail 2`}
+                    class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                    data-image-group="group3"
+                    data-image-index={index}
+                  />
+                ))}
+              </div>
+              <div class="aspect-[3/4] overflow-hidden" data-speed="0.02">
+                <img 
+                  src={imageGroups.thirdRowRight}
+                  alt={`${project.data.title} Detail 3`}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            </section>
+          </>
+        )}
       </div>
     </div>
 

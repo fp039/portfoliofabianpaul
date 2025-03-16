@@ -60,12 +60,12 @@ const imageGroups = {
               Experiences
             </span>
             <!-- Bild nur auf Desktop sichtbar -->
-            <div class="hidden md:block relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
+            <div class="ml-10 hidden md:block relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
               {imageGroups.topRight.map((src, index) => (
                 <img 
                   src={src}
                   alt="Project Image"
-                  class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
+                  class={`absolute  inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
                   data-image-group="topRight"
                   data-image-index={index}
                 />

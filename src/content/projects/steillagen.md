@@ -1,17 +1,24 @@
 ---
-title: "Steillagen"
+title: "Steillagen Genuss"
 description: "Ein Etikett, das die Geschichte der Steillagen erzählt"
-image: "/images/Third_Row_Left.png"
+image: "/images/projects/steillagen/Header_Image.png"
 gallery: [
-  "/images/Third_Row_Left.png",
-  "/images/Third_Row_Mid_1.png",
-  "/images/Third_Row_Mid_2.png",
-  "/images/Third_Row_Mid_3.png",
-  "/images/Third_Row_Right.png",
-  "/images/Projects_Top_Left_1.png",
-  "/images/Projects_Top_Left_2.png",
-  "/images/Projects_Top_Left_3.png",
-  "/images/Projects_Top_Right.png"
+  # Erste Reihe
+  "/images/projects/steillagen/Projects_Top_Left_1.png",
+  "/images/projects/steillagen/Projects_Top_Left_2.png",
+  "/images/projects/steillagen/Projects_Top_Left_3.png",
+  "/images/projects/steillagen/Projects_Top_Right.png",
+  # Zweite Reihe
+  "/images/projects/steillagen/Second_Row_Left.png",
+  "/images/projects/steillagen/Second_Row_Right_1.png",
+  "/images/projects/steillagen/Second_Row_Right_2.png",
+  "/images/projects/steillagen/Second_Row_Right_3.png",
+  # Dritte Reihe
+  "/images/projects/steillagen/Third_Row_Left.png",
+  "/images/projects/steillagen/Third_Row_Mid_1.png",
+  "/images/projects/steillagen/Third_Row_Mid_2.png",
+  "/images/projects/steillagen/Third_Row_Mid_3.png",
+  "/images/projects/steillagen/Third_Row_Right.png"
 ]
 tags: ["Branding", "Etiketten Design", "Packaging"]
 featured: false

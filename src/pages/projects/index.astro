@@ -60,13 +60,25 @@ const allCategories: string[] = [...new Set(projects.flatMap(project => project.
             <div class={`${project.data.featured ? "md:col-span-2" : ""} space-y-[clamp(16px,3vw,32px)] project-item`} 
                  data-categories={project.data.categories.join(',')}>
               <a href={`/projects/${project.slug}`} class="block group">
-                <div class={`aspect-[16/9] overflow-hidden ${project.data.featured && project.data.order !== 2 ? "md:mr-48" : ""}`}>
-                  <img 
-                    src={project.data.image}
-                    alt={project.data.title}
-                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
+                {project.data.projectType === "video" ? (
+                  // Spezielles Layout für Video-Projekte
+                  <div class="aspect-video overflow-hidden">
+                    <img 
+                      src={project.data.image}
+                      alt={project.data.title}
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                ) : (
+                  // Standard-Layout für andere Projekte
+                  <div class={`aspect-[16/9] overflow-hidden ${project.data.featured && project.data.order !== 2 ? "md:mr-48" : ""}`}>
+                    <img 
+                      src={project.data.image}
+                      alt={project.data.title}
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                )}
               </a>
               <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
                 <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
