@@ -4,21 +4,21 @@
       "type": "featured",
       "title": "Wontec",
       "description": "Branding für einen Visionär im Projektmanagement und Consulting",
-      "image": "/images/website-wontec-2000x1125.png",
+      "image": "/images/shared/website-wontec-2000x1125.png",
       "link": "/projects/wontec"
     },
     {
       "type": "standard",
       "title": "Steillagen Genuss",
       "description": "Rosé mit Steillagen-Charakter. Ein Etikett, das die Geschichte erzählt.",
-      "image": "/images/rose-steillagen-2000x1125.jpg",
+      "image": "/images/shared/rose-steillagen-2000x1125.jpg",
       "link": "/projects/steillagen"
     },
     {
       "type": "featured",
       "title": "Brennerei Fischer",
       "description": "Gin & Branding: Tradition in dritter Generation, neu interpretiert.",
-      "image": "/images/gin-fischer-1920x1080.jpg",
+      "image": "/images/shared/gin-fischer-1920x1080.jpg",
       "link": "/projects/fischer"
     }
   ]
