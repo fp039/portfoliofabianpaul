@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 
 declare global {
   interface Window {
@@ -11,4 +11,9 @@ declare global {
 if (typeof window !== 'undefined') {
   window.gsap = gsap;
   gsap.registerPlugin(ScrollTrigger);
-} 
+}
+
+// Register plugins
+gsap.registerPlugin(ScrollTrigger);
+
+export { gsap, ScrollTrigger }; 
