@@ -1,5 +1,12 @@
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger.js';
+import gsap from 'gsap';
+
+// Dynamically import ScrollTrigger to avoid SSR issues
+let ScrollTrigger;
+
+if (typeof window !== 'undefined') {
+  ScrollTrigger = require('gsap/ScrollTrigger').ScrollTrigger;
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 declare global {
   interface Window {
@@ -10,10 +17,6 @@ declare global {
 // Make gsap globally available
 if (typeof window !== 'undefined') {
   window.gsap = gsap;
-  gsap.registerPlugin(ScrollTrigger);
 }
-
-// Register plugins
-gsap.registerPlugin(ScrollTrigger);
 
 export { gsap, ScrollTrigger }; 

@@ -1,7 +1,12 @@
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger.js';
+import gsap from 'gsap';
 
-gsap.registerPlugin(ScrollTrigger);
+// Dynamically import ScrollTrigger to avoid SSR issues
+let ScrollTrigger;
+
+if (typeof window !== 'undefined') {
+  ScrollTrigger = require('gsap/ScrollTrigger').ScrollTrigger;
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface WowElements {
   wowContainer: HTMLElement;
