@@ -5,8 +5,12 @@ export default defineConfig({
     include: ['gsap', 'gsap/ScrollTrigger']
   },
   build: {
-    commonjsOptions: {
-      include: [/gsap/]
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          gsap: ['gsap', 'gsap/ScrollTrigger']
+        }
+      }
     }
   }
 }); 
