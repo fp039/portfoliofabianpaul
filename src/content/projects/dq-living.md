@@ -1,9 +1,9 @@
 ---
 title: "DQ Living Explain Video"
 description: "Ein Erklärvideo für DQ Living, das die Customer Journey visualisiert"
-image: "/images/projects/harbr/guest-journey-harbr-2000x1125.jpg"
+image: "public/images/projects/harbr/guest-journey-harbr-2000x1125.jpg"
 projectType: "video"
-videoUrl: "/images/projects/harbr/230329_DQ_Guest_Journey_DE_Full-HD-30FPS.mp4"
+videoUrl: "public/images/projects/harbr/230329_DQ_Guest_Journey_DE_Full-HD-30FPS.mp4"
 gallery: [
 ]
 tags: ["Motion Design", "Animation", "Erklärvideo", "Customer Journey"]

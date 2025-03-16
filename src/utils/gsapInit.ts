@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 declare global {
   interface Window {
@@ -7,11 +7,8 @@ declare global {
   }
 }
 
-const initGSAP = () => {
-  if (typeof window !== 'undefined') {
-    window.gsap = gsap;
-    gsap.registerPlugin(ScrollTrigger);
-  }
-};
-
-export { gsap, ScrollTrigger, initGSAP }; 
+// Make gsap globally available
+if (typeof window !== 'undefined') {
+  window.gsap = gsap;
+  gsap.registerPlugin(ScrollTrigger);
+} 

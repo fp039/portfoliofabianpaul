@@ -1,6 +1,4 @@
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
-import { initGSAP } from './gsapInit';
+import type { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 interface WowElements {
   wowContainer: HTMLElement;
@@ -9,10 +7,7 @@ interface WowElements {
 }
 
 export const initWowAnimations = () => {
-  // Ensure GSAP is initialized
-  initGSAP();
-  
-  if (typeof window === 'undefined') return;
+  if (typeof window.gsap === 'undefined') return;
 
   const elements: WowElements = {
     wowContainer: document.getElementById('wow-container')!,
