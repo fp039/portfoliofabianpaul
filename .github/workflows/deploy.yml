@@ -20,11 +20,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Clean Install Dependencies
+          cache: 'npm'
+      - name: Install dependencies
         run: |
-          npm clean-install
-          npm cache clean --force
+          npm install
+          npm install gsap@latest --save
       - name: Build
+        env:
+          NODE_ENV: production
         run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
