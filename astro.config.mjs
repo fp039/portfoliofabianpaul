@@ -5,19 +5,25 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://fp039.github.io',
-  base: '/portfoliofabianpaul',
+  site: 'https://fabian-paul.design',
+  base: '/',
   integrations: [
     tailwind(),
     vue(),
     mdx(),
     sitemap({
-      customPages: [],
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: new Date(),
-      filter: (page) => !page.includes('api/')
-    })
+      customURLs: [
+        {
+          url: 'https://fabian-paul.design',
+          changefreq: 'daily',
+          priority: 1,
+          lastmod: new Date(),
+        },
+      ],
+    }),
   ],
   devToolbar: {
     enabled: false
@@ -25,7 +31,7 @@ export default defineConfig({
   output: 'static',
   vite: {
     define: {
-      'import.meta.env.BASE_URL': JSON.stringify('/portfoliofabianpaul')
+      'import.meta.env.BASE_URL': JSON.stringify('/')
     },
     css: {
       preprocessorOptions: {
@@ -33,6 +39,9 @@ export default defineConfig({
           additionalData: `@import "./src/styles/aspect-ratios.css";`
         }
       }
-    }
+    },
+    ssr: {
+      noExternal: ['@studio-freight/lenis'],
+    },
   }
 });
