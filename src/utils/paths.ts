@@ -20,9 +20,5 @@ export function getRoutePath(path: string): string {
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   // Wenn der Pfad leer ist (Home-Route), gib nur die BASE_URL zurück
   if (cleanPath === '') return '/';
-  // Für Projekt-URLs, entferne den 'projects/' Präfix
-  if (cleanPath.startsWith('projects/')) {
-    return `/${cleanPath.replace('projects/', '')}`;
-  }
   return `/${cleanPath}`;
 } 
