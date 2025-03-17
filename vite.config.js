@@ -13,5 +13,10 @@ export default defineConfig({
         }
       }
     }
+  },
+  resolve: {
+    alias: {
+      'gsap/ScrollTrigger': 'gsap/ScrollTrigger.js'
+    }
   }
 }); 
