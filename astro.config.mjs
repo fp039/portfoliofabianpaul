@@ -5,7 +5,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://fabian-paul.design',
+  site: 'https://fp039.github.io',
   base: '/portfoliofabianpaul',
   integrations: [
     tailwind(),
