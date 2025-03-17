@@ -8,5 +8,8 @@ export default defineConfig({
     commonjsOptions: {
       include: [/gsap/]
     }
+  },
+  ssr: {
+    noExternal: ['gsap']
   }
 }); 
