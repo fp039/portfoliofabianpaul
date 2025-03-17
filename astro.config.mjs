@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://fabian-paul.design',
-  base: '/',
+  base: '/portfoliofabianpaul',
   integrations: [
     tailwind(),
     vue(),
@@ -31,7 +31,7 @@ export default defineConfig({
   output: 'static',
   vite: {
     define: {
-      'import.meta.env.BASE_URL': JSON.stringify('/')
+      'import.meta.env.BASE_URL': JSON.stringify('/portfoliofabianpaul')
     },
     css: {
       preprocessorOptions: {
