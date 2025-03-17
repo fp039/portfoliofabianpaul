@@ -6,7 +6,7 @@
 export function getAssetPath(path: string): string {
   // Entferne führenden Slash, falls vorhanden
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  return `${import.meta.env.BASE_URL}/${cleanPath}`;
+  return `/${cleanPath}`;
 }
 
 /**
@@ -17,6 +17,6 @@ export function getAssetPath(path: string): string {
 export function getRoutePath(path: string): string {
   // Wenn der Pfad mit einem Slash beginnt, entferne ihn
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  // Wenn der Pfad leer ist (Home-Route), gib nur die BASE_URL zurück
-  return cleanPath === '' ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/${cleanPath}`;
+  // Wenn der Pfad leer ist (Home-Route), gib nur einen Slash zurück
+  return cleanPath === '' ? '/' : `/${cleanPath}`;
 } 
