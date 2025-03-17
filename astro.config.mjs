@@ -43,5 +43,12 @@ export default defineConfig({
     ssr: {
       noExternal: ['@studio-freight/lenis', 'gsap']
     },
+    resolve: {
+      alias: {
+        '@': '/src',
+        '@images': '/public/images',
+        '@fonts': '/public/fonts'
+      }
+    }
   }
 });
