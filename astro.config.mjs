@@ -41,7 +41,7 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: ['@studio-freight/lenis'],
+      noExternal: ['@studio-freight/lenis', 'gsap']
     },
   }
 });
