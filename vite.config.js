@@ -5,14 +5,12 @@ export default defineConfig({
     include: ['gsap']
   },
   build: {
-    rollupOptions: {
-      external: ['gsap'],
-      output: {
-        globals: {
-          gsap: 'gsap'
-        }
-      }
+    commonjsOptions: {
+      include: [/gsap/]
     }
+  },
+  ssr: {
+    noExternal: ['gsap']
   },
   resolve: {
     alias: {
