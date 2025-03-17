@@ -25,7 +25,7 @@ export default defineConfig({
   output: 'static',
   vite: {
     define: {
-      'import.meta.env.BASE_URL': JSON.stringify('/')
+      'import.meta.env.BASE_URL': JSON.stringify('/portfoliofabianpaul')
     },
     css: {
       preprocessorOptions: {
