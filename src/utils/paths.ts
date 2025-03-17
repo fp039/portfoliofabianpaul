@@ -6,7 +6,8 @@
 export function getAssetPath(path: string): string {
   // Entferne führenden Slash, falls vorhanden
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  return `${import.meta.env.BASE_URL}/${cleanPath}`;
+  // Füge den Pfad direkt hinzu, ohne BASE_URL
+  return `/${cleanPath}`;
 }
 
 /**
