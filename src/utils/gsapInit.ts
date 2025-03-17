@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import pkg from 'gsap/ScrollTrigger.js';
+const { ScrollTrigger } = pkg;
 
 declare global {
   interface Window {
