@@ -146,13 +146,14 @@
 
 <script setup>
 import { watch } from 'vue'
+import { getRoutePath } from '../utils/paths'
 
 const menuItems = [
-  { name: 'Home', path: '/' },
-  { name: 'Projects', path: '/projects' },
-  { name: 'About', path: '/about' },
-  { name: 'Blog', path: '/blog' },
-  { name: 'Contact', path: '/contact' }
+  { name: 'Home', path: getRoutePath('/') },
+  { name: 'Projects', path: getRoutePath('/projects') },
+  { name: 'About', path: getRoutePath('/about') },
+  { name: 'Blog', path: getRoutePath('/blog') },
+  { name: 'Contact', path: getRoutePath('/contact') }
 ]
 
 const socials = ['Xi', 'Li', 'Ig', 'Wa']

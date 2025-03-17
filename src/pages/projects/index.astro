@@ -3,12 +3,22 @@ import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.vue';
 import Footer from '../../components/Footer.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { getRoutePath, getAssetPath } from '../../utils/paths';
 
 const projects = await getCollection('projects');
 const sortedProjects = projects.sort((a: CollectionEntry<'projects'>, b: CollectionEntry<'projects'>) => a.data.order - b.data.order);
 
 // Extrahiere einzigartige Kategorien für die Filter
 const allCategories: string[] = [...new Set(projects.flatMap(project => project.data.categories))];
+
+// Verarbeite die Projekte für die korrekten Pfade
+const processedProjects = sortedProjects.map(project => ({
+  ...project,
+  data: {
+    ...project.data,
+    image: getAssetPath(project.data.image)
+  }
+}));
 ---
 
 <Layout title="Projekte - Fabian Paul">
@@ -55,11 +65,11 @@ const allCategories: string[] = [...new Set(projects.flatMap(project => project.
     <!-- Projects Container -->
     <div class="px-4 md:px-8 pb-[48px]">
       <div class="max-w-[1800px] mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-[clamp(48px,8vw,96px)]">
-          {sortedProjects.map((project: CollectionEntry<'projects'>) => (
-            <div class={`${project.data.featured ? "md:col-span-2" : ""} space-y-[clamp(16px,3vw,32px)] project-item`} 
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[clamp(48px,8vw,96px)]">
+          {processedProjects.map((project: CollectionEntry<'projects'>) => (
+            <div class={`${project.data.featured ? "lg:col-span-2" : ""} space-y-[clamp(16px,3vw,32px)] project-item`} 
                  data-categories={project.data.categories.join(',')}>
-              <a href={`/projects/${project.slug}`} class="block group">
+              <a href={getRoutePath(`/projects/${project.slug}`)} class="block group">
                 {project.data.projectType === "video" ? (
                   // Spezielles Layout für Video-Projekte
                   <div class="aspect-video overflow-hidden">
@@ -71,7 +81,7 @@ const allCategories: string[] = [...new Set(projects.flatMap(project => project.
                   </div>
                 ) : (
                   // Standard-Layout für andere Projekte
-                  <div class={`aspect-[16/9] overflow-hidden ${project.data.featured && project.data.order !== 2 ? "md:mr-48" : ""}`}>
+                  <div class={`aspect-[16/9] overflow-hidden ${project.data.featured ? "lg:mr-48" : ""}`}>
                     <img 
                       src={project.data.image}
                       alt={project.data.title}

@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import TechCard from '../components/TechCard.vue';
 import RotatingCircle from '../components/ui/RotatingCircle.astro';
 import '../utils/gsapInit';
+import { getAssetPath } from '../utils/paths';
 
 // Berechne Alter
 const birthDate = new Date('1995-10-06');
@@ -68,7 +69,7 @@ const techStack = [
           <div class="relative w-full max-w-[600px] lg:max-w-none mx-auto">
             <div class="aspect-square lg:aspect-[7/9] overflow-hidden group relative animate-image">
               <img 
-                src="/images/portrait-fabian-1683x1920.jpg"
+                src={getAssetPath("/images/portrait-fabian-1683x1920.jpg")}
                 alt="Portrait von Fabian Paul"
                 class="w-full h-full object-cover"
                 width="1683"
@@ -77,7 +78,7 @@ const techStack = [
                 fetchpriority="high"
               />
               <img 
-                src="/images/fabian-mit-hund.jpg"
+                src={getAssetPath("/images/fabian-mit-hund.jpg")}
                 alt="Fabian mit seinem Hund Mira"
                 class="w-full h-full object-cover absolute inset-0 opacity-0"
                 width="1683"

@@ -1,6 +1,7 @@
 ---
 import PageTransition from '../components/PageTransition.vue'
 import CustomCursor from '../components/ui/CustomCursor.vue'
+import { getAssetPath } from '../utils/paths'
 
 interface Props {
   title: string;
@@ -8,6 +9,54 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const fontPaths = {
+  mediumWoff2: getAssetPath('/fonts/TT_Firs_Neue_Medium.woff2'),
+  mediumWoff: getAssetPath('/fonts/TT_Firs_Neue_Medium.woff'),
+  mediumItalicWoff2: getAssetPath('/fonts/TT_Firs_Neue_Medium_Italic.woff2'),
+  mediumItalicWoff: getAssetPath('/fonts/TT_Firs_Neue_Medium_Italic.woff'),
+  lightWoff2: getAssetPath('/fonts/TT_Firs_Neue_Light.woff2'),
+  lightWoff: getAssetPath('/fonts/TT_Firs_Neue_Light.woff'),
+  lightItalicWoff2: getAssetPath('/fonts/TT_Firs_Neue_Light_Italic.woff2'),
+  lightItalicWoff: getAssetPath('/fonts/TT_Firs_Neue_Light_Italic.woff'),
+};
+
+const styles = `
+  @font-face {
+    font-family: 'TT Firs Neue';
+    src: url('${fontPaths.mediumWoff2}') format('woff2'),
+         url('${fontPaths.mediumWoff}') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'TT Firs Neue';
+    src: url('${fontPaths.mediumItalicWoff2}') format('woff2'),
+         url('${fontPaths.mediumItalicWoff}') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'TT Firs Neue';
+    src: url('${fontPaths.lightWoff2}') format('woff2'),
+         url('${fontPaths.lightWoff}') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'TT Firs Neue';
+    src: url('${fontPaths.lightItalicWoff2}') format('woff2'),
+         url('${fontPaths.lightItalicWoff}') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+`;
 ---
 
 <!doctype html>
@@ -16,7 +65,7 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="description" content="Digital Experiences & Creative Branding by Fabian Paul" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={getAssetPath("/favicon.svg")} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="view-transition" content="same-origin" />
@@ -24,14 +73,14 @@ const { title } = Astro.props;
     <!-- Preload critical fonts -->
     <link 
       rel="preload" 
-      href="/fonts/TT_Firs_Neue_Medium.woff2" 
+      href={fontPaths.mediumWoff2} 
       as="font" 
       type="font/woff2" 
       crossorigin="anonymous"
     />
     <link 
       rel="preload" 
-      href="/fonts/TT_Firs_Neue_Light.woff2" 
+      href={fontPaths.lightWoff2} 
       as="font" 
       type="font/woff2" 
       crossorigin="anonymous"
@@ -62,65 +111,13 @@ const { title } = Astro.props;
       }
     </script>
 
-    <style>
-      /* TT Firs Neue Medium */
-      @font-face {
-        font-family: 'TT Firs Neue';
-        src: url('/fonts/TT_Firs_Neue_Medium.woff2') format('woff2'),
-             url('/fonts/TT_Firs_Neue_Medium.woff') format('woff');
-        font-weight: 500;
-        font-style: normal;
-        font-display: swap;
-        font-feature-settings: "kern" 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      
-      /* TT Firs Neue Medium Italic */
-      @font-face {
-        font-family: 'TT Firs Neue';
-        src: url('/fonts/TT_Firs_Neue_Medium_Italic.woff2') format('woff2'),
-             url('/fonts/TT_Firs_Neue_Medium_Italic.woff') format('woff');
-        font-weight: 500;
-        font-style: italic;
-        font-display: swap;
-        font-feature-settings: "kern" 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      
-      /* TT Firs Neue Light */
-      @font-face {
-        font-family: 'TT Firs Neue';
-        src: url('/fonts/TT_Firs_Neue_Light.woff2') format('woff2'),
-             url('/fonts/TT_Firs_Neue_Light.woff') format('woff');
-        font-weight: 300;
-        font-style: normal;
-        font-display: swap;
-        font-feature-settings: "kern" 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      
-      /* TT Firs Neue Light Italic */
-      @font-face {
-        font-family: 'TT Firs Neue';
-        src: url('/fonts/TT_Firs_Neue_Light_Italic.woff2') format('woff2'),
-             url('/fonts/TT_Firs_Neue_Light_Italic.woff') format('woff');
-        font-weight: 300;
-        font-style: italic;
-        font-display: swap;
-        font-feature-settings: "kern" 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-    </style>
+    <style set:html={styles}></style>
 
     <!-- Fügen Sie diese Zeilen im Head-Bereich hinzu -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href={getAssetPath("/apple-touch-icon.png")}>
+    <link rel="icon" type="image/png" sizes="32x32" href={getAssetPath("/favicon-32x32.png")}>
+    <link rel="icon" type="image/png" sizes="16x16" href={getAssetPath("/favicon-16x16.png")}>
+    <link rel="manifest" href={getAssetPath("/site.webmanifest")}>
   </head>
   <body class="bg-[#1E1E1E] text-[#E5E5E5] font-tt-firs-neue font-medium antialiased overflow-x-hidden">
     <PageTransition client:load data-transition />

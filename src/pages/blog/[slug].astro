@@ -2,22 +2,13 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 
-// Debug: Zeige den aktuellen Ausführungspfad
-console.log('Current execution path:', import.meta.url);
-
 export const prerender = true;
 
 export async function getStaticPaths() {
   try {
     const posts = await getCollection('blog');
-    console.log('Gefundene Blog-Posts:', posts.map(p => ({
-      slug: p.slug,
-      id: p.id,
-      collection: p.collection
-    })));
     
     if (!posts || !posts.length) {
-      console.error('Keine Blog-Posts gefunden in der Collection');
       return [{
         params: { slug: 'not-found' },
         props: { entry: null }
@@ -29,11 +20,9 @@ export async function getStaticPaths() {
       props: { entry },
     }));
 
-    console.log('Generierte Pfade:', paths.map(p => p.params.slug));
     return paths;
 
   } catch (error) {
-    console.error('Fehler beim Laden der Blog-Collection:', error);
     throw error;
   }
 }
@@ -48,8 +37,6 @@ type Params = {
 
 const { entry } = Astro.props;
 const { slug } = Astro.params as Params;
-console.log('Received slug:', slug);
-console.log('Received entry:', entry);
 
 if (!entry) {
   return new Response('Blog-Post nicht gefunden', {

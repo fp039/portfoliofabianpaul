@@ -1,27 +1,66 @@
 ---
 import RotatingCircle from '../ui/RotatingCircle.astro';
 import ScrollIndicator from '../ui/ScrollIndicator.astro';
+import { getAssetPath } from '../../utils/paths';
+import { getCollection } from 'astro:content';
+import sharp from 'sharp';
+import path from 'path';
+
+// Hilfsfunktion zum Analysieren der Bilddimensionen
+async function isHorizontalImage(imagePath: string): Promise<boolean> {
+  try {
+    const fullPath = path.join(process.cwd(), 'public', imagePath);
+    const metadata = await sharp(fullPath).metadata();
+    return metadata.width && metadata.height ? metadata.width > metadata.height : false;
+  } catch (error) {
+    console.error(`Fehler beim Analysieren des Bildes ${imagePath}:`, error);
+    return false;
+  }
+}
+
+// Lade alle Projekte
+const projects = await getCollection('projects');
+
+// Filtere horizontale Bilder aus den Projekten
+const horizontalImages = await Promise.all(
+  projects
+    .flatMap(project => [
+      project.data.image,
+      ...(project.data.gallery || [])
+    ])
+    .map(async (img) => {
+      const isHorizontal = await isHorizontalImage(img);
+      return isHorizontal ? img : null;
+    })
+);
+
+// Filtere null-Werte und behalte nur horizontale Bilder
+const filteredImages = horizontalImages.filter((img): img is string => img !== null);
 
 // Define image sets for each position
 const imageGroups = {
   topLeft: [
-    '/images/shared/gin-fischer-1920x1080.jpg',
-    '/images/shared/gin-fischer-1920x1080-2.jpg',
-    '/images/shared/website-wontec-2000x1125.png',
+    getAssetPath('/images/shared/gin-fischer-1920x1080.jpg'),
+    getAssetPath('/images/shared/website-wontec-2000x1125.png'),
+    getAssetPath('/images/shared/gin-fischer-1920x1080-2.jpg'),
+    ...filteredImages.slice(0, 3).map(img => getAssetPath(img))
   ],
   topRight: [
-    '/images/shared/guest-journey-harbr-2000x1125.jpg',
-    '/images/shared/wondera-wontec-2000x1125.png',
-    '/images/shared/work-hard-2000x1125.jpg',
+    getAssetPath('/images/shared/guest-journey-harbr-2000x1125.jpg'),
+    getAssetPath('/images/shared/wondera-wontec-2000x1125.png'),
+    getAssetPath('/images/shared/work-hard-2000x1125.jpg'),
+    ...filteredImages.slice(3, 6).map(img => getAssetPath(img))
   ],
   bottomLeft: [
-    '/images/shared/rose-steillagen-2000x1125.jpg',
-    '/images/shared/rose-steillagen-2000x1125-2.jpg',
-    '/images/shared/rose-steillagen-2000x1125-3.png',
+    getAssetPath('/images/shared/rose-steillagen-2000x1125.jpg'),
+    getAssetPath('/images/shared/rose-steillagen-2000x1125-2.jpg'),
+    getAssetPath('/images/shared/rose-steillagen-2000x1125-3.png'),
+    ...filteredImages.slice(6, 9).map(img => getAssetPath(img))
   ],
   bottomRight: [
-    '/images/shared/rose-steillagen-2000x1125-2.jpg',
-    '/images/shared/rose-steillagen-2000x1125-3.png',
+    getAssetPath('/images/shared/rose-steillagen-2000x1125-2.jpg'),
+    getAssetPath('/images/shared/rose-steillagen-2000x1125-3.png'),
+    ...filteredImages.slice(9, 11).map(img => getAssetPath(img))
   ],
 };
 ---
@@ -124,16 +163,19 @@ const imageGroups = {
 </section>
 
 <script>
+  type ImageGroup = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
+  type CurrentIndices = Record<ImageGroup, number>;
+
   const initImageSwitching = () => {
-    const groups = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'];
-    const currentIndices = {
+    const groups: ImageGroup[] = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'];
+    const currentIndices: CurrentIndices = {
       topLeft: 0,
       topRight: 0,
       bottomLeft: 0,
       bottomRight: 0
     };
 
-    const switchImage = (group) => {
+    const switchImage = (group: ImageGroup) => {
       const images = document.querySelectorAll(`[data-image-group="${group}"]`);
       const currentIndex = currentIndices[group];
       const nextIndex = (currentIndex + 1) % images.length;

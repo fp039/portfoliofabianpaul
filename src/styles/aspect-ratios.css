@@ -1,0 +1,47 @@
+/* Aspect Ratio Utilities */
+.aspect-21-9 {
+  aspect-ratio: 21/9;
+}
+
+.aspect-16-9 {
+  aspect-ratio: 16/9;
+}
+
+.aspect-4-3 {
+  aspect-ratio: 4/3;
+}
+
+.aspect-3-4 {
+  aspect-ratio: 3/4;
+}
+
+.aspect-3-2 {
+  aspect-ratio: 3/2;
+}
+
+.aspect-2-1 {
+  aspect-ratio: 2/1;
+}
+
+.aspect-7-9 {
+  aspect-ratio: 7/9;
+}
+
+/* Media Query Anpassungen */
+@media (min-width: 2000px) {
+  .aspect-21-9 {
+    max-height: 800px;
+  }
+}
+
+@media (max-width: 768px) {
+  .aspect-16-9 {
+    min-height: 400px;
+  }
+}
+
+/* Transitions */
+.aspect-16-9,
+.aspect-21-9 {
+  transition: all 0.3s ease-in-out;
+} 

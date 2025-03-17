@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <a 
-      href="/contact" 
+      :href="getRoutePath('/contact')" 
       class="flex items-center group relative"
       @mouseenter="onButtonEnter"
       @mouseleave="onButtonLeave"
@@ -25,6 +25,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import { getRoutePath } from '../utils/paths'
 
 const connector = ref(null)
 const circleArrow = ref(null)

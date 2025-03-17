@@ -3,21 +3,24 @@ import BlogLayout from '../../layouts/BlogLayout.astro';
 import BlogCard from '../../components/BlogCard.vue';
 import '../../styles/prose.css';
 import { getCollection } from 'astro:content';
+import { getAssetPath, getRoutePath } from '../../utils/paths';
 
 const posts = await getCollection('blog');
 const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-// Stelle sicher, dass das Datum als String übergeben wird
+// Verarbeite die Posts mit korrekten Pfaden und Datumsformatierung
 const formattedPosts = sortedPosts.map(post => ({
   ...post,
   data: {
     ...post.data,
+    image: getAssetPath(post.data.image),
     date: post.data.date.toLocaleDateString('de-DE', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric'
     })
-  }
+  },
+  slug: post.slug
 }));
 ---
 

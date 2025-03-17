@@ -3,6 +3,7 @@ import BlogLayout from './BlogLayout.astro';
 import BlogGallery from '../components/BlogGallery.astro';
 import type { CollectionEntry } from 'astro:content';
 import '../styles/prose.css';
+import { getAssetPath, getRoutePath } from '../utils/paths';
 
 interface Props {
   frontmatter: {
@@ -12,7 +13,7 @@ interface Props {
     image: string;
     images?: {
       src: string;
-      layout?: 'single' | 'slider';
+      layout?: 'grid' | 'slider';
       position?: 'before' | 'after';
     }[];
     gallery?: string[];
@@ -23,15 +24,17 @@ interface Props {
 }
 
 const { frontmatter } = Astro.props;
-console.log('Frontmatter data:', {
-  title: frontmatter.title,
-  gallery: frontmatter.gallery,
-  hasGallery: Boolean(frontmatter.gallery)
-});
 
 // Sortiere Bilder nach Position
-const beforeContent = frontmatter.images?.filter(img => img.position === 'before') || [];
-const afterContent = frontmatter.images?.filter(img => img.position === 'after') || [];
+const beforeContent = frontmatter.images?.filter(img => img.position === 'before').map(img => ({
+  ...img,
+  src: getAssetPath(img.src)
+})) || [];
+
+const afterContent = frontmatter.images?.filter(img => img.position === 'after').map(img => ({
+  ...img,
+  src: getAssetPath(img.src)
+})) || [];
 
 const formatDate = (date: Date | string) => {
   return new Date(date).toLocaleDateString('de-DE', {
@@ -39,6 +42,14 @@ const formatDate = (date: Date | string) => {
     month: 'long',
     day: 'numeric'
   });
+};
+
+// Konvertiere die Bildpfade und URLs
+const processedFrontmatter = {
+  ...frontmatter,
+  image: getAssetPath(frontmatter.image),
+  url: getRoutePath(frontmatter.url),
+  gallery: frontmatter.gallery?.map(img => getAssetPath(img))
 };
 ---
 
@@ -50,8 +61,8 @@ const formatDate = (date: Date | string) => {
       <div class="w-screen relative">
         <div class="relative h-[clamp(250px,40vh,800px)] md:h-[clamp(400px,60vh,800px)]">
           <img
-            src={frontmatter.image}
-            alt={frontmatter.title}
+            src={processedFrontmatter.image}
+            alt={processedFrontmatter.title}
             class="absolute inset-0 w-full h-full object-cover"
           />
         </div>
@@ -64,18 +75,18 @@ const formatDate = (date: Date | string) => {
             <div class="space-y-6">
               <div class="space-y-3">
                 <h1 class="text-fluid-2xl md:text-fluid-3xl font-bold text-text-primary leading-[1.1] pt-12">
-                  {frontmatter.title}
+                  {processedFrontmatter.title}
                 </h1>
                 
                 <div class="flex flex-wrap items-center gap-3 text-text-secondary/80">
                   <time 
-                    datetime={frontmatter.date?.toString()} 
+                    datetime={processedFrontmatter.date?.toString()} 
                     class="flex items-center gap-2 text-fluid-sm"
                   >
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    {formatDate(frontmatter.date)}
+                    {formatDate(processedFrontmatter.date)}
                   </time>
                   
                   <span class="w-1.5 h-1.5 rounded-full bg-accent/80"></span>
@@ -84,13 +95,13 @@ const formatDate = (date: Date | string) => {
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                    {frontmatter.author}
+                    {processedFrontmatter.author}
                   </span>
                 </div>
               </div>
               
               <div class="flex flex-wrap gap-2">
-                {frontmatter.tags.map(tag => (
+                {processedFrontmatter.tags.map(tag => (
                   <span class="px-3 py-1 text-fluid-sm rounded-full bg-accent/10 text-accent font-medium hover:bg-accent/20 transition-colors">
                     #{tag}
                   </span>
@@ -109,7 +120,7 @@ const formatDate = (date: Date | string) => {
         {beforeContent.map(img => (
           <BlogGallery 
             images={[img.src]} 
-            layout={img.layout || 'single'} 
+            layout="grid"
           />
         ))}
 
@@ -122,14 +133,14 @@ const formatDate = (date: Date | string) => {
         {afterContent.map(img => (
           <BlogGallery 
             images={[img.src]} 
-            layout={img.layout || 'single'} 
+            layout="grid"
           />
         ))}
 
         <!-- Navigation -->
         <div class="mt-16 pt-8 border-t border-white/10">
           <a 
-            href="/blog"
+            href={getRoutePath("/blog")}
             class="group inline-flex items-center gap-3 text-accent hover:underline"
           >
             <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -178,20 +189,28 @@ const formatDate = (date: Date | string) => {
   }
 
   /* Zusätzliche Styles für Hero-Bild */
+  .aspect-21-9 {
+    aspect-ratio: 21/9;
+  }
+
   @media (min-width: 2000px) {
-    .aspect-[21/9] {
-      max-height: 800px; /* Maximale Höhe für sehr große Bildschirme */
+    .aspect-21-9 {
+      max-height: 800px;
     }
+  }
+
+  .aspect-16-9 {
+    aspect-ratio: 16/9;
   }
 
   @media (max-width: 768px) {
-    .aspect-[16/9] {
-      min-height: 400px; /* Minimale Höhe für mobile Geräte */
+    .aspect-16-9 {
+      min-height: 400px;
     }
   }
 
-  /* Smooth scaling für das Hero-Bild */
-  .aspect-[16/9], .aspect-[21/9] {
-    transition: aspect-ratio 0.3s ease-out;
+  .aspect-16-9,
+  .aspect-21-9 {
+    transition: all 0.3s ease-in-out;
   }
 </style>

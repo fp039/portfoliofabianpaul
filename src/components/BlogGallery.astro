@@ -1,26 +1,39 @@
 ---
+import { getAssetPath } from '../utils/paths';
+
 interface Props {
   images: string[];
-  layout?: 'slider' | 'single';
+  layout?: 'slider' | 'grid';
+  orientation?: 'landscape' | 'portrait';
   className?: string;
 }
 
-const { images, layout = 'slider', className = '' } = Astro.props;
+const { images, layout = 'grid', orientation = 'landscape', className = '' } = Astro.props;
+
+// Verarbeite alle Bildpfade
+const processedImages = images.map(image => getAssetPath(image));
 ---
 
-<div class:list={[
-  'my-12 relative',
-  className,
-  'max-w-7xl mx-auto'
-]}>
-  {layout === 'slider' ? (
+{layout === 'grid' ? (
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 my-8">
+    {processedImages.map((image) => (
+      <div class={`aspect-3-2 overflow-hidden ${orientation === 'portrait' ? 'aspect-3-4' : ''}`}>
+        <img src={image} alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+    ))}
+  </div>
+) : (
+  <div class:list={[
+    'my-12 relative',
+    className,
+    'max-w-7xl mx-auto'
+  ]}>
     <div class="gallery-slider relative">
       <div class="gallery-container">
         <div class="gallery-track flex transition-transform duration-700 ease-out">
-          {images.map((image) => (
+          {processedImages.map((image) => (
             <div class="gallery-slide w-full flex-shrink-0">
               <div class="aspect-[16/9] relative overflow-hidden">
-                {/* Hauptbild */}
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
                     src={image}
@@ -35,7 +48,7 @@ const { images, layout = 'slider', className = '' } = Astro.props;
         </div>
       </div>
       
-      {images.length > 1 && (
+      {processedImages.length > 1 && (
         <>
           <button 
             class="gallery-prev absolute left-8 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-[#00FF00]/70 hover:text-[#00FF00] transition-colors"
@@ -57,17 +70,8 @@ const { images, layout = 'slider', className = '' } = Astro.props;
         </>
       )}
     </div>
-  ) : (
-    <div class="aspect-[16/9] relative overflow-hidden">
-      <img
-        src={images[0]}
-        alt=""
-        class="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700"
-        loading="lazy"
-      />
-    </div>
-  )}
-</div>
+  </div>
+)}
 
 <style>
   .gallery-container {
@@ -139,8 +143,20 @@ const { images, layout = 'slider', className = '' } = Astro.props;
     }
   }
 
-  // Initialize all galleries
-  document.querySelectorAll('.gallery-slider').forEach(container => {
-    new GallerySlider(container as HTMLElement);
-  });
+  function initGalleries() {
+    document.querySelectorAll('.gallery-slider').forEach(container => {
+      new GallerySlider(container as HTMLElement);
+    });
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGalleries);
+  } else {
+    initGalleries();
+  }
+
+  // Initialize after Astro view transitions
+  document.addEventListener('astro:page-load', initGalleries);
+  document.addEventListener('astro:after-swap', initGalleries);
 </script> 

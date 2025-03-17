@@ -1,23 +1,36 @@
 {
   "projects": [
     {
-      "type": "featured",
+      "id": "wontec",
       "title": "Wontec",
-      "description": "Branding für einen Visionär im Projektmanagement und Consulting",
+      "subtitle": "Website & Branding",
+      "description": "Entwicklung einer modernen Website für Wontec, ein innovatives Unternehmen im Bereich der Wasseraufbereitung.",
       "image": "/images/shared/website-wontec-2000x1125.png",
-      "link": "/projects/wontec"
+      "link": "/projects/wontec",
+      "type": "featured"
     },
     {
-      "type": "standard",
-      "title": "Steillagen Genuss",
-      "description": "Rosé mit Steillagen-Charakter. Ein Etikett, das die Geschichte erzählt.",
+      "id": "steillagen",
+      "title": "Steillagen",
+      "subtitle": "Branding & Packaging",
+      "description": "Entwicklung einer Markenidentität für ein Premium-Weinprodukt aus den Steillagen der Mosel.",
       "image": "/images/shared/rose-steillagen-2000x1125.jpg",
       "link": "/projects/steillagen"
     },
     {
-      "type": "featured",
-      "title": "Brennerei Fischer",
-      "description": "Gin & Branding: Tradition in dritter Generation, neu interpretiert.",
+      "id": "dq-living",
+      "title": "DQ Living",
+      "subtitle": "Motion Design",
+      "description": "Ein Erklärvideo für DQ Living, das die Customer Journey visualisiert",
+      "image": "/images/projects/harbr/guest-journey-harbr-2000x1125.jpg",
+      "link": "/projects/dq-living",
+      "type": "featured"
+    },
+    {
+      "id": "fischer",
+      "title": "Fischer",
+      "subtitle": "Branding & Packaging",
+      "description": "Entwicklung einer Markenidentität für eine Premium Gin-Marke aus der Region Trier.",
       "image": "/images/shared/gin-fischer-1920x1080.jpg",
       "link": "/projects/fischer"
     }

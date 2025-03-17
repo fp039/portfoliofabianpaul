@@ -1,6 +1,13 @@
 ---
 import projectsData from '../../data/projects.json';
-const { projects } = projectsData;
+import { getAssetPath, getRoutePath } from '../../utils/paths';
+
+// Konvertiere die Bildpfade und Links
+const projects = projectsData.projects.map(project => ({
+  ...project,
+  image: getAssetPath(project.image),
+  link: getRoutePath(project.link)
+}));
 ---
 
 <section class="relative bg-[#E5E5E5] min-h-screen flex flex-col" id="projects">
@@ -54,10 +61,10 @@ const { projects } = projectsData;
             <a 
               href={project.link} 
               class={`group flex flex-col items-start gap-[clamp(15px,2.5vw,25px)] flex-shrink-0 ${
-                project.type === 'featured' ? 'w-[clamp(400px,45vw,700px)]' : 'w-[clamp(300px,30vw,350px)]'
+                project.type === 'featured' ? 'w-[clamp(500px,50vw,800px)]' : 'w-[clamp(300px,30vw,400px)]'
               }`}
             >
-              <div class="w-full overflow-hidden">
+              <div class={`w-full overflow-hidden ${project.type === 'featured' ? 'aspect-2-1' : 'aspect-4-3'}`}>
                 <img 
                   src={project.image}
                   alt={project.title}
@@ -90,7 +97,6 @@ const { projects } = projectsData;
     private dragVelocity: number = 2;
 
     constructor() {
-      // Warten auf DOM-Bereitschaft
       requestAnimationFrame(() => {
         this.init();
       });
@@ -101,28 +107,21 @@ const { projects } = projectsData;
       this.container = document.querySelector('.projects-scroll > div');
       
       if (!this.handle || !this.container) {
-        console.warn('ScrollHandle: Required elements not found');
         return;
       }
 
-      // Methoden binden
       this.onMouseDown = this.onMouseDown.bind(this);
       this.onMouseMove = this.onMouseMove.bind(this);
       this.onMouseUp = this.onMouseUp.bind(this);
       this.onMouseEnter = this.onMouseEnter.bind(this);
       this.onMouseLeave = this.onMouseLeave.bind(this);
 
-      // Events binden
       this.addEventListeners();
-      
-      // Debug-Log
-      console.log('ScrollHandle initialized', {
-        handle: this.handle,
-        container: this.container
-      });
     }
 
     addEventListeners() {
+      if (!this.handle) return;
+      
       this.handle.addEventListener('mousedown', this.onMouseDown);
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseUp);
@@ -130,40 +129,35 @@ const { projects } = projectsData;
       this.handle.addEventListener('mouseleave', this.onMouseLeave);
     }
 
-    onMouseEnter() {
-      (this.handle?.querySelector('.scroll-arrow') as HTMLElement).style.animationPlayState = 'paused';
-    }
-
-    onMouseLeave() {
-      if (!this.isDown) {
-        (this.handle?.querySelector('.scroll-arrow') as HTMLElement).style.animationPlayState = 'running';
-      }
-    }
-
     onMouseDown(e: MouseEvent) {
+      if (!this.handle || !this.container) return;
+      
       this.isDown = true;
-      this.handle!.classList.add('active');
-      this.startX = e.pageX;
-      this.scrollLeft = this.container!.scrollLeft;
-      (document.body as HTMLElement).style.cursor = 'grabbing';
-      (this.handle as HTMLElement).style.cursor = 'grabbing';
+      this.startX = e.pageX - this.handle.offsetLeft;
+      this.scrollLeft = this.container.scrollLeft;
+    }
+
+    onMouseMove(e: MouseEvent) {
+      if (!this.isDown || !this.handle || !this.container) return;
+
+      e.preventDefault();
+      const x = e.pageX - this.handle.offsetLeft;
+      const walk = (x - this.startX) * this.dragVelocity;
+      this.container.scrollLeft = this.scrollLeft - walk;
     }
 
     onMouseUp() {
-      if (!this.isDown) return;
       this.isDown = false;
-      this.handle!.classList.remove('active');
-      (document.body as HTMLElement).style.cursor = '';
-      (this.handle as HTMLElement).style.cursor = 'grab';
-      (this.handle!.querySelector('.scroll-arrow') as HTMLElement).style.animationPlayState = 'running';
     }
 
-    onMouseMove(e) {
-      if (!this.isDown) return;
-      e.preventDefault();
-      const x = e.pageX;
-      const walk = (this.startX - x) * this.dragVelocity;
-      this.container.scrollLeft = this.scrollLeft + walk;
+    onMouseEnter() {
+      if (!this.handle) return;
+      this.handle.style.cursor = 'grab';
+    }
+
+    onMouseLeave() {
+      if (!this.handle) return;
+      this.handle.style.cursor = 'auto';
     }
 
     destroy() {
@@ -174,24 +168,20 @@ const { projects } = projectsData;
       document.removeEventListener('mouseup', this.onMouseUp);
       this.handle.removeEventListener('mouseenter', this.onMouseEnter);
       this.handle.removeEventListener('mouseleave', this.onMouseLeave);
-      
-      console.log('ScrollHandle destroyed');
     }
   }
 
-  // Globale Instanz
-  let scrollHandleInstance = null;
+  let scrollHandleInstance: ScrollHandle | null = null;
 
   // Initialization function
   const initScrollHandle = () => {
-    console.log('Initializing ScrollHandle...');
     if (scrollHandleInstance) {
       scrollHandleInstance.destroy();
     }
     scrollHandleInstance = new ScrollHandle();
   };
 
-  // Warten auf vollständiges Laden der Seite
+  // Initialize on page load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initScrollHandle);
   } else {
@@ -199,18 +189,7 @@ const { projects } = projectsData;
   }
 
   // Astro View Transitions
-  document.addEventListener('astro:page-load', () => {
-    console.log('astro:page-load triggered');
-    initScrollHandle();
-  });
-
-  document.addEventListener('astro:before-swap', () => {
-    console.log('astro:before-swap triggered');
-    if (scrollHandleInstance) {
-      scrollHandleInstance.destroy();
-      scrollHandleInstance = null;
-    }
-  });
+  document.addEventListener('astro:after-swap', initScrollHandle);
 </script>
 
 <style>

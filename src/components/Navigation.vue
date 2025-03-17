@@ -14,7 +14,7 @@
         :class="{'opacity-0 pointer-events-none': isMenuOpen}"
       >
         <a 
-          href="/" 
+          :href="getRoutePath('/')" 
           class="flex flex-col leading-none z-[91]" 
           ref="logoRef"
         >
@@ -61,6 +61,7 @@ import ConsultationButton from './ConsultationButton.vue'
 import FullscreenMenu from './FullscreenMenu.vue'
 import BurgerButton from './BurgerButton.vue'
 import { useNavigation } from '../composables/useNavigation'
+import { getRoutePath } from '../utils/paths'
 
 const {
   isMenuOpen,

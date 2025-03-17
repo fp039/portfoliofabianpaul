@@ -1,6 +1,6 @@
 <template>
   <article class="group relative overflow-hidden bg-[#1A1A1A] transition-all hover:scale-[1.02] hover:bg-[#222222]">
-    <a :href="`/blog/${slug}`" class="block">
+    <a :href="getRoutePath(`/blog/${slug}`)" class="block">
       <div class="aspect-video overflow-hidden">
         <img 
           :src="image" 
@@ -35,6 +35,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { getRoutePath } from '../utils/paths';
 
 const props = defineProps<{
   slug: string;
