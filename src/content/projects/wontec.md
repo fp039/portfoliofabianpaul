@@ -26,4 +26,4 @@ categories: ["branding", "webdesign", "development"]
 order: 1
 ---
 
-Klare Linien, präzise Formen – die Essenz von effizientem Projektmanagement in visueller Form. 
+Klare Linien, präzise Formen – die Essenz von effizientem Projektmanagement in visueller Form
