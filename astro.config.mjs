@@ -15,38 +15,10 @@ export default defineConfig({
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: new Date(),
-      customURLs: [
-        {
-          url: 'https://fabian-paul.design',
-          changefreq: 'daily',
-          priority: 1,
-          lastmod: new Date(),
-        },
-        {
-          url: 'https://fabian-paul.design/about',
-          changefreq: 'monthly',
-          priority: 0.8,
-          lastmod: new Date(),
-        },
-        {
-          url: 'https://fabian-paul.design/projects',
-          changefreq: 'weekly',
-          priority: 0.9,
-          lastmod: new Date(),
-        },
-        {
-          url: 'https://fabian-paul.design/blog',
-          changefreq: 'weekly',
-          priority: 0.8,
-          lastmod: new Date(),
-        },
-        {
-          url: 'https://fabian-paul.design/contact',
-          changefreq: 'monthly',
-          priority: 0.7,
-          lastmod: new Date(),
-        }
-      ],
+      filter: (page) => {
+        // Filtere bestimmte Seiten aus, falls nötig
+        return true;
+      }
     }),
   ],
   devToolbar: {
