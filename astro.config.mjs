@@ -18,7 +18,8 @@ export default defineConfig({
       filter: (page) => {
         // Filtere bestimmte Seiten aus, falls nötig
         return true;
-      }
+      },
+      entryLimit: 50000
     }),
   ],
   devToolbar: {
