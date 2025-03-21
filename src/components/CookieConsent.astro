@@ -324,6 +324,26 @@ declare global {
         changedServices: { [key: string]: string[] };
     }
 
+    function initializeGoogleAnalytics() {
+        const GA_MEASUREMENT_ID = 'G-519SNV03FS';
+
+        // Definiere gtag-Funktion
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function() {
+            window.dataLayer.push(arguments);
+        }
+
+        // Initialisiere Google Analytics
+        window.gtag('js', new Date());
+        window.gtag('config', GA_MEASUREMENT_ID, {
+            'anonymize_ip': true
+        });
+
+        // Setze ein Cookie, um zu speichern, dass GA initialisiert wurde
+        document.cookie = 'ga_initialized=true; max-age=31536000; path=/';
+    }
+
+    // Initialisiere Cookie Consent
     const initCookieConsent = () => {
         const cc = CookieConsent.run({
             autoShow: true,
@@ -412,30 +432,20 @@ declare global {
                     }
                 }
             },
-            onChange: function (param: { 
-                cookie: { categories: string[] },
-                changedCategories: string[],
-                changedServices: { [key: string]: string[] }
-            }) {
-                if (param.cookie.categories.includes('analytics')) {
+            onChange: function(param: any) {
+                // Wenn Analytics-Kategorie aktiviert wurde
+                if (param.changedCategories.includes('analytics') && param.cookie.categories.includes('analytics')) {
+                    initializeGoogleAnalytics();
+                }
+            },
+            onConsent: function({cookie}: any) {
+                // Wenn Analytics akzeptiert wurde
+                if (cookie.categories.includes('analytics')) {
                     initializeGoogleAnalytics();
                 }
             }
-        });
+        } as any);
     };
-
-    function initializeGoogleAnalytics() {
-        const GA_MEASUREMENT_ID = 'G-519SNV03FS';
-
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function() {
-            window.dataLayer.push(arguments);
-        }
-        window.gtag('js', new Date());
-        window.gtag('config', GA_MEASUREMENT_ID, {
-            'anonymize_ip': true
-        });
-    }
 
     // Initialisiere Cookie Consent, wenn das DOM geladen ist
     if (document.readyState === 'loading') {
