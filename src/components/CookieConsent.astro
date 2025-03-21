@@ -327,15 +327,21 @@ declare global {
     function initializeGoogleAnalytics() {
         const GA_MEASUREMENT_ID = 'G-519SNV03FS';
         
+        console.log('🔍 Initialisiere Google Analytics...');
+        
         // Konfiguriere Google Analytics
         window.gtag('config', GA_MEASUREMENT_ID, {
             'anonymize_ip': true,
             'cookie_flags': 'SameSite=None;Secure'
         });
+        
+        console.log('✅ Google Analytics wurde initialisiert');
     }
 
     // Initialisiere Cookie Consent
     const initCookieConsent = () => {
+        console.log('🍪 Initialisiere Cookie Consent...');
+        
         const cc = CookieConsent.run({
             autoShow: true,
             disablePageInteraction: false,
@@ -443,14 +449,18 @@ declare global {
                 }
             },
             onChange: function(param: any) {
+                console.log('🔄 Cookie-Einstellungen wurden geändert:', param);
                 // Wenn Analytics-Kategorie aktiviert wurde
                 if (param.changedCategories.includes('analytics') && param.cookie.categories.includes('analytics')) {
+                    console.log('📊 Analytics wurde aktiviert');
                     initializeGoogleAnalytics();
                 }
             },
             onConsent: function({cookie}: any) {
+                console.log('👍 Consent wurde gegeben:', cookie);
                 // Wenn Analytics akzeptiert wurde
                 if (cookie.categories.includes('analytics')) {
+                    console.log('📊 Analytics wurde akzeptiert');
                     initializeGoogleAnalytics();
                 }
             }
