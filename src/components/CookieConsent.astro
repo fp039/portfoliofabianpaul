@@ -1,0 +1,85 @@
+---
+// TypeScript-Deklarationen
+declare global {
+  interface Window {
+    cookieconsent: any;
+    dataLayer: any[];
+    gtag: (...args: any[]) => void;
+  }
+}
+---
+
+<script>
+  import 'vanilla-cookieconsent';
+  import 'vanilla-cookieconsent/dist/cookieconsent.css';
+
+  window.addEventListener('load', function () {
+    window.cookieconsent.init({
+      current_lang: 'de',
+      autoclear_cookies: true,
+      page_scripts: true,
+      languages: {
+        de: {
+          consent_modal: {
+            title: 'Wir verwenden Cookies! 🍪',
+            description:
+              'Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern und die Nutzung unserer Website zu analysieren.',
+            primary_btn: {
+              text: 'Alle akzeptieren',
+              role: 'accept_all',
+            },
+            secondary_btn: {
+              text: 'Einstellungen',
+              role: 'settings',
+            },
+          },
+          settings_modal: {
+            title: 'Cookie Einstellungen',
+            save_settings_btn: 'Einstellungen speichern',
+            accept_all_btn: 'Alle akzeptieren',
+            blocks: [
+              {
+                title: 'Technisch notwendige Cookies',
+                description:
+                  'Diese Cookies sind für die grundlegenden Funktionen der Website erforderlich.',
+                toggle: {
+                  value: 'necessary',
+                  enabled: true,
+                  readonly: true,
+                },
+              },
+              {
+                title: 'Analyse Cookies',
+                description:
+                  'Diese Cookies ermöglichen es uns, die Nutzung der Website zu analysieren und zu verbessern.',
+                toggle: {
+                  value: 'analytics',
+                  enabled: false,
+                  readonly: false,
+                },
+              },
+            ],
+          },
+        },
+      },
+      onChange: function (cookie: { categories: string[] }) {
+        if (cookie.categories.includes('analytics')) {
+          initializeGoogleAnalytics();
+        }
+      },
+    });
+  });
+
+  function initializeGoogleAnalytics() {
+    const GA_MEASUREMENT_ID = 'G-519SNV03FS';
+    
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function() {
+      window.dataLayer.push(arguments);
+    }
+    window.gtag('js', new Date());
+    window.gtag('config', GA_MEASUREMENT_ID, {
+      'anonymize_ip': true
+    });
+  }
+</script> 

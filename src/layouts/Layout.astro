@@ -2,6 +2,7 @@
 import PageTransition from '../components/PageTransition.vue'
 import CustomCursor from '../components/ui/CustomCursor.vue'
 import { getAssetPath } from '../utils/paths'
+import CookieConsent from '../components/CookieConsent.astro'
 
 interface Props {
   title: string;
@@ -118,11 +119,15 @@ const styles = `
     <link rel="icon" type="image/png" sizes="32x32" href={getAssetPath("/favicon-32x32.png")}>
     <link rel="icon" type="image/png" sizes="16x16" href={getAssetPath("/favicon-16x16.png")}>
     <link rel="manifest" href={getAssetPath("/site.webmanifest")}>
+
+    <!-- Google Analytics -->
+    <script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-519SNV03FS"></script>
   </head>
   <body class="bg-[#1E1E1E] text-[#E5E5E5] font-tt-firs-neue font-medium antialiased overflow-x-hidden">
     <PageTransition client:load data-transition />
     <CustomCursor client:load />
     <slot />
+    <CookieConsent />
   </body>
 </html>
 

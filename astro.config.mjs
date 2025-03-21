@@ -3,6 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import vue from '@astrojs/vue';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import partytown from '@astrojs/partytown';
 
 export default defineConfig({
   site: 'https://fabian-paul.design',
@@ -20,6 +21,11 @@ export default defineConfig({
         return true;
       },
       entryLimit: 50000
+    }),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
     }),
   ],
   devToolbar: {
