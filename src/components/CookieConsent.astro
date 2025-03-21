@@ -326,21 +326,12 @@ declare global {
 
     function initializeGoogleAnalytics() {
         const GA_MEASUREMENT_ID = 'G-519SNV03FS';
-
-        // Definiere gtag-Funktion
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function() {
-            window.dataLayer.push(arguments);
-        }
-
-        // Initialisiere Google Analytics
-        window.gtag('js', new Date());
+        
+        // Konfiguriere Google Analytics
         window.gtag('config', GA_MEASUREMENT_ID, {
-            'anonymize_ip': true
+            'anonymize_ip': true,
+            'cookie_flags': 'SameSite=None;Secure'
         });
-
-        // Setze ein Cookie, um zu speichern, dass GA initialisiert wurde
-        document.cookie = 'ga_initialized=true; max-age=31536000; path=/';
     }
 
     // Initialisiere Cookie Consent
@@ -373,11 +364,30 @@ declare global {
                         cookies: [
                             {
                                 name: /^_ga/,
+                                domain: '.portfoliofabianpaul.de'
                             },
                             {
                                 name: '_gid',
+                                domain: '.portfoliofabianpaul.de'
                             }
                         ]
+                    },
+                    services: {
+                        ga: {
+                            label: 'Google Analytics',
+                            onAccept: () => {
+                                initializeGoogleAnalytics();
+                            },
+                            onReject: () => {
+                                // Optional: Cookies löschen wenn abgelehnt
+                                const cookies = document.cookie.split(';');
+                                for (let cookie of cookies) {
+                                    if (cookie.includes('_ga')) {
+                                        document.cookie = cookie + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
