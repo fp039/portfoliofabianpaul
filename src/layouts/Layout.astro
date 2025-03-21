@@ -122,14 +122,9 @@ const styles = `
 
     <!-- Google Analytics -->
     <script type="text/javascript">
-      console.log('🔧 GA Script wird geladen...');
       window.dataLayer = window.dataLayer || [];
-      function gtag(){
-        console.log('📡 GA Event:', arguments);
-        dataLayer.push(arguments);
-      }
+      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      console.log('✨ GA Script wurde geladen');
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-519SNV03FS"></script>
   </head>
