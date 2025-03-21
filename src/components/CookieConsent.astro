@@ -332,11 +332,6 @@ declare global {
             'anonymize_ip': true,
             'cookie_flags': 'SameSite=None;Secure'
         });
-        
-        // Seite nach kurzer Verzögerung neu laden
-        setTimeout(() => {
-            window.location.reload();
-        }, 500);
     }
 
     // Initialisiere Cookie Consent
@@ -453,10 +448,12 @@ declare global {
                     initializeGoogleAnalytics();
                 }
             },
-            onConsent: function({cookie}: any) {
-                // Wenn Analytics akzeptiert wurde
-                if (cookie.categories.includes('analytics')) {
-                    initializeGoogleAnalytics();
+            onFirstAction: function(userPreferences: any) {
+                // Nur wenn alle Cookies akzeptiert wurden
+                if (userPreferences.acceptedCategories.includes('analytics')) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
                 }
             }
         } as any);
