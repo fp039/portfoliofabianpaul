@@ -1,85 +1,446 @@
 ---
 // TypeScript-Deklarationen
 declare global {
-  interface Window {
-    cookieconsent: any;
-    dataLayer: any[];
-    gtag: (...args: any[]) => void;
-  }
+    interface Window {
+        cookieconsent: any;
+        dataLayer: any[];
+        gtag: (...args: any[]) => void;
+    }
 }
 ---
 
-<script>
-  import 'vanilla-cookieconsent';
-  import 'vanilla-cookieconsent/dist/cookieconsent.css';
-
-  window.addEventListener('load', function () {
-    window.cookieconsent.init({
-      current_lang: 'de',
-      autoclear_cookies: true,
-      page_scripts: true,
-      languages: {
-        de: {
-          consent_modal: {
-            title: 'Wir verwenden Cookies! 🍪',
-            description:
-              'Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern und die Nutzung unserer Website zu analysieren.',
-            primary_btn: {
-              text: 'Alle akzeptieren',
-              role: 'accept_all',
-            },
-            secondary_btn: {
-              text: 'Einstellungen',
-              role: 'settings',
-            },
-          },
-          settings_modal: {
-            title: 'Cookie Einstellungen',
-            save_settings_btn: 'Einstellungen speichern',
-            accept_all_btn: 'Alle akzeptieren',
-            blocks: [
-              {
-                title: 'Technisch notwendige Cookies',
-                description:
-                  'Diese Cookies sind für die grundlegenden Funktionen der Website erforderlich.',
-                toggle: {
-                  value: 'necessary',
-                  enabled: true,
-                  readonly: true,
-                },
-              },
-              {
-                title: 'Analyse Cookies',
-                description:
-                  'Diese Cookies ermöglichen es uns, die Nutzung der Website zu analysieren und zu verbessern.',
-                toggle: {
-                  value: 'analytics',
-                  enabled: false,
-                  readonly: false,
-                },
-              },
-            ],
-          },
-        },
-      },
-      onChange: function (cookie: { categories: string[] }) {
-        if (cookie.categories.includes('analytics')) {
-          initializeGoogleAnalytics();
-        }
-      },
-    });
-  });
-
-  function initializeGoogleAnalytics() {
-    const GA_MEASUREMENT_ID = 'G-519SNV03FS';
-    
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function() {
-      window.dataLayer.push(arguments);
+<style is:global>
+    @font-face {
+        font-family: 'TT Firs Neue';
+        src: url('/fonts/TT_Firs_Neue_Light.woff2') format('woff2'),
+             url('/fonts/TT_Firs_Neue_Light.woff') format('woff');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
     }
-    window.gtag('js', new Date());
-    window.gtag('config', GA_MEASUREMENT_ID, {
-      'anonymize_ip': true
-    });
-  }
-</script> 
+
+    @font-face {
+        font-family: 'TT Firs Neue';
+        src: url('/fonts/TT_Firs_Neue_Medium.woff2') format('woff2'),
+             url('/fonts/TT_Firs_Neue_Medium.woff') format('woff');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    :root {
+        --cc-bg: #1E1E1E !important;
+        --cc-primary-color: #E5E5E5 !important;
+        --cc-secondary-color: #2E2E2E !important;
+        
+        --cc-btn-primary-bg: #00F900 !important;
+        --cc-btn-primary-color: #1E1E1E !important;
+        --cc-btn-primary-hover-bg: #00DD00 !important;
+        --cc-btn-primary-hover-color: #1E1E1E !important;
+        
+        --cc-btn-secondary-bg: transparent !important;
+        --cc-btn-secondary-color: #E5E5E5 !important;
+        --cc-btn-secondary-hover-bg: #2E2E2E !important;
+        --cc-btn-secondary-hover-color: #E5E5E5 !important;
+        
+        --cc-text: var(--cc-primary-color) !important;
+        --cc-border: #3E3E3E !important;
+        
+        --cc-modal-bg: var(--cc-bg) !important;
+        --cc-modal-border: var(--cc-border) !important;
+        
+        --cc-toggle-bg-off: var(--cc-secondary-color) !important;
+        --cc-toggle-bg-on: #00F900 !important;
+        --cc-toggle-bg-readonly: var(--cc-secondary-color) !important;
+        
+        --cc-toggle-knob-bg: #E5E5E5 !important;
+        --cc-toggle-knob-icon-color: var(--cc-bg) !important;
+        
+        --cc-cookie-category-block-bg: #2E2E2E !important;
+        --cc-cookie-category-block-border: transparent !important;
+        
+        --cc-section-border: transparent !important;
+        --cc-cookie-table-border: #3E3E3E !important;
+    }
+
+    #cc-main, 
+    .cc_div,
+    .cc_div * {
+        font-family: 'TT Firs Neue', Arial, sans-serif !important;
+        text-rendering: optimizeLegibility !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+    }
+
+    .cc_div {
+        border-radius: 12px !important;
+    }
+
+    .cc_div .c-bn {
+        border-radius: 8px !important;
+        padding: 0.875rem 2rem !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+        text-transform: none !important;
+        font-size: 1rem !important;
+        letter-spacing: 0 !important;
+    }
+
+    .cc_div #c-bns {
+        gap: 1rem !important;
+        margin-top: 2rem !important;
+    }
+
+    .cc_div .c-bn:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .cm__desc {
+        color: #FFFFFF !important;
+        font-size: var(--text-base) !important;
+        line-height: var(--line-height-normal) !important;
+        font-weight: 300 !important;
+    }
+
+    .cm__title {
+        color: #FFFFFF !important;
+        font-size: var(--text-xl) !important;
+        line-height: var(--line-height-tight) !important;
+        font-weight: 500 !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .cm {
+        border-radius: 12px !important;
+        background: var(--cc-bg) !important;
+        box-shadow: 0 8px 16px -1px rgba(255, 255, 255, 0.05), 0 4px 8px -2px rgba(0, 0, 0, 0.1) !important;
+        max-width: 32rem !important;
+        margin: 1.5rem !important;
+        padding: clamp(1.5rem, 3vw, 2rem) !important;
+    }
+
+    .cm__texts {
+        margin-bottom: clamp(1.5rem, 3vw, 2rem) !important;
+    }
+
+    .cm__title {
+        color: #FFFFFF !important;
+        font-size: clamp(1.25rem, 2vw, 1.5rem) !important;
+        line-height: var(--line-height-tight) !important;
+        font-weight: 500 !important;
+        margin-bottom: 1rem !important;
+        letter-spacing: 0.02em !important;
+    }
+
+    .cm__desc {
+        color: #FFFFFF !important;
+        font-size: clamp(1rem, 1.5vw, 1.194rem) !important;
+        line-height: 1.75 !important;
+        font-weight: 300 !important;
+        letter-spacing: 0.02em !important;
+    }
+
+    .cm__btns {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: clamp(0.5rem, 1.5vw, 0.75rem) !important;
+        width: 100% !important;
+    }
+
+    .cm__btn {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: clamp(8px, 1.5vw, 11.944px) clamp(20px, 3vw, 35.833px) !important;
+        border-radius: 35.833px !important;
+        font-size: clamp(1rem, 1.5vw, 1.194rem) !important;
+        font-weight: 500 !important;
+        line-height: 1 !important;
+        transition: all 0.2s ease !important;
+        overflow: hidden !important;
+    }
+
+    .cm__btn[data-role="all"] {
+        background: #00F900 !important;
+        color: #1D1D1B !important;
+    }
+
+    .cm__btn[data-role="necessary"] {
+        background: transparent !important;
+        color: #00F900 !important;
+        border: 1px solid #00F900 !important;
+    }
+
+    .cm__btn[data-role="show"] {
+        background: transparent !important;
+        color: #E5E5E5 !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .cm__btn:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.3) !important;
+    }
+
+    .cm__btn span {
+        position: relative !important;
+        z-index: 10 !important;
+    }
+
+    .cm__btn::after {
+        content: "" !important;
+        position: absolute !important;
+        inset: 0 !important;
+        background: #00F900 !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.3s ease-out !important;
+    }
+
+    .cm__btn:hover::after {
+        transform: translateX(0) !important;
+    }
+
+    .cm__btn[data-role="necessary"]::after,
+    .cm__btn[data-role="show"]::after {
+        background: rgba(0, 255, 0, 0.1) !important;
+    }
+
+    .cm__btn-group {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        width: 100% !important;
+    }
+
+    .cm__btn--secondary {
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    @media (max-width: 640px) {
+        .cm__btns {
+            flex-direction: column !important;
+        }
+        
+        .cm__btn-group {
+            width: 100% !important;
+        }
+        
+        .cm__btn {
+            flex: 1 !important;
+            text-align: center !important;
+        }
+    }
+
+    #c-txt, 
+    .cc_div .b-acc .b-text,
+    #cm #c-inr #c-txt {
+        color: #E5E5E5 !important;
+        font-weight: 300 !important;
+        line-height: var(--line-height-normal) !important;
+    }
+
+    #cm #c-inr #c-txt {
+        color: #FFFFFF !important;
+    }
+
+    #s-cnt {
+        padding: 2rem !important;
+    }
+
+    .cc_div .b-tl {
+        font-weight: 500 !important;
+        margin-bottom: 1.5rem !important;
+        font-size: var(--text-xl) !important;
+        line-height: var(--line-height-tight) !important;
+    }
+
+    #c-ttl {
+        font-size: var(--text-xl) !important;
+        margin-bottom: 1rem !important;
+        font-weight: 500 !important;
+        line-height: var(--line-height-tight) !important;
+    }
+
+    #c-p-bn {
+        padding: 0.875rem 2rem !important;
+        border-radius: 8px !important;
+        border: 1px solid #3E3E3E !important;
+        font-size: var(--text-base) !important;
+    }
+
+    #cm {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1) !important;
+        max-width: 32rem !important;
+        margin: 1.5rem !important;
+        padding: 2rem !important;
+    }
+
+    .c-tgl {
+        margin-right: 1rem !important;
+    }
+
+    #s-bl tbody td {
+        padding: 1rem !important;
+        font-size: var(--text-sm) !important;
+    }
+
+    .cc_div .b-acc .p-c {
+        margin-top: 1rem !important;
+        padding: 1rem !important;
+        border-radius: 8px !important;
+    }
+
+    .cc_div .b-acc .b-bn {
+        padding: 1rem !important;
+        border-radius: 8px !important;
+        font-weight: 500 !important;
+        font-size: var(--text-base) !important;
+    }
+
+    .cc_div .b-acc .b-tl {
+        font-size: var(--text-lg) !important;
+        font-weight: 500 !important;
+        line-height: var(--line-height-tight) !important;
+    }
+</style>
+
+<script>
+    import 'vanilla-cookieconsent/dist/cookieconsent.css';
+    import * as CookieConsent from 'vanilla-cookieconsent';
+
+    interface CookieValue {
+        categories: string[];
+        level: string[];
+        revision: number;
+        data: null | any;
+        rfc_cookie: boolean;
+    }
+
+    interface CookieConsentParam {
+        cookie: CookieValue;
+        changedCategories: string[];
+        changedServices: { [key: string]: string[] };
+    }
+
+    const initCookieConsent = () => {
+        const cc = CookieConsent.run({
+            autoShow: true,
+            disablePageInteraction: false,
+            mode: "opt-in",
+            guiOptions: {
+                consentModal: {
+                    layout: "box",
+                    position: "bottom right",
+                    flipButtons: false
+                },
+                preferencesModal: {
+                    layout: "box",
+                    position: "right",
+                    flipButtons: false
+                }
+            },
+            categories: {
+                necessary: {
+                    enabled: true,
+                    readOnly: true
+                },
+                analytics: {
+                    enabled: false,
+                    readOnly: false,
+                    autoClear: {
+                        cookies: [
+                            {
+                                name: /^_ga/,
+                            },
+                            {
+                                name: '_gid',
+                            }
+                        ]
+                    }
+                }
+            },
+            language: {
+                default: 'de',
+                translations: {
+                    de: {
+                        consentModal: {
+                            title: "Wir verwenden Cookies! 🍪",
+                            description: "Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern und die Nutzung unserer Website zu analysieren.",
+                            acceptAllBtn: "Alle akzeptieren",
+                            acceptNecessaryBtn: "Nur notwendige akzeptieren",
+                            showPreferencesBtn: "Einstellungen anpassen"
+                        },
+                        preferencesModal: {
+                            title: "Cookie-Einstellungen",
+                            acceptAllBtn: "Alle akzeptieren",
+                            savePreferencesBtn: "Auswahl speichern",
+                            closeIconLabel: "Schließen",
+                            sections: [
+                                {
+                                    title: "Notwendige Cookies",
+                                    description: "Diese Cookies sind für die grundlegenden Funktionen der Website erforderlich.",
+                                    linkedCategory: "necessary"
+                                },
+                                {
+                                    title: "Analytics Cookies",
+                                    description: "Diese Cookies ermöglichen es uns, die Nutzung der Website zu analysieren und zu verbessern.",
+                                    linkedCategory: "analytics",
+                                    cookieTable: {
+                                        headers: {
+                                            name: "Cookie",
+                                            domain: "Domain",
+                                            description: "Beschreibung"
+                                        },
+                                        body: [
+                                            {
+                                                name: "_ga",
+                                                domain: "google.com",
+                                                description: "Google Analytics Cookie zur Unterscheidung von Websitebesuchern"
+                                            },
+                                            {
+                                                name: "_gid",
+                                                domain: "google.com",
+                                                description: "Google Analytics Cookie zur Identifizierung der aktuellen Sitzung"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            onChange: function (param: { 
+                cookie: { categories: string[] },
+                changedCategories: string[],
+                changedServices: { [key: string]: string[] }
+            }) {
+                if (param.cookie.categories.includes('analytics')) {
+                    initializeGoogleAnalytics();
+                }
+            }
+        });
+    };
+
+    function initializeGoogleAnalytics() {
+        const GA_MEASUREMENT_ID = 'G-519SNV03FS';
+
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function() {
+            window.dataLayer.push(arguments);
+        }
+        window.gtag('js', new Date());
+        window.gtag('config', GA_MEASUREMENT_ID, {
+            'anonymize_ip': true
+        });
+    }
+
+    // Initialisiere Cookie Consent, wenn das DOM geladen ist
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCookieConsent);
+    } else {
+        initCookieConsent();
+    }
+</script>

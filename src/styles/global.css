@@ -1,3 +1,80 @@
+/* Cookie Consent Styles */
+@import 'vanilla-cookieconsent/dist/cookieconsent.css';
+
+#cc-main {
+  --cc-bg: #1E1E1E;
+  --cc-text: #E5E5E5;
+  --cc-btn-primary-bg: #E5E5E5;
+  --cc-btn-primary-text: #1E1E1E;
+  --cc-btn-primary-hover-bg: #FFFFFF;
+  --cc-btn-secondary-bg: #2E2E2E;
+  --cc-btn-secondary-text: #E5E5E5;
+  --cc-btn-secondary-hover-bg: #404040;
+  --cc-toggle-bg-off: #2E2E2E;
+  --cc-toggle-bg-on: #E5E5E5;
+  --cc-toggle-bg-readonly: #2E2E2E;
+  --cc-toggle-knob-bg: #E5E5E5;
+  --cc-toggle-knob-icon-color: #1E1E1E;
+  --cc-block-text: #E5E5E5;
+  --cc-cookie-category-block-bg: #2E2E2E;
+  --cc-cookie-category-block-border: #3E3E3E;
+  --cc-section-border: #3E3E3E;
+  --cc-cookie-table-border: #3E3E3E;
+  --cc-modal-border: #3E3E3E;
+  font-family: 'tt-firs-neue', sans-serif;
+  border-radius: 8px;
+  margin: 1rem !important;
+}
+
+#cc-main .cc-dialog {
+  border-radius: 8px;
+  max-width: 28rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+#cc-main .cc-dialog .cc-btn {
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+#cc-main .cc-dialog .cc-btn:hover {
+  transform: translateY(-1px);
+}
+
+#cc-main .cc-dialog .cc-message {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+#cc-main .cc-category {
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+#cc-main .cc-category .cc-category-header {
+  padding: 1rem;
+}
+
+#cc-main .cc-category .cc-category-description {
+  padding: 0 1rem 1rem;
+  font-size: 0.9rem;
+}
+
+#cc-main .cc-title {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+#cc-main table {
+  font-size: 0.9rem;
+}
+
 /* Overscroll-Verhalten nur für Desktop */
 @media (min-width: 1024px) {
   html {
