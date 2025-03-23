@@ -59,6 +59,9 @@ const styles = `
     font-display: swap;
   }
 `;
+
+// Detect mobile
+const isMobile = Astro.request.headers.get('user-agent')?.includes('Mobile');
 ---
 
 <!doctype html>
@@ -89,11 +92,25 @@ const styles = `
     />
     
     <!-- GSAP Scripts -->
-    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script is:inline>
-      gsap.registerPlugin(ScrollTrigger);
-    </script>
+    {!isMobile ? (
+      <>
+        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+        <script is:inline>
+          gsap.registerPlugin(ScrollTrigger);
+        </script>
+      </>
+    ) : (
+      <>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+        <script defer>
+          window.addEventListener('load', () => {
+            gsap.registerPlugin(ScrollTrigger);
+          });
+        </script>
+      </>
+    )}
 
     <!-- Font Loading Script -->
     <script is:inline>
@@ -121,8 +138,10 @@ const styles = `
     <link rel="icon" type="image/png" sizes="16x16" href={getAssetPath("/favicon-16x16.png")}>
     <link rel="manifest" href={getAssetPath("/site.webmanifest")}>
 
-    <!-- Google Analytics wird durch die GoogleAnalytics-Komponente gesteuert -->
-    <GoogleAnalytics />
+    <!-- Google Analytics nur im Produktionsmodus -->
+    {import.meta.env.PROD && (
+      <GoogleAnalytics />
+    )}
   </head>
   <body class="bg-[#1E1E1E] text-[#E5E5E5] font-tt-firs-neue font-medium antialiased overflow-x-hidden">
     <PageTransition client:load data-transition />

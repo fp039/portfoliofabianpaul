@@ -6,6 +6,7 @@ import { Image } from 'astro:assets';
 import { imageMap } from '../../utils/images';
 
 const projects = await getCollection('projects');
+const isMobile = Astro.request.headers.get('user-agent')?.includes('Mobile');
 
 const imageGroups = {
   topLeft: [
@@ -50,13 +51,14 @@ const imageGroups = {
                 <Image 
                   src={image} 
                   alt="Project Image"
-                  width={1200}
-                  height={675}
+                  width={isMobile ? 600 : 1200}
+                  height={isMobile ? 338 : 675}
                   class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
                   data-image-group="topLeft"
                   data-image-index={index}
                   format="webp"
-                  quality={85}
+                  quality={isMobile ? 60 : 85}
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
               ))}
             </div>
@@ -79,13 +81,14 @@ const imageGroups = {
                 <Image 
                   src={image} 
                   alt="Project Image"
-                  width={1200}
-                  height={675}
+                  width={isMobile ? 600 : 1200}
+                  height={isMobile ? 338 : 675}
                   class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
                   data-image-group="topRight"
                   data-image-index={index}
                   format="webp"
-                  quality={85}
+                  quality={isMobile ? 60 : 85}
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
               ))}
             </div>
@@ -99,13 +102,14 @@ const imageGroups = {
                 <Image 
                   src={image} 
                   alt="Project Image"
-                  width={1200}
-                  height={675}
+                  width={isMobile ? 600 : 1200}
+                  height={isMobile ? 338 : 675}
                   class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
                   data-image-group="bottomLeft"
                   data-image-index={index}
                   format="webp"
-                  quality={85}
+                  quality={isMobile ? 60 : 85}
+                  loading="lazy"
                 />
               ))}
             </div>
@@ -128,13 +132,14 @@ const imageGroups = {
                 <Image 
                   src={image} 
                   alt="Project Image"
-                  width={1200}
-                  height={675}
+                  width={isMobile ? 600 : 1200}
+                  height={isMobile ? 338 : 675}
                   class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
                   data-image-group="bottomRight"
                   data-image-index={index}
                   format="webp"
-                  quality={85}
+                  quality={isMobile ? 60 : 85}
+                  loading="lazy"
                 />
               ))}
             </div>
