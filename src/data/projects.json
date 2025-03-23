@@ -5,7 +5,7 @@
       "title": "Wontec Website",
       "subtitle": "Website & Branding",
       "description": "Ein Visionär im Projektmanagement braucht eine starke Website",
-      "image": "/images/shared/website-wontec-2000x1125.png",
+      "image": "src/assets/images/projects/wontec_web/Header_Image.png",
       "link": "/projects/wontec",
       "type": "featured"
     },
@@ -14,7 +14,7 @@
       "title": "Steillagen Genuss",
       "subtitle": "Branding & Packaging",
       "description": "Ein Etikett, das die Geschichte der Steillagen erzählt",
-      "image": "/images/shared/rose-steillagen-2000x1125.jpg",
+      "image": "src/assets/images/projects/steillagen/Header_image.png",
       "link": "/projects/steillagen"
     },
     {
@@ -22,7 +22,7 @@
       "title": "DQ Living Explain Video",
       "subtitle": "Motion Design",
       "description": "Ein Erklärvideo für DQ Living, das die Customer Journey visualisiert",
-      "image": "/images/projects/harbr/guest-journey-harbr-2000x1125.jpg",
+      "image": "src/assets/images/projects/harbr/guest-journey-harbr-2000x1125.jpg",
       "link": "/projects/dq-living",
       "type": "featured"
     },
@@ -31,7 +31,7 @@
       "title": "Brennerei Fischer",
       "subtitle": "Branding & Packaging",
       "description": "Gin & Branding: Tradition in dritter Generation, neu interpretiert",
-      "image": "/images/shared/gin-fischer-1920x1080.jpg",
+      "image": "src/assets/images/projects/fischer/Header_Image.png",
       "link": "/projects/fischer"
     }
   ]

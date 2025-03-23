@@ -4,10 +4,10 @@
  * @returns Der vollständige Pfad inkl. Base-URL
  */
 export function getAssetPath(path: string): string {
-  // Entferne führenden Slash, falls vorhanden
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  // Füge den Pfad direkt hinzu, ohne BASE_URL
-  return `/${cleanPath}`;
+  // Entferne src/ vom Anfang des Pfads, falls vorhanden
+  const cleanPath = path.startsWith('src/') ? path.slice(4) : path;
+  // Behalte den relativen Pfad bei
+  return cleanPath;
 }
 
 /**

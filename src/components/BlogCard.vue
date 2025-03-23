@@ -3,10 +3,12 @@
     <a :href="getRoutePath(`/blog/${slug}`)" class="block">
       <div class="aspect-video overflow-hidden">
         <img 
-          :src="image" 
+          :src="blogImages[getBlogKey(image)].header.src" 
           :alt="title"
           class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
+          width="800"
+          height="450"
         />
       </div>
       <div class="p-8 space-y-6">
@@ -36,6 +38,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { getRoutePath } from '../utils/paths';
+import { blogImages } from '../utils/blogImages';
+import type { BlogKey } from '../utils/blogImages';
 
 const props = defineProps<{
   slug: string;
@@ -46,6 +50,10 @@ const props = defineProps<{
   readingTime?: number;
   tags: string[];
 }>();
+
+const getBlogKey = (imagePath: string): BlogKey => {
+  return imagePath.includes('design_code_bridge') ? 'welcome' : imagePath.split('/').slice(-2)[0] as BlogKey;
+};
 
 const formattedDate = computed(() => {
   try {

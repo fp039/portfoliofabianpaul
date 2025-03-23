@@ -2,13 +2,14 @@
 title: Fotografiska - Stockholm
 excerpt: Ein Tag voller Kunst, Kanelbulle und Inspiration – das Fotografiska in Stockholm liefert alles, was das kreative Herz braucht.
 date: 2024-09-20
-image: /images/blog/fotografiska/fotografiska-1.jpg
+image: /src/assets/images/blog/fotografiska/fotografiska-1.jpg
 readingTime: 3
 tags: ['Inspiration', 'Fotografie', 'Stockholm']
 author: Fabian Paul
 ---
 
 import BlogGallery from '../../components/BlogGallery.astro';
+import { blogImages } from '../../utils/blogImages';
 
 # Fotografiska: Mehr als nur ein Museum
 
@@ -17,18 +18,7 @@ Früh aufstehen in Stockholm? Lohnt sich – vor allem, wenn das Ziel das **Foto
 Die aktuellen Ausstellungen? Treffender Mix aus gesellschaftskritischen Statements und visueller Poesie. Es gibt Werke, die direkt ins Herz treffen, und solche, die einen einfach staunen lassen. Alles perfekt in Szene gesetzt.
 
 <BlogGallery
-  images={[
-    '/images/blog/fotografiska/fotografiska-2.jpg',
-    '/images/blog/fotografiska/fotografiska-3.jpg',
-    '/images/blog/fotografiska/fotografiska-4.jpg',
-    '/images/blog/fotografiska/fotografiska-5.jpg',
-    '/images/blog/fotografiska/fotografiska-6.jpg',
-    '/images/blog/fotografiska/fotografiska-7.jpg',
-    '/images/blog/fotografiska/fotografiska-8.jpg',
-    '/images/blog/fotografiska/fotografiska-9.jpg',
-    '/images/blog/fotografiska/fotografiska-10.jpg',
-    '/images/blog/fotografiska/fotografiska-11.jpg'
-  ]}
+  images={blogImages.fotografiska.gallery}
   layout="slider"
   orientation="landscape"
 />

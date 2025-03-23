@@ -4,8 +4,20 @@ import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.vue';
 import Footer from '../../components/Footer.astro';
 import ProjectCTA from '../../components/ProjectCTA.astro';
-import { preloadAssets } from '../../utils/preloader';
-import { getAssetPath } from '../../utils/paths';
+import { Image } from 'astro:assets';
+import { projectImages } from '../../utils/projectImages';
+
+interface Props {
+  project: CollectionEntry<"projects">;
+  prevProject: {
+    slug: string;
+    title: string;
+  };
+  nextProject: {
+    slug: string;
+    title: string;
+  };
+}
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -37,19 +49,12 @@ export async function getStaticPaths() {
 const { project, prevProject, nextProject } = Astro.props;
 const { Content } = await project.render();
 
-// Verarbeite das Hauptbild und die Galerie-Bilder
-const processedProject = {
-  ...project,
-  data: {
-    ...project.data,
-    image: getAssetPath(project.data.image),
-    gallery: project.data.gallery?.map(img => getAssetPath(img)) || [],
-    videoUrl: project.data.videoUrl ? getAssetPath(project.data.videoUrl) : undefined
-  }
-};
+// Bestimme den Projektnamen aus dem Bildpfad
+const projectKey = project.data.image.split('/').slice(-2)[0].replace('_web', '') as keyof typeof projectImages;
+const projectData = projectImages[projectKey];
 
 // Bilder in Gruppen aufteilen für verschiedene Sektionen
-const gallery = processedProject.data.gallery || [];
+const gallery = projectData?.gallery || [];
 const imageGroups = {
   topLeft: gallery.slice(0, 3),          // Projects_Top_Left_1-3
   topRight: gallery[3],                  // Projects_Top_Right
@@ -60,22 +65,31 @@ const imageGroups = {
   thirdRowRight: gallery[12]             // Third_Row_Right
 };
 
+// Video-URL aus dem Projekt-Daten
+const videoUrl = project.data.videoUrl || '';
+
 export const prerender = true;
 ---
 
-<Layout title={`${processedProject.data.title} - Fabian Paul`}>
+<Layout title={`${project.data.title} - Fabian Paul`}>
   <Navigation client:load />
   
   <main class="bg-[#1E1E1E] text-[#E5E5E5]">
     <!-- Hero -->
     <section class="min-h-screen relative flex items-center">
       <div class="absolute inset-0">
-        <img 
-          src={processedProject.data.image}
-          alt={processedProject.data.title}
-          class="w-full h-full object-cover opacity-[0.97]"
-          style="filter: brightness(0.92) contrast(1.02);"
-        />
+        {projectData?.header && (
+          <Image 
+            src={projectData.header}
+            alt={project.data.title}
+            width={2000}
+            height={1000}
+            class="w-full h-full object-cover opacity-[0.97]"
+            format="webp"
+            quality={90}
+            style="filter: brightness(0.92) contrast(1.02);"
+          />
+        )}
         <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-[#1E1E1E]/50 to-[#1E1E1E]"></div>
       </div>
 
@@ -87,15 +101,15 @@ export const prerender = true;
           
           <div class="flex flex-col gap-[clamp(8px,1.5vw,12px)]">
             <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-medium leading-[0.9] tracking-tight">
-              {processedProject.data.title}
+              {project.data.title}
             </h1>
             <p class="text-[clamp(1rem,2vw,1.25rem)] font-light italic max-w-2xl text-[#E5E5E5]/90">
-              {processedProject.data.description}
+              {project.data.description}
             </p>
           </div>
           
           <div class="flex flex-wrap gap-[clamp(8px,1vw,10px)]">
-            {processedProject.data.tags.map((tag: string) => (
+            {project.data.tags.map((tag: string) => (
               <span class="px-5 py-2.5 rounded-full border-2 border-[#E5E5E5]/20 text-[#E5E5E5]/80 text-sm uppercase tracking-wide hover:border-[#E5E5E5]/40 hover:text-[#E5E5E5] transition-all duration-300">
                 {tag}
               </span>
@@ -108,7 +122,7 @@ export const prerender = true;
     <!-- Gallery Container -->
     <div class="py-32 px-8">
       <div class="max-w-[1800px] mx-auto space-y-48">
-        {processedProject.data.projectType === "video" ? (
+        {project.data.projectType === "video" ? (
           <div class="max-w-4xl mx-auto">
             <!-- Text Content -->
             <article class="prose-custom text-[clamp(1.25rem,2.5vw,1.75rem)] font-light italic mb-16">
@@ -120,10 +134,9 @@ export const prerender = true;
               <video
                 controls
                 class="w-full h-full object-cover"
-                poster={processedProject.data.image}
               >
-                {processedProject.data.videoUrl && (
-                  <source src={processedProject.data.videoUrl} type="video/mp4" />
+                {videoUrl && (
+                  <source src={videoUrl} type="video/mp4" />
                 )}
                 Ihr Browser unterstützt das Video-Tag nicht.
               </video>
@@ -135,21 +148,31 @@ export const prerender = true;
             <section class="grid grid-cols-1 md:grid-cols-2 gap-24">
               <div class="aspect-[4/3] overflow-hidden relative" data-speed="0.02">
                 {imageGroups.topLeft.map((src, index) => (
-                  <img 
+                  <Image 
                     src={src}
-                    alt={`${processedProject.data.title} - Bild ${index + 1}`}
+                    alt={`${project.data.title} - Bild ${index + 1}`}
+                    width={800}
+                    height={600}
                     class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
                     data-image-group="group1"
                     data-image-index={index}
+                    format="webp"
+                    quality={85}
                   />
                 ))}
               </div>
               <div class="aspect-[4/3] overflow-hidden md:translate-y-24" data-speed="-0.02">
-                <img 
-                  src={imageGroups.topRight}
-                  alt={`${processedProject.data.title} Detail`}
-                  class="w-full h-full object-cover"
-                />
+                {imageGroups.topRight && (
+                  <Image 
+                    src={imageGroups.topRight}
+                    alt={`${project.data.title} Detail`}
+                    width={800}
+                    height={600}
+                    class="w-full h-full object-cover"
+                    format="webp"
+                    quality={85}
+                  />
+                )}
               </div>
             </section>
 
@@ -161,20 +184,30 @@ export const prerender = true;
             <!-- Gallery Section 2 -->
             <section class="grid grid-cols-1 md:grid-cols-12 gap-8">
               <div class="md:col-span-8 aspect-video overflow-hidden" data-speed="0.03">
-                <img 
-                  src={imageGroups.secondRowLeft}
-                  alt={`${processedProject.data.title} Workspace`}
-                  class="w-full h-full object-cover"
-                />
+                {imageGroups.secondRowLeft && (
+                  <Image 
+                    src={imageGroups.secondRowLeft}
+                    alt={`${project.data.title} Workspace`}
+                    width={1600}
+                    height={900}
+                    class="w-full h-full object-cover"
+                    format="webp"
+                    quality={85}
+                  />
+                )}
               </div>
               <div class="md:col-span-4 aspect-video overflow-hidden md:translate-y-32 relative" data-speed="-0.03">
                 {imageGroups.secondRowRight.map((src, index) => (
-                  <img 
+                  <Image 
                     src={src}
-                    alt={`${processedProject.data.title} Details`}
+                    alt={`${project.data.title} Details`}
+                    width={800}
+                    height={450}
                     class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
                     data-image-group="group2"
                     data-image-index={index}
+                    format="webp"
+                    quality={85}
                   />
                 ))}
               </div>
@@ -183,29 +216,45 @@ export const prerender = true;
             <!-- Gallery Section 3 -->
             <section class="grid grid-cols-1 md:grid-cols-3 gap-12">
               <div class="aspect-[3/4] overflow-hidden" data-speed="0.02">
-                <img 
-                  src={imageGroups.thirdRowLeft}
-                  alt={`${processedProject.data.title} Detail 1`}
-                  class="w-full h-full object-cover"
-                />
+                {imageGroups.thirdRowLeft && (
+                  <Image 
+                    src={imageGroups.thirdRowLeft}
+                    alt={`${project.data.title} Detail 1`}
+                    width={600}
+                    height={800}
+                    class="w-full h-full object-cover"
+                    format="webp"
+                    quality={85}
+                  />
+                )}
               </div>
               <div class="aspect-[3/4] overflow-hidden md:translate-y-24 relative" data-speed="-0.03">
                 {imageGroups.thirdRowMid.map((src, index) => (
-                  <img 
+                  <Image 
                     src={src}
-                    alt={`${processedProject.data.title} Detail 2`}
+                    alt={`${project.data.title} Detail 2`}
+                    width={600}
+                    height={800}
                     class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
                     data-image-group="group3"
                     data-image-index={index}
+                    format="webp"
+                    quality={85}
                   />
                 ))}
               </div>
               <div class="aspect-[3/4] overflow-hidden" data-speed="0.02">
-                <img 
-                  src={imageGroups.thirdRowRight}
-                  alt={`${processedProject.data.title} Detail 3`}
-                  class="w-full h-full object-cover"
-                />
+                {imageGroups.thirdRowRight && (
+                  <Image 
+                    src={imageGroups.thirdRowRight}
+                    alt={`${project.data.title} Detail 3`}
+                    width={600}
+                    height={800}
+                    class="w-full h-full object-cover"
+                    format="webp"
+                    quality={85}
+                  />
+                )}
               </div>
             </section>
           </>

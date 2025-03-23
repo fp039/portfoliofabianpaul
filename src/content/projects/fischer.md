@@ -1,24 +1,24 @@
 ---
 title: "Brennerei Fischer"
 description: "Gin & Branding: Tradition in dritter Generation, neu interpretiert"
-image: "/images/projects/fischer/Header_Image.png"
+image: "/src/assets/images/projects/fischer/Header_Image.png"
 gallery: [
   # Erste Reihe
-  "/images/projects/fischer/Projects_Top_Left_1.png",
-  "/images/projects/fischer/Projects_Top_Left_2.png",
-  "/images/projects/fischer/Projects_Top_Left_3.png",
-  "/images/projects/fischer/Projects_Top_Right.png",
+  "/src/assets/images/projects/fischer/Projects_Top_Left_1.png",
+  "/src/assets/images/projects/fischer/Projects_Top_Left_2.png",
+  "/src/assets/images/projects/fischer/Projects_Top_Left_3.png",
+  "/src/assets/images/projects/fischer/Projects_Top_Right.png",
   # Zweite Reihe
-  "/images/projects/fischer/Second_Row_Left.png",
-  "/images/projects/fischer/Second_Row_Right_1.png",
-  "/images/projects/fischer/Second_Row_Right_2.png",
-  "/images/projects/fischer/Second_Row_Right_3.png",
+  "/src/assets/images/projects/fischer/Second_Row_Left.png",
+  "/src/assets/images/projects/fischer/Second_Row_Right_1.png",
+  "/src/assets/images/projects/fischer/Second_Row_Right_2.png",
+  "/src/assets/images/projects/fischer/Second_Row_Right_3.png",
   # Dritte Reihe
-  "/images/projects/fischer/Third_Row_Left.png",
-  "/images/projects/fischer/Third_Row_Mid_1.png",
-  "/images/projects/fischer/Third_Row_Mid_2.png",
-  "/images/projects/fischer/Third_Row_Mid_3.png",
-  "/images/projects/fischer/Third_Row_Right.png"
+  "/src/assets/images/projects/fischer/Third_Row_Left.png",
+  "/src/assets/images/projects/fischer/Third_Row_Mid_1.png",
+  "/src/assets/images/projects/fischer/Third_Row_Mid_2.png",
+  "/src/assets/images/projects/fischer/Third_Row_Mid_3.png",
+  "/src/assets/images/projects/fischer/Third_Row_Right.png"
 ]
 tags: ["Branding", "Packaging Design", "Corporate Design"]
 featured: false

@@ -2,7 +2,7 @@
 title: "Welcome to my Blog"
 excerpt: "Frische Perspektiven, spannende Einblicke und ein bisschen Nerd-Talk – hier gibt's alles, was Design und Development verbindet."
 date: 2024-01-24
-image: "/images/blog/design_code_bridge.jpg"
+image: "/src/assets/images/blog/design_code_bridge.jpg"
 readingTime: 2
 tags: ["Intro", "Design", "Entwicklung", "Blog"]
 author: "Fabian Paul"

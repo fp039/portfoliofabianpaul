@@ -5,56 +5,56 @@ import { getAssetPath } from '../utils/paths'
 import CookieConsent from '../components/CookieConsent.astro'
 import GoogleAnalytics from '../components/GoogleAnalytics.astro'
 
+// Font Imports
+import mediumWoff2 from '../assets/fonts/TT_Firs_Neue_Medium.woff2';
+import mediumWoff from '../assets/fonts/TT_Firs_Neue_Medium.woff';
+import mediumItalicWoff2 from '../assets/fonts/TT_Firs_Neue_Medium_Italic.woff2';
+import mediumItalicWoff from '../assets/fonts/TT_Firs_Neue_Medium_Italic.woff';
+import lightWoff2 from '../assets/fonts/TT_Firs_Neue_Light.woff2';
+import lightWoff from '../assets/fonts/TT_Firs_Neue_Light.woff';
+import lightItalicWoff2 from '../assets/fonts/TT_Firs_Neue_Light_Italic.woff2';
+import lightItalicWoff from '../assets/fonts/TT_Firs_Neue_Light_Italic.woff';
+
 interface Props {
   title: string;
   description?: string;
 }
 
 const { title } = Astro.props;
-const fontPaths = {
-  mediumWoff2: getAssetPath('/fonts/TT_Firs_Neue_Medium.woff2'),
-  mediumWoff: getAssetPath('/fonts/TT_Firs_Neue_Medium.woff'),
-  mediumItalicWoff2: getAssetPath('/fonts/TT_Firs_Neue_Medium_Italic.woff2'),
-  mediumItalicWoff: getAssetPath('/fonts/TT_Firs_Neue_Medium_Italic.woff'),
-  lightWoff2: getAssetPath('/fonts/TT_Firs_Neue_Light.woff2'),
-  lightWoff: getAssetPath('/fonts/TT_Firs_Neue_Light.woff'),
-  lightItalicWoff2: getAssetPath('/fonts/TT_Firs_Neue_Light_Italic.woff2'),
-  lightItalicWoff: getAssetPath('/fonts/TT_Firs_Neue_Light_Italic.woff'),
-};
 
 const styles = `
   @font-face {
     font-family: 'TT Firs Neue';
-    src: url('${fontPaths.mediumWoff2}') format('woff2'),
-         url('${fontPaths.mediumWoff}') format('woff');
-    font-weight: 500;
+    src: url('${lightWoff2}') format('woff2'),
+         url('${lightWoff}') format('woff');
+    font-weight: 300;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
     font-family: 'TT Firs Neue';
-    src: url('${fontPaths.mediumItalicWoff2}') format('woff2'),
-         url('${fontPaths.mediumItalicWoff}') format('woff');
-    font-weight: 500;
+    src: url('${lightItalicWoff2}') format('woff2'),
+         url('${lightItalicWoff}') format('woff');
+    font-weight: 300;
     font-style: italic;
     font-display: swap;
   }
 
   @font-face {
     font-family: 'TT Firs Neue';
-    src: url('${fontPaths.lightWoff2}') format('woff2'),
-         url('${fontPaths.lightWoff}') format('woff');
-    font-weight: 300;
+    src: url('${mediumWoff2}') format('woff2'),
+         url('${mediumWoff}') format('woff');
+    font-weight: 500;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
     font-family: 'TT Firs Neue';
-    src: url('${fontPaths.lightItalicWoff2}') format('woff2'),
-         url('${fontPaths.lightItalicWoff}') format('woff');
-    font-weight: 300;
+    src: url('${mediumItalicWoff2}') format('woff2'),
+         url('${mediumItalicWoff}') format('woff');
+    font-weight: 500;
     font-style: italic;
     font-display: swap;
   }
@@ -75,14 +75,14 @@ const styles = `
     <!-- Preload critical fonts -->
     <link 
       rel="preload" 
-      href={fontPaths.mediumWoff2} 
+      href={mediumWoff2} 
       as="font" 
       type="font/woff2" 
       crossorigin="anonymous"
     />
     <link 
       rel="preload" 
-      href={fontPaths.lightWoff2} 
+      href={lightWoff2} 
       as="font" 
       type="font/woff2" 
       crossorigin="anonymous"
@@ -133,7 +133,7 @@ const styles = `
 </html>
 
 <script>
-  import Lenis from 'lenis'
+  import Lenis from "@studio-freight/lenis"
 
   declare global {
     interface Window {

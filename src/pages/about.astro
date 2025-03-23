@@ -6,6 +6,9 @@ import TechCard from '../components/TechCard.vue';
 import RotatingCircle from '../components/ui/RotatingCircle.astro';
 import '../utils/gsapInit';
 import { getAssetPath } from '../utils/paths';
+import { Image } from 'astro:assets';
+import portraitImage from '../assets/images/shared/portrait-fabian-1683x1920.jpg';
+import portraitWithDog from '../assets/images/shared/fabian-mit-hund.jpg';
 
 // Berechne Alter
 const birthDate = new Date('1995-10-06');
@@ -68,22 +71,26 @@ const techStack = [
           <!-- Image Gallery -->
           <div class="relative w-full max-w-[600px] lg:max-w-none mx-auto">
             <div class="aspect-square lg:aspect-[7/9] overflow-hidden group relative animate-image">
-              <img 
-                src={getAssetPath("/images/shared/portrait-fabian-1683x1920.jpg")}
+              <Image 
+                src={portraitImage}
                 alt="Portrait von Fabian Paul"
                 class="w-full h-full object-cover"
-                width="1683"
-                height="1920"
+                width={800}
+                height={1024}
                 loading="eager"
                 fetchpriority="high"
+                format="webp"
+                quality={90}
               />
-              <img 
-                src={getAssetPath("/images/shared/fabian-mit-hund.jpg")}
+              <Image 
+                src={portraitWithDog}
                 alt="Fabian mit seinem Hund Mira"
                 class="w-full h-full object-cover absolute inset-0 opacity-0"
-                width="1683"
-                height="1920"
+                width={800}
+                height={1024}
                 loading="lazy"
+                format="webp"
+                quality={90}
               />
             </div>
           </div>

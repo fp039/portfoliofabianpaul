@@ -1,5 +1,7 @@
 ---
 import { getAssetPath } from '../../utils/paths';
+import { Image } from 'astro:assets';
+import portraitImage from '../../assets/images/shared/portrait-fabian-1683x1920.jpg';
 ---
 
 <section class="min-h-screen px-8 flex items-center">
@@ -7,12 +9,14 @@ import { getAssetPath } from '../../utils/paths';
     <!-- Image - Order first on mobile -->
     <div id="hello-image" class="relative w-full order-first md:order-last">
       <div class="md:max-w-[500px] aspect-square md:aspect-[3/4] overflow-hidden md:mx-auto">
-        <img 
-          src={getAssetPath("/images/shared/portrait-fabian-1683x1920.jpg")}
-          alt="Fabian Paul" 
+        <Image 
+          src={portraitImage}
+          alt="Fabian Paul - Digital Designer & Creative Developer" 
           class="w-full h-full object-cover shadow-lg"
-          width="600"
-          height="800"
+          width={800}
+          height={1067}
+          format="webp"
+          quality={85}
         />
       </div>
     </div>

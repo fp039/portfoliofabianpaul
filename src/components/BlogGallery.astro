@@ -1,8 +1,9 @@
 ---
-import { getAssetPath } from '../utils/paths';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 
 interface Props {
-  images: string[];
+  images: readonly ImageMetadata[] | ImageMetadata[];
   layout?: 'slider' | 'grid';
   orientation?: 'landscape' | 'portrait';
   className?: string;
@@ -11,14 +12,22 @@ interface Props {
 const { images, layout = 'grid', orientation = 'landscape', className = '' } = Astro.props;
 
 // Verarbeite alle Bildpfade
-const processedImages = images.map(image => getAssetPath(image));
+const processedImages = images.map(image => image.src);
 ---
 
 {layout === 'grid' ? (
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 my-8">
-    {processedImages.map((image) => (
+    {images.map((image) => (
       <div class={`aspect-3-2 overflow-hidden ${orientation === 'portrait' ? 'aspect-3-4' : ''}`}>
-        <img src={image} alt="" class="w-full h-full object-cover" loading="lazy" />
+        <Image 
+          src={image} 
+          alt="" 
+          class="w-full h-full object-cover" 
+          width={800} 
+          height={orientation === 'portrait' ? 1067 : 600}
+          format="webp"
+          quality={85}
+        />
       </div>
     ))}
   </div>
@@ -31,15 +40,18 @@ const processedImages = images.map(image => getAssetPath(image));
     <div class="gallery-slider relative">
       <div class="gallery-container">
         <div class="gallery-track flex transition-transform duration-700 ease-out">
-          {processedImages.map((image) => (
+          {images.map((image) => (
             <div class="gallery-slide w-full flex-shrink-0">
               <div class="aspect-[16/9] relative overflow-hidden">
                 <div class="absolute inset-0 flex items-center justify-center">
-                  <img
+                  <Image
                     src={image}
                     alt=""
+                    width={1600}
+                    height={900}
                     class="h-full w-auto max-w-none hover:scale-[1.02] transition-transform duration-700"
-                    loading="lazy"
+                    format="webp"
+                    quality={85}
                   />
                 </div>
               </div>
@@ -48,7 +60,7 @@ const processedImages = images.map(image => getAssetPath(image));
         </div>
       </div>
       
-      {processedImages.length > 1 && (
+      {images.length > 1 && (
         <>
           <button 
             class="gallery-prev absolute left-8 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-[#00FF00]/70 hover:text-[#00FF00] transition-colors"

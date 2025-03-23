@@ -3,7 +3,9 @@ import BlogLayout from './BlogLayout.astro';
 import BlogGallery from '../components/BlogGallery.astro';
 import type { CollectionEntry } from 'astro:content';
 import '../styles/prose.css';
-import { getAssetPath, getRoutePath } from '../utils/paths';
+import { getRoutePath } from '../utils/paths';
+import { Image } from 'astro:assets';
+import { blogImages } from '../utils/blogImages';
 
 interface Props {
   frontmatter: {
@@ -25,16 +27,13 @@ interface Props {
 
 const { frontmatter } = Astro.props;
 
-// Sortiere Bilder nach Position
-const beforeContent = frontmatter.images?.filter(img => img.position === 'before').map(img => ({
-  ...img,
-  src: getAssetPath(img.src)
-})) || [];
+// Bestimme den Blog-Key aus dem Bildpfad
+const blogKey = frontmatter.image.includes('design_code_bridge') ? 'welcome' : frontmatter.image.split('/').slice(-2)[0] as keyof typeof blogImages;
+const blogData = blogImages[blogKey];
 
-const afterContent = frontmatter.images?.filter(img => img.position === 'after').map(img => ({
-  ...img,
-  src: getAssetPath(img.src)
-})) || [];
+// Sortiere Bilder nach Position
+const beforeContent = frontmatter.images?.filter(img => img.position === 'before') || [];
+const afterContent = frontmatter.images?.filter(img => img.position === 'after') || [];
 
 const formatDate = (date: Date | string) => {
   return new Date(date).toLocaleDateString('de-DE', {
@@ -44,13 +43,8 @@ const formatDate = (date: Date | string) => {
   });
 };
 
-// Konvertiere die Bildpfade und URLs
-const processedFrontmatter = {
-  ...frontmatter,
-  image: getAssetPath(frontmatter.image),
-  url: getRoutePath(frontmatter.url),
-  gallery: frontmatter.gallery?.map(img => getAssetPath(img))
-};
+// URL konvertieren
+const processedUrl = getRoutePath(frontmatter.url);
 ---
 
 <BlogLayout title={frontmatter.title}>
@@ -60,11 +54,17 @@ const processedFrontmatter = {
       <!-- Hauptbild -->
       <div class="w-screen relative">
         <div class="relative h-[clamp(250px,40vh,800px)] md:h-[clamp(400px,60vh,800px)]">
-          <img
-            src={processedFrontmatter.image}
-            alt={processedFrontmatter.title}
-            class="absolute inset-0 w-full h-full object-cover"
-          />
+          {blogData?.header && (
+            <Image
+              src={blogData.header}
+              alt={frontmatter.title}
+              width={2000}
+              height={1000}
+              class="absolute inset-0 w-full h-full object-cover"
+              format="webp"
+              quality={90}
+            />
+          )}
         </div>
       </div>
 
@@ -75,18 +75,18 @@ const processedFrontmatter = {
             <div class="space-y-6">
               <div class="space-y-3">
                 <h1 class="text-fluid-2xl md:text-fluid-3xl font-bold text-text-primary leading-[1.1] pt-12">
-                  {processedFrontmatter.title}
+                  {frontmatter.title}
                 </h1>
                 
                 <div class="flex flex-wrap items-center gap-3 text-text-secondary/80">
                   <time 
-                    datetime={processedFrontmatter.date?.toString()} 
+                    datetime={frontmatter.date?.toString()} 
                     class="flex items-center gap-2 text-fluid-sm"
                   >
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    {formatDate(processedFrontmatter.date)}
+                    {formatDate(frontmatter.date)}
                   </time>
                   
                   <span class="w-1.5 h-1.5 rounded-full bg-accent/80"></span>
@@ -95,13 +95,13 @@ const processedFrontmatter = {
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
-                    {processedFrontmatter.author}
+                    {frontmatter.author}
                   </span>
                 </div>
               </div>
               
               <div class="flex flex-wrap gap-2">
-                {processedFrontmatter.tags.map(tag => (
+                {frontmatter.tags.map(tag => (
                   <span class="px-3 py-1 text-fluid-sm rounded-full bg-accent/10 text-accent font-medium hover:bg-accent/20 transition-colors">
                     #{tag}
                   </span>
@@ -118,10 +118,12 @@ const processedFrontmatter = {
       <div class="max-w-4xl pl-4 pr-4 pt-8 mx-auto">
         <!-- Bilder vor dem Content -->
         {beforeContent.map(img => (
-          <BlogGallery 
-            images={[img.src]} 
-            layout="grid"
-          />
+          blogData?.gallery && (
+            <BlogGallery 
+              images={blogData.gallery} 
+              layout={img.layout || 'grid'}
+            />
+          )
         ))}
 
         <!-- Inhalt -->
@@ -131,10 +133,12 @@ const processedFrontmatter = {
 
         <!-- Bilder nach dem Content -->
         {afterContent.map(img => (
-          <BlogGallery 
-            images={[img.src]} 
-            layout="grid"
-          />
+          blogData?.gallery && (
+            <BlogGallery 
+              images={blogData.gallery} 
+              layout={img.layout || 'grid'}
+            />
+          )
         ))}
 
         <!-- Navigation -->

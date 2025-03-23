@@ -1,67 +1,38 @@
 ---
 import RotatingCircle from '../ui/RotatingCircle.astro';
 import ScrollIndicator from '../ui/ScrollIndicator.astro';
-import { getAssetPath } from '../../utils/paths';
 import { getCollection } from 'astro:content';
-import sharp from 'sharp';
-import path from 'path';
+import { Image } from 'astro:assets';
+import { imageMap } from '../../utils/images';
 
-// Hilfsfunktion zum Analysieren der Bilddimensionen
-async function isHorizontalImage(imagePath: string): Promise<boolean> {
-  try {
-    const fullPath = path.join(process.cwd(), 'public', imagePath);
-    const metadata = await sharp(fullPath).metadata();
-    return metadata.width && metadata.height ? metadata.width > metadata.height : false;
-  } catch (error) {
-    console.error(`Fehler beim Analysieren des Bildes ${imagePath}:`, error);
-    return false;
-  }
-}
-
-// Lade alle Projekte
 const projects = await getCollection('projects');
 
-// Filtere horizontale Bilder aus den Projekten
-const horizontalImages = await Promise.all(
-  projects
-    .flatMap(project => [
-      project.data.image,
-      ...(project.data.gallery || [])
-    ])
-    .map(async (img) => {
-      const isHorizontal = await isHorizontalImage(img);
-      return isHorizontal ? img : null;
-    })
-);
-
-// Filtere null-Werte und behalte nur horizontale Bilder
-const filteredImages = horizontalImages.filter((img): img is string => img !== null);
-
-// Define image sets for each position
 const imageGroups = {
   topLeft: [
-    getAssetPath('/images/shared/gin-fischer-1920x1080.jpg'),
-    getAssetPath('/images/shared/website-wontec-2000x1125.png'),
-    getAssetPath('/images/shared/gin-fischer-1920x1080-2.jpg'),
-    ...filteredImages.slice(0, 3).map(img => getAssetPath(img))
+    imageMap['/src/assets/images/projects/wontec_web/Header_Image.png'],
+    imageMap['/src/assets/images/projects/fischer/Second_Row_Right_1.png'],
+    imageMap['/src/assets/images/projects/steillagen/Second_Row_Left.png'],
+    imageMap['/src/assets/images/projects/harbr/guest-journey-harbr-2000x1125.jpg'],
+    imageMap['/src/assets/images/shared/work-hard-2000x1125.jpg'],
   ],
   topRight: [
-    getAssetPath('/images/shared/guest-journey-harbr-2000x1125.jpg'),
-    getAssetPath('/images/shared/wondera-wontec-2000x1125.png'),
-    getAssetPath('/images/shared/work-hard-2000x1125.jpg'),
-    ...filteredImages.slice(3, 6).map(img => getAssetPath(img))
+    imageMap['/src/assets/images/projects/fischer/Header_Image.png'],
+    imageMap['/src/assets/images/projects/wontec_web/Second_Row_Left.png'],
+    imageMap['/src/assets/images/projects/steillagen/Projects_Top_Right.png'],
+    imageMap['/src/assets/images/shared/wondera-wontec-2000x1125.png'],
   ],
   bottomLeft: [
-    getAssetPath('/images/shared/rose-steillagen-2000x1125.jpg'),
-    getAssetPath('/images/shared/rose-steillagen-2000x1125-2.jpg'),
-    getAssetPath('/images/shared/rose-steillagen-2000x1125-3.png'),
-    ...filteredImages.slice(6, 9).map(img => getAssetPath(img))
+    imageMap['/src/assets/images/projects/wontec_web/Second_Row_Right_1.png'],
+    imageMap['/src/assets/images/projects/fischer/Second_Row_Left.png'],
+    imageMap['/src/assets/images/shared/rose-steillagen-2000x1125-3.png'],
+    imageMap['/src/assets/images/projects/fischer/Second_Row_Right_3.png'],
   ],
   bottomRight: [
-    getAssetPath('/images/shared/rose-steillagen-2000x1125-2.jpg'),
-    getAssetPath('/images/shared/rose-steillagen-2000x1125-3.png'),
-    ...filteredImages.slice(9, 11).map(img => getAssetPath(img))
-  ],
+    imageMap['/src/assets/images/projects/steillagen/Header_Image.png'],
+    imageMap['/src/assets/images/projects/wontec_web/Second_Row_Right_3.png'],
+    imageMap['/src/assets/images/projects/fischer/Second_Row_Right_2.png'],
+    imageMap['/src/assets/images/projects/wontec_web/Second_Row_Right_2.png'],
+  ]
 };
 ---
 
@@ -75,13 +46,17 @@ const imageGroups = {
           <div class="flex flex-col md:flex-row items-center justify-center gap-6 lg:gap-10">
             <!-- Mobile: Image nach oben und zum Rand gepusht -->
             <div class="absolute -top-[130px] -left-8 md:relative md:top-0 md:left-0 w-[clamp(140px,45vw,220px)] md:w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
-              {imageGroups.topLeft.map((src, index) => (
-                <img 
-                  src={src}
+              {imageGroups.topLeft.map((image: ImageMetadata, index: number) => (
+                <Image 
+                  src={image} 
                   alt="Project Image"
+                  width={1200}
+                  height={675}
                   class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
                   data-image-group="topLeft"
                   data-image-index={index}
+                  format="webp"
+                  quality={85}
                 />
               ))}
             </div>
@@ -100,13 +75,17 @@ const imageGroups = {
             </span>
             <!-- Bild nur auf Desktop sichtbar -->
             <div class="ml-10 hidden md:block relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
-              {imageGroups.topRight.map((src, index) => (
-                <img 
-                  src={src}
+              {imageGroups.topRight.map((image: ImageMetadata, index: number) => (
+                <Image 
+                  src={image} 
                   alt="Project Image"
-                  class={`absolute  inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
+                  width={1200}
+                  height={675}
+                  class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
                   data-image-group="topRight"
                   data-image-index={index}
+                  format="webp"
+                  quality={85}
                 />
               ))}
             </div>
@@ -116,13 +95,17 @@ const imageGroups = {
           <div class="flex items-center justify-center">
             <!-- Bild nur auf Desktop sichtbar -->
             <div class="hidden md:block relative w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden mr-10">
-              {imageGroups.bottomLeft.map((src, index) => (
-                <img 
-                  src={src}
+              {imageGroups.bottomLeft.map((image: ImageMetadata, index: number) => (
+                <Image 
+                  src={image} 
                   alt="Project Image"
+                  width={1200}
+                  height={675}
                   class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
                   data-image-group="bottomLeft"
                   data-image-index={index}
+                  format="webp"
+                  quality={85}
                 />
               ))}
             </div>
@@ -141,13 +124,17 @@ const imageGroups = {
             </span>
             <!-- Mobile: Bild nach unten und zum Rand gepusht -->
             <div class="absolute -bottom-[130px] -right-8 md:relative md:bottom-0 md:right-0 w-[clamp(140px,45vw,220px)] md:w-[clamp(100px,20vw,220px)] aspect-video overflow-hidden">
-              {imageGroups.bottomRight.map((src, index) => (
-                <img 
-                  src={src}
+              {imageGroups.bottomRight.map((image: ImageMetadata, index: number) => (
+                <Image 
+                  src={image} 
                   alt="Project Image"
+                  width={1200}
+                  height={675}
                   class={`absolute inset-0 w-full h-full object-cover bg-background/20 opacity-0 ${index === 0 ? 'opacity-100' : ''}`}
                   data-image-group="bottomRight"
                   data-image-index={index}
+                  format="webp"
+                  quality={85}
                 />
               ))}
             </div>

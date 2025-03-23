@@ -1,13 +1,19 @@
 ---
 import projectsData from '../../data/projects.json';
-import { getAssetPath, getRoutePath } from '../../utils/paths';
+import { getRoutePath } from '../../utils/paths';
+import { Image } from 'astro:assets';
+import { projectImages } from '../../utils/projectImages';
 
 // Konvertiere die Bildpfade und Links
-const projects = projectsData.projects.map(project => ({
-  ...project,
-  image: getAssetPath(project.image),
-  link: getRoutePath(project.link)
-}));
+const projects = projectsData.projects.map(project => {
+  // Bestimme den Projektnamen aus dem Bildpfad
+  const projectKey = project.image.split('/').slice(-2)[0].replace('_web', '') as keyof typeof projectImages;
+  return {
+    ...project,
+    imageData: projectImages[projectKey]?.header,
+    link: getRoutePath(project.link)
+  };
+});
 ---
 
 <section class="relative bg-[#E5E5E5] min-h-screen flex flex-col" id="projects">
@@ -65,11 +71,17 @@ const projects = projectsData.projects.map(project => ({
               }`}
             >
               <div class={`w-full overflow-hidden ${project.type === 'featured' ? 'aspect-2-1' : 'aspect-4-3'}`}>
-                <img 
-                  src={project.image}
-                  alt={project.title}
-                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                {project.imageData && (
+                  <Image 
+                    src={project.imageData}
+                    alt={project.title}
+                    width={project.type === 'featured' ? 1600 : 800}
+                    height={project.type === 'featured' ? 800 : 600}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    format="webp"
+                    quality={85}
+                  />
+                )}
               </div>
               <div class="space-y-[clamp(8px,1.5vw,16px)]">
                 <h3 class="text-fluid-xl font-medium leading-tight tracking-[0.02em] text-[#1D1D1B]">
@@ -194,7 +206,7 @@ const projects = projectsData.projects.map(project => ({
 
 <style>
   .projects-scroll {
-    overflow: hidden;
+    ovelow: hidden;
   }
 
   .projects-scroll > div {
