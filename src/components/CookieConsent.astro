@@ -327,11 +327,18 @@ declare global {
     function initializeGoogleAnalytics() {
         const GA_MEASUREMENT_ID = 'G-519SNV03FS';
         
-        // Konfiguriere Google Analytics
+        // Konfiguriere Google Analytics und tracke initialen Pageview
         window.gtag('config', GA_MEASUREMENT_ID, {
             'anonymize_ip': true,
-            'cookie_flags': 'SameSite=None;Secure'
+            'cookie_flags': 'SameSite=None;Secure',
+            'page_path': window.location.pathname,
+            'page_location': window.location.href
         });
+
+        // Seite nach kurzer Verzögerung neu laden für korrekte Tracking-Initialisierung
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
     }
 
     // Initialisiere Cookie Consent

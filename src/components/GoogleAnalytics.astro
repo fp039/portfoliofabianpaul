@@ -1,0 +1,31 @@
+---
+const GA_MEASUREMENT_ID = "G-519SNV03FS";
+---
+
+<!-- Google Analytics -->
+<script define:vars={{ GA_MEASUREMENT_ID }}>
+    // Initialisiere dataLayer
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    // Funktion zum Tracking von Seitenaufrufen
+    function trackPageView() {
+        gtag('config', GA_MEASUREMENT_ID, {
+            page_path: window.location.pathname,
+            page_location: window.location.href
+        });
+    }
+
+    // Initial Pageview
+    trackPageView();
+
+    // Track Seitenwechsel bei Astro View Transitions
+    document.addEventListener('astro:after-swap', trackPageView);
+
+    // Track Seitenwechsel bei normaler Navigation
+    window.addEventListener('popstate', trackPageView);
+</script>
+<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script> 
