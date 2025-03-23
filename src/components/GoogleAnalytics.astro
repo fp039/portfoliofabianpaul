@@ -6,21 +6,19 @@ const GA_MEASUREMENT_ID = "G-519SNV03FS";
 <script define:vars={{ GA_MEASUREMENT_ID }}>
     // Initialisiere dataLayer
     window.dataLayer = window.dataLayer || [];
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
+    window.gtag = function() {
+        window.dataLayer.push(arguments);
+    };
 
     // Funktion zum Tracking von Seitenaufrufen
     function trackPageView() {
-        gtag('config', GA_MEASUREMENT_ID, {
-            page_path: window.location.pathname,
-            page_location: window.location.href
-        });
+        if (typeof window.gtag === 'function') {
+            window.gtag('config', GA_MEASUREMENT_ID, {
+                page_path: window.location.pathname,
+                page_location: window.location.href
+            });
+        }
     }
-
-    // Initial Pageview
-    trackPageView();
 
     // Track Seitenwechsel bei Astro View Transitions
     document.addEventListener('astro:after-swap', trackPageView);

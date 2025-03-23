@@ -327,18 +327,28 @@ declare global {
     function initializeGoogleAnalytics() {
         const GA_MEASUREMENT_ID = 'G-519SNV03FS';
         
-        // Konfiguriere Google Analytics und tracke initialen Pageview
-        window.gtag('config', GA_MEASUREMENT_ID, {
-            'anonymize_ip': true,
-            'cookie_flags': 'SameSite=None;Secure',
-            'page_path': window.location.pathname,
-            'page_location': window.location.href
-        });
+        // Google Analytics Script dynamisch laden
+        const script = document.createElement('script');
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+        script.async = true;
+        document.head.appendChild(script);
 
-        // Seite nach kurzer Verzögerung neu laden für korrekte Tracking-Initialisierung
-        setTimeout(() => {
-            window.location.reload();
-        }, 500);
+        // Initialisiere dataLayer und gtag Funktion
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function() {
+            window.dataLayer.push(arguments);
+        };
+        
+        // Warte auf Script-Load und initialisiere dann GA
+        script.onload = () => {
+            window.gtag('js', new Date());
+            window.gtag('config', GA_MEASUREMENT_ID, {
+                'anonymize_ip': true,
+                'cookie_flags': 'SameSite=None;Secure',
+                'page_path': window.location.pathname,
+                'page_location': window.location.href
+            });
+        };
     }
 
     // Initialisiere Cookie Consent
