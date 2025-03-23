@@ -14,7 +14,7 @@ let cursorDot, cursorCircle
 
 onMounted(() => {
   // Check if device has fine pointer (mouse)
-  if (window.matchMedia('(pointer: fine)').matches && !navigator.userAgent.includes('Firefox')) {
+  if (window.matchMedia('(pointer: fine)').matches) {
     isVisible.value = true
     cursorDot = cursor.value.querySelector('.cursor-dot')
     cursorCircle = cursor.value.querySelector('.cursor-circle')
@@ -24,7 +24,7 @@ onMounted(() => {
     document.addEventListener('mouseleave', onMouseLeave)
     
     // Add hover effect for interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, [role="button"]')
+    const interactiveElements = document.querySelectorAll('a, button, [role="button"], input[type="submit"], .interactive')
     interactiveElements.forEach(el => {
       el.addEventListener('mouseenter', onLinkHover)
       el.addEventListener('mouseleave', onLinkLeave)
@@ -122,6 +122,8 @@ const onLinkLeave = () => {
   z-index: 9999;
   mix-blend-mode: difference;
   will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .cursor-dot {
@@ -130,9 +132,10 @@ const onLinkLeave = () => {
   height: 8px;
   background-color: #00FF00;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) translateZ(0);
   transition: width 0.3s, height 0.3s;
   pointer-events: none;
+  backface-visibility: hidden;
 }
 
 .cursor-circle {
@@ -141,9 +144,10 @@ const onLinkLeave = () => {
   height: 40px;
   border: 1px solid #00FF00;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) translateZ(0);
   transition: border-width 0.3s;
   pointer-events: none;
+  backface-visibility: hidden;
 }
 
 /* Hide default cursor */
@@ -153,6 +157,17 @@ const onLinkLeave = () => {
 
 :global(html.has-custom-cursor *) {
   cursor: none !important;
+}
+
+/* Ausnahmen für bestimmte Elemente */
+:global(html.has-custom-cursor input),
+:global(html.has-custom-cursor textarea),
+:global(html.has-custom-cursor [contenteditable]) {
+  cursor: text !important;
+}
+
+:global(html.has-custom-cursor select) {
+  cursor: pointer !important;
 }
 
 /* Show default cursor on mobile/touch devices */
