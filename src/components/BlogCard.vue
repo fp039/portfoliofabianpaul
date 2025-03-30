@@ -52,7 +52,12 @@ const props = defineProps<{
 }>();
 
 const getBlogKey = (imagePath: string): BlogKey => {
-  return imagePath.includes('design_code_bridge') ? 'welcome' : imagePath.split('/').slice(-2)[0] as BlogKey;
+  if (imagePath.includes('design_code_bridge')) return 'welcome';
+  const pathParts = imagePath.split('/');
+  const blogIndex = pathParts.findIndex(part => part === 'blog');
+  if (blogIndex === -1) return 'welcome';
+  const blogFolder = pathParts[blogIndex + 1];
+  return blogFolder === 'imageai' ? 'image-ai' : blogFolder as BlogKey;
 };
 
 const formattedDate = computed(() => {

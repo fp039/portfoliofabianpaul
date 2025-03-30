@@ -28,7 +28,14 @@ interface Props {
 const { frontmatter } = Astro.props;
 
 // Bestimme den Blog-Key aus dem Bildpfad
-const blogKey = frontmatter.image.includes('design_code_bridge') ? 'welcome' : frontmatter.image.split('/').slice(-2)[0] as keyof typeof blogImages;
+const getBlogKey = (imagePath: string) => {
+  if (imagePath.includes('design_code_bridge')) return 'welcome';
+  const pathParts = imagePath.split('/');
+  const blogFolder = pathParts[pathParts.length - 2];
+  return blogFolder === 'imageai' ? 'image-ai' : blogFolder;
+};
+
+const blogKey = getBlogKey(frontmatter.image) as keyof typeof blogImages;
 const blogData = blogImages[blogKey];
 
 // Sortiere Bilder nach Position
@@ -63,6 +70,7 @@ const processedUrl = getRoutePath(frontmatter.url);
               class="absolute inset-0 w-full h-full object-cover"
               format="webp"
               quality={90}
+              loading="eager"
             />
           )}
         </div>

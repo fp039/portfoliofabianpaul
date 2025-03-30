@@ -8,6 +8,7 @@ import partytown from '@astrojs/partytown';
 export default defineConfig({
   site: 'https://fabian-paul.design',
   base: '/',
+  output: 'static',
   integrations: [
     tailwind(),
     vue(),
@@ -26,12 +27,11 @@ export default defineConfig({
       config: {
         forward: ["dataLayer.push"],
       },
-    }),
+    })
   ],
   devToolbar: {
     enabled: false
   },
-  output: 'static',
   vite: {
     define: {
       'import.meta.env.BASE_URL': JSON.stringify('/')
