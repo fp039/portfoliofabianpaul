@@ -9,6 +9,12 @@ import { getAssetPath } from '../utils/paths';
 import { Image } from 'astro:assets';
 import portraitImage from '../assets/images/shared/portrait-fabian-1683x1920.jpg';
 import portraitWithDog from '../assets/images/shared/fabian-mit-hund.jpg';
+import astroIcon from '../assets/icons/astro.svg';
+import vueIcon from '../assets/icons/vue.svg';
+import tailwindIcon from '../assets/icons/tailwind.svg';
+import gsapIcon from '../assets/icons/gsap.svg';
+import figmaIcon from '../assets/icons/figma.svg';
+import adobeIcon from '../assets/icons/adobe.svg';
 
 // Berechne Alter
 const birthDate = new Date('1995-10-06');
@@ -20,41 +26,41 @@ const careerStart = new Date('2015-09-01');
 const yearsExperience = Math.floor((today.getTime() - careerStart.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
 
 const techStack = [
-  { 
-    name: 'Astro', 
-    category: 'Frontend', 
+  {
+    name: 'Astro',
+    category: 'Frontend',
     description: 'Schnelle statische Websites mit optimaler Performance',
-    icon: 'astro.svg'
+    icon: astroIcon
   },
-  { 
-    name: 'Vue.js', 
-    category: 'Frontend', 
+  {
+    name: 'Vue.js',
+    category: 'Frontend',
     description: 'Moderne, reaktive Benutzeroberflächen mit hoher Interaktivität',
-    icon: 'vue.svg'
+    icon: vueIcon
   },
-  { 
-    name: 'Tailwind', 
-    category: 'Frontend', 
+  {
+    name: 'Tailwind',
+    category: 'Frontend',
     description: 'Utility-First CSS für schnelles, konsistentes Design',
-    icon: 'tailwind.svg'
+    icon: tailwindIcon
   },
-  { 
-    name: 'GSAP', 
-    category: 'Animation', 
+  {
+    name: 'GSAP',
+    category: 'Animation',
     description: 'Professionelle Webanimationen für lebendige Interfaces',
-    icon: 'gsap.svg'
+    icon: gsapIcon
   },
-  { 
-    name: 'Figma', 
-    category: 'Design', 
+  {
+    name: 'Figma',
+    category: 'Design',
     description: 'UI/UX Design & Prototyping für Nutzererlebnisse',
-    icon: 'figma.svg'
+    icon: figmaIcon
   },
-  { 
-    name: 'Adobe CC', 
-    category: 'Design', 
+  {
+    name: 'Adobe CC',
+    category: 'Design',
     description: 'Kreative Designlösungen von Branding bis Print',
-    icon: 'adobe.svg'
+    icon: adobeIcon
   }
 ];
 
