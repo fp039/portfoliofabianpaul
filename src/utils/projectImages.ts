@@ -82,4 +82,4 @@ export const projectImages = {
   }
 } as const;
 
-export type ProjectKey = keyof typeof projectImages; 
+export type ProjectKey = keyof typeof projectImages;
