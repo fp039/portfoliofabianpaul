@@ -30,7 +30,7 @@ A modern, high-performance portfolio website showcasing digital experiences and 
 - **Custom Typography** - TT Firs Neue font family with optimized loading
 
 ### Content Management
-- **[MDX](https://mdxjs.com/)** - Enhanced markdown with React components
+- **[MDX](https://mdxjs.com/)** - Enhanced markdown
 - **Astro Content Collections** - Type-safe content management
 - **Sharp** - High-performance image processing
 
