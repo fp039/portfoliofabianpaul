@@ -141,6 +141,12 @@ export default {
         };
         
         // Erfolgsmeldung
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          window.gtag('event', 'contact_form_submit', {
+            form_location: 'contact_page',
+            page_path: window.location.pathname
+          })
+        }
         alert('Danke für deine Nachricht! Ich melde mich schnellstmöglich bei dir.');
       } catch (error) {
         console.error('Error submitting form:', error);
