@@ -3,7 +3,7 @@
     <a 
       :href="getRoutePath('/contact')" 
       class="flex items-center group relative"
-      @click="trackCtaClick"
+      @click.prevent="trackCtaClick"
       @mouseenter="onButtonEnter"
       @mouseleave="onButtonLeave"
     >
@@ -108,13 +108,26 @@ const onButtonLeave = () => {
 }
 
 const trackCtaClick = () => {
+  const targetUrl = getRoutePath('/contact')
+
   if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
     window.gtag('event', 'cta_click', {
       cta_location: 'nav',
       cta_label: 'Erstgespraech vereinbaren',
-      page_path: window.location.pathname
+      page_path: window.location.pathname,
+      transport_type: 'beacon',
+      event_callback: () => {
+        window.location.href = targetUrl
+      }
     })
+
+    window.setTimeout(() => {
+      window.location.href = targetUrl
+    }, 400)
+    return
   }
+
+  window.location.href = targetUrl
 }
 
 // Beobachte Änderungen des Menü-Status

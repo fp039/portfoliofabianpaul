@@ -87,7 +87,7 @@
                 <a 
                   :href="item.path" 
                   class="rolling-text font-medium tracking-tight pointer-events-auto text-nav-title"
-                  @click="handleMenuClick(item)"
+                  @click.prevent="handleMenuClick(item)"
                 >
                   <div class="block">
                     <span 
@@ -208,10 +208,32 @@ const trackContactClick = (type, location) => {
 }
 
 const handleMenuClick = (item) => {
+  const targetUrl = item.path
+
   if (item.name === 'Contact') {
     trackCtaClick('fullscreen_menu')
   }
+
   emit('close')
+
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+    window.gtag('event', 'nav_click', {
+      nav_label: item.name,
+      nav_location: 'fullscreen_menu',
+      page_path: window.location.pathname,
+      transport_type: 'beacon',
+      event_callback: () => {
+        window.location.href = targetUrl
+      }
+    })
+
+    window.setTimeout(() => {
+      window.location.href = targetUrl
+    }, 400)
+    return
+  }
+
+  window.location.href = targetUrl
 }
 </script>
 
