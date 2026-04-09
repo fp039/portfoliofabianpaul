@@ -94,7 +94,11 @@ import LegalLayout from '../layouts/LegalLayout.astro';
         <h2 class="font-medium text-fluid-xl">Kontakt</h2>
         <p class="text-fluid-base font-tt-firs-neue">
           Bei Fragen zur Erhebung, Verarbeitung oder Nutzung Ihrer personenbezogenen Daten wenden 
-          Sie sich bitte an: <a href="mailto:hello@fabian-paul.design" class="text-[#00FF00] hover:underline">
+          Sie sich bitte an: <a 
+            href="mailto:hello@fabian-paul.design" 
+            class="text-[#00FF00] hover:underline"
+            onclick="window.gtag && window.gtag('event', 'contact_click', { contact_type: 'email', contact_location: 'datenschutz', page_path: window.location.pathname })"
+          >
             hello@fabian-paul.design
           </a>
         </p>

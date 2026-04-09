@@ -48,12 +48,14 @@
           <a 
             href="tel:+4915901443805" 
             class="text-[#E5E5E5] text-[14px] md:text-nav-contact hover:text-[#0F0] transition-colors duration-300 cursor-pointer pointer-events-auto"
+            @click="trackContactClick('tel', 'fullscreen_menu')"
           >
             +49 159 01 44 38 05
           </a>
           <a 
             href="mailto:hello@fabian-paul.design" 
             class="text-[#E5E5E5] text-[14px] md:text-nav-contact hover:text-[#0F0] transition-colors duration-300 cursor-pointer pointer-events-auto"
+            @click="trackContactClick('email', 'fullscreen_menu')"
           >
             hello@fabian-paul.design
           </a>
@@ -85,7 +87,7 @@
                 <a 
                   :href="item.path" 
                   class="rolling-text font-medium tracking-tight pointer-events-auto text-nav-title"
-                  @click="$emit('close')"
+                  @click="handleMenuClick(item)"
                 >
                   <div class="block">
                     <span 
@@ -173,7 +175,7 @@ watch(() => props.isOpen, (isOpen) => {
   }
 })
 
-defineEmits(['close'])
+const emit = defineEmits(['close'])
 
 const getSocialLink = (social) => {
   const links = {
@@ -183,6 +185,33 @@ const getSocialLink = (social) => {
     Wa: 'https://wa.me/+4915901443805'
   }
   return links[social]
+}
+
+const trackCtaClick = (location) => {
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+    window.gtag('event', 'cta_click', {
+      cta_location: location,
+      cta_label: 'Contact',
+      page_path: window.location.pathname
+    })
+  }
+}
+
+const trackContactClick = (type, location) => {
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+    window.gtag('event', 'contact_click', {
+      contact_type: type,
+      contact_location: location,
+      page_path: window.location.pathname
+    })
+  }
+}
+
+const handleMenuClick = (item) => {
+  if (item.name === 'Contact') {
+    trackCtaClick('fullscreen_menu')
+  }
+  emit('close')
 }
 </script>
 

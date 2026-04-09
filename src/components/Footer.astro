@@ -17,12 +17,14 @@
         <a 
           href="tel:+4915901443805" 
           class="text-fluid-sm text-[#494949] font-light leading-none hover:text-[#00FF00] transition-colors duration-300 whitespace-nowrap"
+          onclick="window.gtag && window.gtag('event', 'contact_click', { contact_type: 'tel', contact_location: 'footer', page_path: window.location.pathname })"
         >
           +49 159 01 44 38 05
         </a>
         <a 
           href="mailto:hello@fabian-paul.design" 
           class="text-fluid-sm text-[#494949] font-light leading-none hover:text-[#00FF00] transition-colors duration-300 mt-2 whitespace-nowrap"
+          onclick="window.gtag && window.gtag('event', 'contact_click', { contact_type: 'email', contact_location: 'footer', page_path: window.location.pathname })"
         >
           hello@fabian-paul.design
         </a>
