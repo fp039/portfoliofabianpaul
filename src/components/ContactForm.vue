@@ -120,17 +120,13 @@ export default {
       this.isSubmitting = true;
       
       try {
-        const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(this.formData)
-        });
+        const subject = encodeURIComponent(this.formData.subject);
+        const body = encodeURIComponent(
+          `Name: ${this.formData.name}\nE-Mail: ${this.formData.email}\n\nNachricht:\n${this.formData.message}`
+        );
+        const mailtoUrl = `mailto:hello@fabian-paul.design?subject=${subject}&body=${body}`;
 
-        if (!response.ok) {
-          throw new Error('Netzwerkfehler');
-        }
+        window.location.href = mailtoUrl;
 
         // Formular zurücksetzen
         this.formData = {
