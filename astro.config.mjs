@@ -15,13 +15,25 @@ export default defineConfig({
     mdx(),
     sitemap({
       changefreq: 'weekly',
-      priority: 0.7,
       lastmod: new Date(),
-      filter: (page) => {
-        // Filtere bestimmte Seiten aus, falls nötig
-        return true;
-      },
-      entryLimit: 50000
+      entryLimit: 50000,
+      filter: (page) => !page.includes('/api/'),
+      serialize(item) {
+        const url = item.url;
+        if (url === 'https://fabian-paul.design/' || url === 'https://fabian-paul.design') {
+          return { ...item, priority: 1.0, changefreq: 'monthly' };
+        }
+        if (url.includes('/impressum') || url.includes('/datenschutz')) {
+          return { ...item, priority: 0.2, changefreq: 'yearly' };
+        }
+        if (url.match(/\/(projects|blog)\/.+/)) {
+          return { ...item, priority: 0.7 };
+        }
+        if (url.match(/\/(projects|blog|about|contact)\/?$/)) {
+          return { ...item, priority: 0.8 };
+        }
+        return { ...item, priority: 0.6 };
+      }
     }),
     partytown({
       config: {

@@ -10,6 +10,7 @@ import { blogImages } from '../utils/blogImages';
 interface Props {
   frontmatter: {
     title: string;
+    excerpt?: string;
     date: Date | string;
     author: string;
     image: string;
@@ -52,9 +53,36 @@ const formatDate = (date: Date | string) => {
 
 // URL konvertieren
 const processedUrl = getRoutePath(frontmatter.url);
+
+const canonicalUrl = `https://fabian-paul.design${processedUrl}`;
+
+const blogPostingSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": frontmatter.title,
+  "description": frontmatter.excerpt || frontmatter.title,
+  "author": {
+    "@type": "Person",
+    "name": frontmatter.author,
+    "url": "https://fabian-paul.design"
+  },
+  "datePublished": new Date(frontmatter.date).toISOString(),
+  "url": canonicalUrl,
+  "publisher": {
+    "@type": "Person",
+    "name": "Fabian Paul",
+    "url": "https://fabian-paul.design"
+  }
+};
 ---
 
-<BlogLayout title={frontmatter.title}>
+<BlogLayout
+  title={frontmatter.title}
+  description={frontmatter.excerpt}
+  ogType="article"
+  canonical={canonicalUrl}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
   <article class="-mt-[clamp(5rem,15vh,8rem)] relative w-full">
     <!-- Hero Section -->
     <header class="mb-8">

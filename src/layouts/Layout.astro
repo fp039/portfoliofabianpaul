@@ -18,9 +18,29 @@ import lightItalicWoff from '../assets/fonts/TT_Firs_Neue_Light_Italic.woff';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
+  ogType?: string;
+  canonical?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = "Digital Experiences & Creative Branding by Fabian Paul – UI/UX Design, Webentwicklung und kreatives Branding aus Deutschland.",
+  ogImage = "https://fabian-paul.design/og-image.jpg",
+  ogType = "website",
+  canonical = Astro.url.href,
+} = Astro.props;
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Fabian Paul",
+  "url": "https://fabian-paul.design",
+  "jobTitle": "Designer & Creative Developer",
+  "description": "UI/UX Designer und Frontend-Entwickler mit Fokus auf digitale Experiences und kreatives Branding.",
+  "knowsAbout": ["UI/UX Design", "Frontend-Entwicklung", "Branding", "Webentwicklung", "Mediengestaltung"],
+  "sameAs": []
+};
 
 const styles = `
   @font-face {
@@ -68,12 +88,32 @@ const isMobile = Astro.request.headers.get('user-agent')?.includes('Mobile');
 <html lang="de" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Digital Experiences & Creative Branding by Fabian Paul" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href={getAssetPath("/favicon.svg")} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="view-transition" content="same-origin" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="Fabian Paul Design" />
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Structured Data: Person -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+    <link rel="icon" type="image/svg+xml" href={getAssetPath("/favicon.svg")} />
     
     <!-- Preload critical fonts -->
     <link 

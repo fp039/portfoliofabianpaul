@@ -68,12 +68,34 @@ const imageGroups = {
 // Video-URL aus dem Projekt-Daten
 const videoUrl = project.data.videoUrl || '';
 
+const canonicalUrl = `https://fabian-paul.design/projects/${project.slug}`;
+
+const creativeWorkSchema = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": project.data.title,
+  "description": project.data.description,
+  "url": canonicalUrl,
+  "creator": {
+    "@type": "Person",
+    "name": "Fabian Paul",
+    "url": "https://fabian-paul.design"
+  },
+  "keywords": project.data.tags.join(", ")
+};
+
 export const prerender = true;
 ---
 
-<Layout title={`${project.data.title} - Fabian Paul`}>
+<Layout
+  title={`${project.data.title} - Fabian Paul`}
+  description={project.data.description}
+  ogType="article"
+  canonical={canonicalUrl}
+>
   <Navigation client:load />
   
+  <script type="application/ld+json" set:html={JSON.stringify(creativeWorkSchema)} />
   <main class="bg-[#1E1E1E] text-[#E5E5E5]">
     <!-- Hero -->
     <section class="min-h-screen relative flex items-center">
