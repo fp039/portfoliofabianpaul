@@ -1,0 +1,19 @@
+# Fabian Paul - Designer & Creative Developer
+
+> UI/UX Designer und Frontend-Entwickler mit ueber 10 Jahren Erfahrung
+> in Agenturen, Automotive und digitalem Branding.
+
+## Core Pages
+
+- [Homepage](https://fabian-paul.design/): Services und Design-Philosophie
+- [About](https://fabian-paul.design/about/): Background, Tech Stack, Erfahrung
+- [Contact](https://fabian-paul.design/contact/): Projektanfragen
+
+## Projects
+
+- [Projekte](https://fabian-paul.design/projects/): Portfolio
+
+## Blog
+
+- [ChatGPT Bild-KI fuer Kreative](https://fabian-paul.design/blog/image-ai/)
+- [Fotografiska Stockholm](https://fabian-paul.design/blog/fotografiska/)

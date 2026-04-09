@@ -39,7 +39,12 @@ const personSchema = {
   "jobTitle": "Designer & Creative Developer",
   "description": "UI/UX Designer und Frontend-Entwickler mit Fokus auf digitale Experiences und kreatives Branding.",
   "knowsAbout": ["UI/UX Design", "Frontend-Entwicklung", "Branding", "Webentwicklung", "Mediengestaltung"],
-  "sameAs": []
+  "sameAs": [
+    "https://github.com/fp039",
+    "https://www.linkedin.com/in/fabian-paul-4891983b1/",
+    "https://www.instagram.com/fpdesign_o/",
+    "https://www.xing.com/profile/Fabian_Paul8/web_profiles"
+  ]
 };
 
 const styles = `
@@ -88,7 +93,7 @@ const isMobile = Astro.request.headers.get('user-agent')?.includes('Mobile');
 <html lang="de" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="generator" content={Astro.generator} />
